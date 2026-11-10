@@ -31,7 +31,7 @@ Learn by doing: you join a fictional fintech as its new AI engineer and take two
 
 ## 🎬 The story: you are the new AI engineer at Kestrel Pay
 
-> 📨 **From: Maya (Engineering Manager)**
+> **From: Maya (Engineering Manager)**
 > Welcome aboard! Sam, our data scientist, built two prototypes that leadership loves:
 > a **fraud model** in a notebook and an **internal docs assistant** running on Sam's laptop.
 > Your job over the next quarter: make both of them *real*, meaning reliable, fast, measurable, secure and cheap enough to run.

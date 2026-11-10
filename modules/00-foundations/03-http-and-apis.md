@@ -6,7 +6,7 @@
 
 ## 📨 The situation
 
-> 📨 **From: Lena (Head of Customer Support)**
+> **From: Lena (Head of Customer Support)**
 > Quick question from a non-engineer: the support tool will "call the assistant's API". What does that actually mean? And yesterday the old chatbot answered "429" to my agents and then "503". Are those bad? Who do I call?
 
 ## 🎯 By the end you can

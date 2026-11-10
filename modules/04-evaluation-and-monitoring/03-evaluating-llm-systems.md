@@ -6,7 +6,8 @@
 
 ## 📨 The situation
 
-> **Lena (Customer Support):** Last Tuesday someone "improved" the assistant's prompt. For three days it stopped citing sources, and my team only noticed when a customer complained. Then Priya told me the partner FAQ has *hidden instructions* in it. I don't want to find out about problems from customers anymore. Can we test the assistant like you test code?
+> **From: Lena (Customer Support)**
+> Last Tuesday someone "improved" the assistant's prompt. For three days it stopped citing sources, and my team only noticed when a customer complained. Then Priya told me the partner FAQ has *hidden instructions* in it. I don't want to find out about problems from customers anymore. Can we test the assistant like you test code?
 
 ## 🎯 By the end you can
 

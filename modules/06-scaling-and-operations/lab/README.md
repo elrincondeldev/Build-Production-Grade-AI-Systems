@@ -4,7 +4,7 @@
 
 [Course home](../../../README.md) › [Module 6](../README.md) › Lab
 
-> 📨 **From: Maya**
+> **From: Maya**
 > Leadership signs off the platform next week. They will ask four questions:
 > *How do we release without breaking payments? How do we know we're healthy? What does it cost? And can the new refund agent hurt us?*
 > Diego wants canaries with automatic rollback, Priya wants a human approving risky refunds, and Finance wants one page of numbers.

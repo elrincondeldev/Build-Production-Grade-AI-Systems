@@ -6,7 +6,7 @@
 
 ## 📨 The situation
 
-> 📨 **From: Lena (Head of Customer Support)**
+> **From: Lena (Head of Customer Support)**
 > I tried a public chatbot for our refund questions. It answered beautifully, and invented a "90-day refund window" we don't have. 😬
 > Sam says our docs-assistant "uses RAG, so it won't do that". What's RAG, why would it help, and why did the other one make things up?
 

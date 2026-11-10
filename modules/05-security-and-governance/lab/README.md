@@ -4,7 +4,7 @@
 
 [Course home](../../../README.md) › [Module 5](../README.md) › Lab
 
-> 📨 **From: Priya (Security & compliance)**
+> **From: Priya (Security & compliance)**
 > Before the docs-assistant goes anywhere near customers, I need five things: (1) nobody gets an answer without a valid token; (2) a customer can **never** see HR or finance content, not even a hint of it; (3) that partner FAQ someone uploaded last month contains a prompt-injection payload, and I want proof it can't hurt us; (4) no card numbers or emails in our logs; (5) every answer, and every prompt change, leaves a trail an auditor can trust. Show me tests, not slides.
 
 ## 🎯 Goals

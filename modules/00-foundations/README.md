@@ -23,7 +23,7 @@ flowchart LR
 
 ## 📨 The story so far
 
-> 📨 **From: Maya (Engineering Manager)**
+> **From: Maya (Engineering Manager)**
 > Welcome to Kestrel Pay! 🎉 Your first week is about foundations: get your machine set up the way our CI and production are, and make sure the basics are solid.
 > By Friday I'd like you to be able to explain, in plain words, what our fraud model's numbers mean, what an LLM actually does, and how two services talk over HTTP.
 > Diego, Sam, Omar and Lena will each send you a question this week. Answering them *is* the onboarding.

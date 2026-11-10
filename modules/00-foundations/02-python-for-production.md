@@ -6,7 +6,7 @@
 
 ## 📨 The situation
 
-> 📨 **From: Sam (Data Scientist)**
+> **From: Sam (Data Scientist)**
 > Hey! Heads-up before you open my notebooks 😅 They're… exploratory. Global variables, `print` everywhere, a CSV path pointing at my Desktop, and the API key is pasted in cell 3.
 > It all *works*, though! What do I need to change so you can actually run it?
 

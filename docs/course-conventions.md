@@ -64,7 +64,8 @@ Every lesson file is `modules/NN-name/LL-lesson-slug.md` and uses this skeleton
 [Course home](../../README.md) › [Module N](README.md) › Lesson N.L
 
 ## 📨 The situation
-Short in-story message (3–8 lines) that creates the need for this lesson.
+> **From: Name (Role)**
+> Short in-story message (3–8 lines) that creates the need for this lesson.
 
 ## 🎯 By the end you can
 - Measurable objectives with action verbs (explain, implement, choose, measure, debug)

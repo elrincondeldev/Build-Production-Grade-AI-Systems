@@ -11,7 +11,8 @@
 > **From: Omar (Risk)**
 > The board's risk committee meets in two weeks. They'll ask three questions about the fraud model: *What exactly is it for? Does it treat some customers unfairly? Are we compliant with the EU AI Act?* "The data scientist says it's fine" won't fly. I need documents I can hand them.
 >
-> **From: Priya:** Same for the docs-assistant. And customers have to be told they're talking to an AI.
+> **From: Priya**
+> Same for the docs-assistant. And customers have to be told they're talking to an AI.
 
 ## 🎯 By the end you can
 

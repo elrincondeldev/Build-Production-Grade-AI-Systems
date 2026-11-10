@@ -4,7 +4,7 @@
 
 [Course home](../../../README.md) › [Module 1](../README.md) › Lab 1
 
-> 📨 **From: Maya**
+> **From: Maya**
 > Sam's fraud notebook is a hit. Risk wants it scoring live card transactions by the end of the month.
 > Diego says nothing goes near production without health checks, logs he can search and a container image.
 > Omar says a fraud check that blocks payments when it's down is worse than no fraud check.

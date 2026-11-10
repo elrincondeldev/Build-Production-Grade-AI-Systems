@@ -4,7 +4,7 @@
 
 [Course home](../../../README.md) › [Module 0](../README.md) › Lab 0
 
-> 📨 **From: Maya (Engineering Manager)**
+> **From: Maya (Engineering Manager)**
 > Before you touch Sam's prototypes, I want you to have run each moving part yourself, once, end to end:
 > a model trained on our transaction data, a call to an LLM, an API answering over HTTP, and a similarity search over the handbook.
 > Nothing fancy. Just make sure you understand every line. Everything after this builds on it.

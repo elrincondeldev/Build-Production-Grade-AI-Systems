@@ -21,13 +21,17 @@ flowchart LR
 
 Both systems are live for a pilot group. They're fast (Module 3) and built from reproducible pipelines (Module 2). Then the complaints start:
 
-> **Omar (Risk):** The fraud model "is 98% accurate", yet losses are up and my analysts drown in false alarms.
+> **From: Omar (Risk)**
+> The fraud model "is 98% accurate", yet losses are up and my analysts drown in false alarms.
 >
-> **Lena (Support):** Someone changed the assistant's prompt last Tuesday. It stopped citing sources for three days and we only found out from a customer.
+> **From: Lena (Support)**
+> Someone changed the assistant's prompt last Tuesday. It stopped citing sources for three days and we only found out from a customer.
 >
-> **Diego (SRE):** At 3 a.m. the assistant got slow. I had no metrics, no traces, nothing.
+> **From: Diego (SRE)**
+> At 3 a.m. the assistant got slow. I had no metrics, no traces, nothing.
 >
-> **Maya (Manager):** Before we roll out to all 800 employees and to customers, I want proof it works, an alarm when it stops working, and a way to undo bad changes in minutes.
+> **From: Maya (Manager)**
+> Before we roll out to all 800 employees and to customers, I want proof it works, an alarm when it stops working, and a way to undo bad changes in minutes.
 
 This module turns "it seems fine" into **measured, gated and monitored**.
 

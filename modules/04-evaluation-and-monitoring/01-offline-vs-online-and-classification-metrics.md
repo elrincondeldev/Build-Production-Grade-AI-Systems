@@ -6,7 +6,8 @@
 
 ## 📨 The situation
 
-> **Omar (Risk):** Sam's notebook says the fraud model is **98.4% accurate**. Leadership wants to switch it on for all card payments next week. Before I sign off: is 98.4% good? And how will we know it still works in March?
+> **From: Omar (Risk)**
+> Sam's notebook says the fraud model is **98.4% accurate**. Leadership wants to switch it on for all card payments next week. Before I sign off: is 98.4% good? And how will we know it still works in March?
 
 ## 🎯 By the end you can
 

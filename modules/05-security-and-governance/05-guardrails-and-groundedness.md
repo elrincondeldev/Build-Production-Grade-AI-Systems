@@ -9,7 +9,8 @@
 > **From: Lena (Head of Customer Support)**
 > Two things from this week's review of assistant transcripts. One answer said "Card replacement is free on all plans". It's €7 on Basic, and it even cited the pricing page! And our support UI crashed on one answer because it wasn't the JSON the frontend expected. I don't need the assistant to answer everything. I need it to **never** say something our documents don't back up, and I need it to never break the app.
 >
-> **From: Priya:** And when the regulator asks "what did the assistant tell customer X on 3 March, and why?", I want an answer we can prove nobody edited.
+> **From: Priya**
+> And when the regulator asks "what did the assistant tell customer X on 3 March, and why?", I want an answer we can prove nobody edited.
 
 ## 🎯 By the end you can
 
