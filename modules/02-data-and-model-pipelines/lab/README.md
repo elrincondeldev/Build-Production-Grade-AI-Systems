@@ -49,7 +49,9 @@ lab/
 └── tests/                    33 tests, all offline
 ```
 
-## 0. Setup
+## Part 0 · Setup
+
+### Step 0 · Set up
 
 ```bash
 cd modules/02-data-and-model-pipelines/lab

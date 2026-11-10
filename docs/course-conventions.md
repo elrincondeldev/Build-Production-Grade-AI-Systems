@@ -116,7 +116,9 @@ Every module folder `modules/NN-name/` contains:
 ```
 README.md          overview, story, objectives, lesson table, lab, checkpoint, self-assessment
 LL-*.md            lessons
-lab/               runnable, tested code + lab/README.md (step-by-step)
+lab/               runnable, tested code + lab/README.md (step-by-step: each step is a
+                   "### Step N · Title" heading under "## 📋 Steps" or a "## Part X · …";
+                   an optional step ends its title with "(optional…)")
 quiz.md            end-of-module quiz (10–15 Qs, mixed with 2–3 spaced-review Qs from earlier modules)
 cheatsheet.md      one-page summary to review later
 ```

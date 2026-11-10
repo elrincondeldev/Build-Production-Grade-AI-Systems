@@ -283,7 +283,7 @@ You'll measure both properly in Lesson 3.4.
 From `modules/00-foundations/lab`:
 
 1. **Fake call and cost:** `uv run first-llm-call` and check the two cost lines (≈ $25.80 and $430.00 per million calls).
-2. **Lexical vs semantic:** `uv run embeddings-playground --query "Can I get my money back for a fee?"` and find the result that only matched because of the word "get". If you can spare the download, repeat with `--semantic` (see [lab Step 8](lab/README.md#step-8-search-the-handbook-with-embeddings)).
+2. **Lexical vs semantic:** `uv run embeddings-playground --query "Can I get my money back for a fee?"` and find the result that only matched because of the word "get". If you can spare the download, repeat with `--semantic` (see [lab Step 8](lab/README.md#step-8--search-the-handbook-with-embeddings)).
 3. **Your own pair:** `uv run python -c "from kestrel_foundations.embeddings import hash_embed, cosine; print(cosine(hash_embed('lost card'), hash_embed('stolen card')))"`. **Predict** first: above or below 0.5? (Shared words: "card" only.)
 4. **Local model** (needs Ollama):
    ```bash
