@@ -1,0 +1,42 @@
+name: course-ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  links:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Check relative links
+        run: python tools/check_links.py
+
+  labs:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        lab:
+          - modules/00-foundations/lab
+          - modules/01-prototype-to-production/lab
+          - modules/02-data-and-model-pipelines/lab
+          - modules/03-serving-and-optimization/lab
+          - modules/04-evaluation-and-monitoring/lab
+          - modules/05-security-and-governance/lab
+          - modules/06-scaling-and-operations/lab
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+      - name: Run lab tests (offline providers, no API keys)
+        working-directory: ${{ matrix.lab }}
+        env:
+          KESTREL_LLM_PROVIDER: fake
+          KESTREL_EMBEDDINGS_PROVIDER: hash
+        run: |
+          uv sync
+          uv run pytest -q

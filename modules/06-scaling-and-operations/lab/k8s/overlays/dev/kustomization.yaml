@@ -1,0 +1,52 @@
+# Dev: one small replica on a local kind/minikube cluster, fake secrets.
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: kestrel-dev
+
+resources:
+  - ../../base
+
+images:
+  - name: kestrel-platform
+    newTag: dev
+
+patches:
+  - target:
+      kind: Deployment
+      name: kestrel-platform
+    patch: |-
+      - op: replace
+        path: /spec/replicas
+        value: 1
+  - target:
+      kind: HorizontalPodAutoscaler
+      name: kestrel-platform
+    patch: |-
+      - op: replace
+        path: /spec/minReplicas
+        value: 1
+      - op: replace
+        path: /spec/maxReplicas
+        value: 3
+  - target:
+      kind: PodDisruptionBudget
+      name: kestrel-platform
+    patch: |-
+      - op: replace
+        path: /spec/minAvailable
+        value: 0
+
+configMapGenerator:
+  - name: kestrel-platform-config
+    behavior: merge
+    literals:
+      - KESTREL_LOG_LEVEL=DEBUG
+
+# Dev-only fake secret. NEVER commit real secrets: in prod this Secret is
+# created by a secret manager (External Secrets Operator, Sealed Secrets, or
+# your cloud's secret store CSI driver).
+secretGenerator:
+  - name: kestrel-platform-secrets
+    literals:
+      - KESTREL_API_TOKEN=dev-only-not-a-secret

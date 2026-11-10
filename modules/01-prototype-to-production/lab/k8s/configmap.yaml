@@ -1,0 +1,15 @@
+# Non-secret configuration, injected as KESTREL_* environment variables (lesson 1.4).
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: fraud-service-config
+  labels:
+    app.kubernetes.io/name: fraud-service
+data:
+  KESTREL_ENVIRONMENT: "prod"
+  KESTREL_LOG_LEVEL: "INFO"
+  KESTREL_REVIEW_THRESHOLD: "0.30"
+  KESTREL_DECLINE_THRESHOLD: "0.80"
+  KESTREL_ENRICHMENT_TIMEOUT_S: "0.3"
+  KESTREL_ENRICHMENT_MAX_ATTEMPTS: "3"
+  KESTREL_LLM_PROVIDER: "fake"

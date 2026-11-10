@@ -1,0 +1,27 @@
+# Argo Rollouts adds a pod-template-hash selector to these two Services so that
+# "-stable" always points at the old version and "-canary" at the new one.
+apiVersion: v1
+kind: Service
+metadata:
+  name: kestrel-platform-stable
+  namespace: kestrel-prod
+spec:
+  selector:
+    app: kestrel-platform
+  ports:
+    - name: http
+      port: 80
+      targetPort: http
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kestrel-platform-canary
+  namespace: kestrel-prod
+spec:
+  selector:
+    app: kestrel-platform
+  ports:
+    - name: http
+      port: 80
+      targetPort: http

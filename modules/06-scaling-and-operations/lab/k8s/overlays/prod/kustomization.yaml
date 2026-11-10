@@ -1,0 +1,33 @@
+# Prod: more replicas, bigger requests, pinned image, dedicated node pool.
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: kestrel-prod
+
+resources:
+  - ../../base
+
+images:
+  - name: kestrel-platform
+    newName: registry.example.com/kestrel/kestrel-platform
+    newTag: "0.1.0"          # in real life: pin by digest, e.g. @sha256:...
+
+patches:
+  - path: deployment-patch.yaml
+  - target:
+      kind: HorizontalPodAutoscaler
+      name: kestrel-platform
+    patch: |-
+      - op: replace
+        path: /spec/minReplicas
+        value: 3
+      - op: replace
+        path: /spec/maxReplicas
+        value: 20
+  - target:
+      kind: PodDisruptionBudget
+      name: kestrel-platform
+    patch: |-
+      - op: replace
+        path: /spec/minAvailable
+        value: 2

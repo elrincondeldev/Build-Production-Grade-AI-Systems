@@ -1,0 +1,27 @@
+# Progressive delivery with Argo Rollouts (https://argoproj.github.io/rollouts/).
+# Builds on the prod overlay. The Rollout references the existing Deployment's
+# pod template (workloadRef) and takes over managing its pods.
+#
+#   kubectl kustomize k8s/rollout          # render offline
+#   kubectl apply -k k8s/rollout           # needs the Argo Rollouts controller + CRDs installed
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - ../overlays/prod
+  - services.yaml
+  - analysis-template.yaml
+  - rollout.yaml
+
+patches:
+  # The autoscaler must now scale the Rollout, not the Deployment.
+  - target:
+      kind: HorizontalPodAutoscaler
+      name: kestrel-platform
+    patch: |-
+      - op: replace
+        path: /spec/scaleTargetRef
+        value:
+          apiVersion: argoproj.io/v1alpha1
+          kind: Rollout
+          name: kestrel-platform

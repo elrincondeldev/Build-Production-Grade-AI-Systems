@@ -1,0 +1,40 @@
+# Cost assumptions for the platform cost report (lesson 6.3 and the capstone).
+# EVERY number here is an editable, illustrative placeholder. Prices change often:
+# check your provider's current pricing page and your own load-test results
+# before you defend these numbers to anyone.
+
+[traffic]
+avg_rps = 6.0            # docs-assistant average requests per second
+peak_rps = 20.0          # busiest hour
+input_tokens = 800       # prompt + retrieved context per request
+output_tokens = 250      # answer length
+growth_factor = 3.0      # "what if traffic triples?" sensitivity row
+
+[api.small]              # a small hosted model
+label = "Hosted API, small model"
+input_per_million = 0.15
+output_per_million = 0.60
+
+[api.large]              # a frontier hosted model
+label = "Hosted API, large model"
+input_per_million = 2.50
+output_per_million = 10.00
+
+[self_host]
+label = "Self-hosted ~8B model (vLLM)"
+prefill_tokens_per_s = 20000
+decode_tokens_per_s = 2500
+target_utilization = 0.6
+min_replicas = 2
+gpu_hourly_cost = 1.20
+ops_overhead_per_month = 2000   # ~0.25 of an engineer for upgrades, on-call, capacity work
+
+[platform]               # costs that exist whichever LLM option you pick
+fraud_service_pods = 3
+cpu_pod_month = 45.0
+vector_db_month = 1200.0
+observability_month = 2300.0
+
+[budget]                 # from datasets/handbook/q4-budget-plan.md (finance-only doc)
+llm_api_month = 18000.0
+gpu_month = 9500.0

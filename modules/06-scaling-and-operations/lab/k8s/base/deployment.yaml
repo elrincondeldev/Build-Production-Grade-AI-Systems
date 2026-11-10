@@ -1,0 +1,81 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kestrel-platform
+  labels:
+    app: kestrel-platform
+spec:
+  replicas: 2
+  revisionHistoryLimit: 5
+  selector:
+    matchLabels:
+      app: kestrel-platform
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 0          # never drop below desired capacity during a rollout
+  template:
+    metadata:
+      labels:
+        app: kestrel-platform
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8080"
+        prometheus.io/path: /metrics
+    spec:
+      terminationGracePeriodSeconds: 30
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 10001
+        fsGroup: 10001
+      topologySpreadConstraints:   # spread replicas across zones so one zone outage is survivable
+        - maxSkew: 1
+          topologyKey: topology.kubernetes.io/zone
+          whenUnsatisfiable: ScheduleAnyway
+          labelSelector:
+            matchLabels:
+              app: kestrel-platform
+      containers:
+        - name: app
+          image: kestrel-platform:0.1.0
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 8080
+          env:
+            - name: KESTREL_APP_VERSION
+              value: v1
+          envFrom:
+            - configMapRef:
+                name: kestrel-platform-config
+            - secretRef:
+                name: kestrel-platform-secrets
+                optional: true     # dev creates it; prod gets it from a secret manager
+          resources:
+            requests:              # what the scheduler reserves (and what HPA % is relative to)
+              cpu: 250m
+              memory: 256Mi
+            limits:
+              memory: 512Mi        # memory limit protects the node; no CPU limit avoids throttling
+          startupProbe:            # give slow starts (e.g. model loading) time before liveness kicks in
+            httpGet: {path: /health, port: http}
+            periodSeconds: 5
+            failureThreshold: 24
+          readinessProbe:          # "send me traffic?" -> removed from the Service when failing
+            httpGet: {path: /ready, port: http}
+            periodSeconds: 5
+            failureThreshold: 2
+          livenessProbe:           # "am I wedged?" -> container restarted when failing
+            httpGet: {path: /health, port: http}
+            periodSeconds: 10
+            failureThreshold: 3
+          lifecycle:
+            preStop:               # let the load balancer stop sending traffic before shutdown
+              exec:
+                command: ["sleep", "5"]
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop: ["ALL"]

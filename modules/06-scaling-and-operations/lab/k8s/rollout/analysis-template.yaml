@@ -1,0 +1,41 @@
+# The automatic rollback gate. Each metric is queried every minute; one failure aborts
+# the rollout and Argo shifts all traffic back to stable.
+#
+# Assumes Prometheus scrapes pods and keeps the `rollouts-pod-template-hash`
+# pod label as `rollouts_pod_template_hash` (a standard relabel rule).
+apiVersion: argoproj.io/v1alpha1
+kind: AnalysisTemplate
+metadata:
+  name: kestrel-canary-health
+  namespace: kestrel-prod
+spec:
+  args:
+    - name: stable-hash
+    - name: canary-hash
+  metrics:
+    - name: error-rate
+      interval: 1m
+      count: 30
+      failureLimit: 1
+      # Canary error rate must stay at or below 1%.
+      successCondition: len(result) == 0 || isNaN(result[0]) || result[0] <= 0.01
+      provider:
+        prometheus:
+          address: http://prometheus.monitoring.svc:9090
+          query: |
+            sum(rate(kestrel_requests_total{rollouts_pod_template_hash="{{args.canary-hash}}",status=~"5.."}[2m]))
+            /
+            sum(rate(kestrel_requests_total{rollouts_pod_template_hash="{{args.canary-hash}}"}[2m]))
+    - name: p95-latency-ratio
+      interval: 1m
+      count: 30
+      failureLimit: 1
+      # Canary p95 must stay within +20% of the stable p95.
+      successCondition: len(result) == 0 || isNaN(result[0]) || result[0] <= 1.20
+      provider:
+        prometheus:
+          address: http://prometheus.monitoring.svc:9090
+          query: |
+            histogram_quantile(0.95, sum by (le) (rate(kestrel_request_latency_seconds_bucket{rollouts_pod_template_hash="{{args.canary-hash}}"}[5m])))
+            /
+            histogram_quantile(0.95, sum by (le) (rate(kestrel_request_latency_seconds_bucket{rollouts_pod_template_hash="{{args.stable-hash}}"}[5m])))

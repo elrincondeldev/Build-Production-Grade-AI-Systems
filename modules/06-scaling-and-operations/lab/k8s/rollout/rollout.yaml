@@ -1,0 +1,43 @@
+# Canary steps follow Kestrel's deployment process (datasets/handbook/deployment-process.md):
+# 5% for 15 minutes, then 25%, then 100%. A background analysis runs during the
+# whole rollout and aborts (= automatic rollback) if the error rate rises above 1%
+# or p95 latency rises more than 20% over the stable version.
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+  name: kestrel-platform
+  namespace: kestrel-prod
+spec:
+  replicas: 3
+  revisionHistoryLimit: 5
+  selector:
+    matchLabels:
+      app: kestrel-platform
+  workloadRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: kestrel-platform
+    scaleDown: progressively   # scale the old Deployment down as the Rollout takes over
+  strategy:
+    canary:
+      stableService: kestrel-platform-stable
+      canaryService: kestrel-platform-canary
+      maxSurge: "25%"
+      maxUnavailable: 0
+      analysis:
+        startingStep: 1        # start analysing once the canary takes real traffic
+        templates:
+          - templateName: kestrel-canary-health
+        args:
+          - name: stable-hash
+            valueFrom:
+              podTemplateHashValue: Stable
+          - name: canary-hash
+            valueFrom:
+              podTemplateHashValue: Latest
+      steps:
+        - setWeight: 5
+        - pause: {duration: 15m}
+        - setWeight: 25
+        - pause: {duration: 15m}
+        - setWeight: 100

@@ -1,0 +1,11 @@
+# PodDisruptionBudget: during *voluntary* disruptions (node upgrades, drains),
+# Kubernetes keeps at least this many pods running.
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: kestrel-platform
+spec:
+  minAvailable: 1
+  selector:
+    matchLabels:
+      app: kestrel-platform

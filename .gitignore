@@ -1,0 +1,31 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+*.egg-info/
+dist/
+build/
+
+# Generated data and artifacts (always regenerate from scripts)
+datasets/fraud/*.csv
+**/artifacts/
+**/mlruns/
+**/mlartifacts/
+**/.qdrant/
+*.onnx
+*.joblib
+*.pkl
+
+# Env and secrets
+.env
+.env.*
+!.env.example
+
+# OS / editors
+.DS_Store
+.idea/
+.vscode/
+*.db
