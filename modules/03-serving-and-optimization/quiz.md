@@ -11,6 +11,7 @@
 <details><summary>Answer</summary>
 
 Problems: 6× the model memory (48 GB) and cost; every API deploy reloads the weights (slow, risky deploys); no batching across replicas; scaling the API forces scaling the model. Fix: a dedicated inference service (model server with batching) that all app replicas call over HTTP/gRPC. Lesson 3.1.
+
 </details>
 
 ---
@@ -20,6 +21,7 @@ Problems: 6× the model memory (48 GB) and cost; every API deploy reloads the we
 <details><summary>Answer</summary>
 
 ≈ B FLOPs/byte (2·B·d² FLOPs over ~2·d² bytes of weights). At small B, decode is deeply memory-bound, so increasing the batch raises throughput almost linearly until roughly B ≈ 300 or memory runs out. Lesson 3.2.
+
 </details>
 
 ---
@@ -29,6 +31,7 @@ Problems: 6× the model memory (48 GB) and cost; every API deploy reloads the we
 <details><summary>Answer</summary>
 
 BF16: 28 GB ÷ 2,000 GB/s = 14 ms/token, so ≤ ~71 tokens/s. INT4 (~7 GB plus scales, say ~8 GB): ~4 ms/token, so ≤ ~250 tokens/s as an upper bound. Real numbers are lower, and the gain is in decode (memory-bound), not prefill. Lessons 3.2 and 3.6.
+
 </details>
 
 ---
@@ -38,6 +41,7 @@ BF16: 28 GB ÷ 2,000 GB/s = 14 ms/token, so ≤ ~71 tokens/s. INT4 (~7 GB plus s
 <details><summary>Answer</summary>
 
 Per token: 2 × 48 × 8 × 128 × 2 = 196,608 bytes = 192 KiB. Per sequence: 16,000 × 192 KiB = 3,072,000 KiB ≈ 2.93 GiB. 40 GB ≈ 37.25 GiB, so ~12 sequences. Lesson 3.2.
+
 </details>
 
 ---
@@ -47,6 +51,7 @@ Per token: 2 × 48 × 8 × 128 × 2 = 196,608 bytes = 192 KiB. Per sequence: 16,
 <details><summary>Answer</summary>
 
 Break-even when 0.20 + p × 2.00 = 2.00, so p = 0.9 (90%). Below 90% escalation the cascade is cheaper. You must also measure end-to-end quality on the golden set (is the escalation signal reliable?) and the latency of escalated requests, which pay both models' TTFT. Lesson 3.3.
+
 </details>
 
 ---
@@ -56,6 +61,7 @@ Break-even when 0.20 + p × 2.00 = 2.00, so p = 0.9 (90%). Below 90% escalation 
 <details><summary>Answer</summary>
 
 The knee is around c=8: throughput plateaus at ~10 req/s and extra concurrency only adds waiting. Little's law: W = L/λ = 32/10 = 3.2 s, which matches. Lesson 3.4.
+
 </details>
 
 ---
@@ -65,6 +71,7 @@ The knee is around c=8: throughput plateaus at ~10 req/s and extra concurrency o
 <details><summary>Answer</summary>
 
 Coordinated omission: closed-loop clients wait for responses before sending more, so during a stall they stop sending, and the requests that would have arrived and queued are never measured. Use open-loop (fixed arrival rate) testing for tail latency. Lesson 3.4.
+
 </details>
 
 ---
@@ -74,6 +81,7 @@ Coordinated omission: closed-loop clients wait for responses before sending more
 <details><summary>Answer</summary>
 
 A false hit: high embedding similarity, different meaning. Fixes: raise the threshold, tuned on labelled hard-negative pairs for hit precision; restrict semantic caching to curated low-risk intents; add entity-aware checks (the plan name must match); sample and review hits; or use exact caching only for fee questions. Lesson 3.5.
+
 </details>
 
 ---
@@ -83,6 +91,7 @@ A false hit: high embedding similarity, different meaning. Fixes: raise the thre
 <details><summary>Answer</summary>
 
 With static batching a new request must wait until the whole running batch, including its longest generation, finishes. Continuous batching re-forms the batch at every decode step, so a waiting request is admitted (prefilled) at the next step as soon as any slot frees up. Lesson 3.5.
+
 </details>
 
 ---
@@ -92,6 +101,7 @@ With static batching a new request must wait until the whole running batch, incl
 <details><summary>Answer</summary>
 
 Queue depth (waiting requests) and KV-cache usage, with TTFT p95 as a secondary signal. GPU "utilization" only says a kernel was running, not how much capacity is used. With continuous batching it can sit near 100% at both moderate and overloaded traffic. Lesson 3.5.
+
 </details>
 
 ---
@@ -101,6 +111,7 @@ Queue depth (waiting requests) and KV-cache usage, with TTFT p95 as a secondary 
 <details><summary>Answer</summary>
 
 Weight-only quantization reduces bytes read per decode step (decode is memory-bound, so TPOT improves) but the matmuls still run in 16-bit after dequantization. Prefill is compute-bound, so its FLOPs and TTFT barely change. W8A8/FP8 or shorter prompts and prefix caching would help TTFT. Lessons 3.2 and 3.6.
+
 </details>
 
 ---
@@ -110,6 +121,7 @@ Weight-only quantization reduces bytes read per decode step (decode is memory-bo
 <details><summary>Answer</summary>
 
 Training/serving skew: the model receives features that differ from what it was trained on, producing silently wrong scores. Prevention: one shared encoding function used by training and serving, artifact metadata listing feature order and IO names, a startup check that refuses readiness on mismatch, and a parity gate in CI. Lessons 1.1 and 3.7.
+
 </details>
 
 ---
@@ -119,6 +131,7 @@ Training/serving skew: the model receives features that differ from what it was 
 <details><summary>Answer</summary>
 
 Immediate retries amplify load during an outage (retry storms), and retrying non-retryable errors (400 validation errors) is pointless, while users wait through 5 failures before the fallback. Correct: retry only retryable errors (timeouts, 429, 503) with exponential backoff + jitter and a retry budget, honour Retry-After, use a circuit breaker to fail over quickly, and set timeouts from the latency budget. Lessons 1.3 and 3.3.
+
 </details>
 
 ---
@@ -128,6 +141,7 @@ Immediate retries amplify load during an outage (retry storms), and retrying non
 <details><summary>Answer</summary>
 
 Higher TTFT (more prefill), more KV memory per request (fewer concurrent sequences, so lower throughput), and higher input-token cost. Lost-in-the-middle quality effects are another. Module 2 fix: hybrid retrieval with reranking, so the top 3–5 chunks are the right ones (plus context packaging with token caps). Lessons 2.5, 3.2 and 3.3.
+
 </details>
 
 ---

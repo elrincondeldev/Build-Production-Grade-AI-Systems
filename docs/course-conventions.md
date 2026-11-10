@@ -117,6 +117,20 @@ quiz.md            end-of-module quiz (10–15 Qs, mixed with 2–3 spaced-revie
 cheatsheet.md      one-page summary to review later
 ```
 
+Every quiz question uses one format, so tools (and the Real Env platform) can read it. A
+spaced-review question carries 🔁 and, in parentheses, the module(s) it reviews, optionally
+with topics (`*(Module 2, retrieval; Module 3, caching)*`); a short title is optional:
+
+```markdown
+**13.** 🔁 *(Module 2)* *Optional title.* The question…
+
+<details><summary>Answer</summary>
+
+The answer, with a link to the lesson.
+
+</details>
+```
+
 Module `README.md` must include:
 1. 🧭 a "where you are" course map (mermaid, current module highlighted)
 2. 📨 the module story
