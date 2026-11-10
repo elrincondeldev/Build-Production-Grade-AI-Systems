@@ -1,4 +1,4 @@
-# Module 5 Cheat Sheet: Security and Governance
+# Module 5 cheat sheet: Security and Governance
 
 [Course home](../../README.md) › [Module 5](README.md) › Cheat sheet
 

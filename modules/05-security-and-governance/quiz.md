@@ -1,4 +1,4 @@
-# Module 5 Quiz: Security and Governance
+# Module 5 quiz: Security and Governance
 
 [Course home](../../README.md) › [Module 5](README.md) › Quiz
 
