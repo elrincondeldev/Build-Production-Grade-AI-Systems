@@ -13,6 +13,7 @@ Thanks for helping make this course better! Useful contributions include:
 2. Run the checks:
    ```bash
    python3 tools/check_links.py
+   python3 tools/check_ids.py
    cd modules/<module>/lab && uv sync && uv run pytest -q
    ```
 3. Keep labs free and offline: tests must pass with `KESTREL_LLM_PROVIDER=fake` and no API keys.

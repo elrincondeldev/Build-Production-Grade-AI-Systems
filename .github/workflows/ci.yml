@@ -15,6 +15,8 @@ jobs:
           python-version: "3.12"
       - name: Check relative links
         run: python tools/check_links.py
+      - name: Check stable IDs
+        run: python tools/check_ids.py
 
   labs:
     runs-on: ubuntu-latest
