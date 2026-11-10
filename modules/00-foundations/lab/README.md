@@ -1,4 +1,5 @@
 # 🛠 Lab 0: Your first model, your first LLM call, your first API
+<!-- id: lab-0 -->
 
 > ⏱ ~2 h · 🎚 Beginner · 🧰 Needs: [Lesson 0.1](../01-setup-your-workbench.md) done (`python3 tools/check_setup.py` all green)
 
@@ -60,6 +61,7 @@ cd modules/00-foundations/lab
 ```
 
 ### Step 1 · Install and run the tests
+<!-- id: lab-0-step-1 -->
 
 ```bash
 uv sync
@@ -76,6 +78,7 @@ uv run pytest
 `uv sync` reads `pyproject.toml` and `uv.lock`, creates `.venv/` with Python 3.12 (downloading it if needed) and installs exact versions. If any test fails here, your setup is wrong, not your code: go back to [Lesson 0.1](../01-setup-your-workbench.md).
 
 ### Step 2 · Train your first model
+<!-- id: lab-0-step-2 -->
 
 ```bash
 uv run train-first-model
@@ -96,6 +99,7 @@ logistic regression @0.50      98.59%     50.00%    0.71%      1 / 141        1
 Stop and look at it. A model that **never** predicts fraud has 98.59% accuracy. The trained model has exactly the same accuracy and catches **one** fraud out of 141. Accuracy is the wrong question for rare events ([Lesson 0.4](../04-ml-in-one-hour.md)).
 
 ### Step 3 · Move the threshold
+<!-- id: lab-0-step-3 -->
 
 ```bash
 uv run train-first-model --threshold 0.1
@@ -110,6 +114,7 @@ logistic regression @0.10      97.72%     17.29%   16.31%     23 / 141      110
 Same model, different decision rule: it now catches 23 frauds and raises 110 false alarms. Accuracy went **down** while the model became more useful. Who decides whether 110 false alarms is acceptable? Omar (Risk), not you. Module 4 turns this into a cost-based decision.
 
 ### Step 4 · Watch a model overfit
+<!-- id: lab-0-step-4 -->
 
 ```bash
 uv run train-first-model --overfitting
@@ -128,6 +133,7 @@ Overfitting demo (decision trees):
 The unlimited tree catches **100%** of training frauds and **7%** of test frauds. It memorised the training data. Your test set exists to catch exactly this.
 
 ### Step 5 · Your first LLM call (no network)
+<!-- id: lab-0-step-5 -->
 
 ```bash
 uv run first-llm-call
@@ -148,6 +154,7 @@ What would 1,000,000 calls like this cost? (illustrative prices)
 The fake model doesn't understand anything, and that's the point: it is **deterministic**, so tests built on it never flake. The cost table uses *illustrative* prices to show the maths; real prices change, so check the provider's pricing page.
 
 ### Step 6 · A real model, locally (optional, needs Ollama)
+<!-- id: lab-0-step-6 -->
 
 ```bash
 ollama pull qwen2.5:1.5b-instruct     # ~1 GB, once
@@ -161,6 +168,7 @@ KESTREL_LLM_PROVIDER=ollama uv run first-llm-call --prompt "Explain a chargeback
 > No Ollama? Skip this step. Everything else in the course works with the fake model.
 
 ### Step 7 · Run an API and call it
+<!-- id: lab-0-step-7 -->
 
 Terminal 1:
 
@@ -198,6 +206,7 @@ content-type: application/json
 ```
 
 ### Step 8 · Search the handbook with embeddings
+<!-- id: lab-0-step-8 -->
 
 ```bash
 uv run embeddings-playground

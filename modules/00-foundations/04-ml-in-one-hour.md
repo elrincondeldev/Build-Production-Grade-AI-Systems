@@ -1,4 +1,5 @@
 # Lesson 0.4: Machine learning in one hour
+<!-- id: l-0-4 -->
 
 > ⏱ ~60 min · 🎚 Level: Core · 🧰 Needs: [Lesson 0.2](02-python-for-production.md)
 
@@ -21,9 +22,9 @@
 
 ## 🤔 Predict first
 
-1. 1.41% of Kestrel's transactions are fraud. What accuracy does a "model" get if it *always* answers "not fraud"?
-2. A model scores 100% on the data it was trained on. Good news or bad news?
-3. A column called `chargeback_filed` predicts fraud extremely well. Should you use it?
+1. 1.41% of Kestrel's transactions are fraud. What accuracy does a "model" get if it *always* answers "not fraud"? <!-- id: p-0-4-1 -->
+2. A model scores 100% on the data it was trained on. Good news or bad news? <!-- id: p-0-4-2 -->
+3. A column called `chargeback_filed` predicts fraud extremely well. Should you use it? <!-- id: p-0-4-3 -->
 
 ---
 
@@ -264,43 +265,44 @@ Fraud, credit default, medical diagnosis, content moderation and churn are all *
 
 ## ✅ Check yourself
 
-<details><summary>Q1. A model is 99% accurate on a dataset with 1% positives. What can you conclude?</summary>
+<details><summary>Q1. A model is 99% accurate on a dataset with 1% positives. What can you conclude? <!-- id: c-0-4-1 --></summary>
 
 Almost nothing. A constant "negative" prediction also scores 99%. You need the confusion matrix, or at least precision and recall on the positive class, ideally compared with a baseline.
 
 </details>
 
-<details><summary>Q2. Define precision and recall in Omar's language.</summary>
+<details><summary>Q2. Define precision and recall in Omar's language. <!-- id: c-0-4-2 --></summary>
 
 **Recall**: of all the fraud that really happened, the share we caught (missed fraud = money lost). **Precision**: of all the transactions we flagged, the share that really were fraud (low precision = wasted analyst time and annoyed customers).
 
 </details>
 
-<details><summary>Q3. Lowering the threshold from 0.5 to 0.1: what happens to recall, precision and the number of flags?</summary>
+<details><summary>Q3. Lowering the threshold from 0.5 to 0.1: what happens to recall, precision and the number of flags? <!-- id: c-0-4-3 --></summary>
 
 More transactions are flagged, so **recall goes up** (or stays the same) and **precision usually goes down**. On Kestrel's data: 1 → 23 frauds caught, 1 → 110 false alarms.
 
 </details>
 
-<details><summary>Q4. Train recall 100%, test recall 7%. Name the problem and two remedies.</summary>
+<details><summary>Q4. Train recall 100%, test recall 7%. Name the problem and two remedies. <!-- id: c-0-4-4 --></summary>
 
 **Overfitting.** Remedies: limit model complexity (max depth, minimum samples per leaf, regularisation), get more data, use ensembles designed to generalise (random forests, gradient boosting with early stopping), and choose settings with a validation set.
 
 </details>
 
-<details><summary>Q5. Why must a fraud model never use <code>chargeback_filed</code>?</summary>
+<details><summary>Q5. Why must a fraud model never use <code>chargeback_filed</code>? <!-- id: c-0-4-5 --></summary>
 
 It's only known **after** the label (fraud is confirmed and the customer disputes). At scoring time it doesn't exist. Training on it is **data leakage**: great offline metrics, useless in production.
 
 </details>
 
-<details><summary>Q6. Why do we stratify the train/test split here?</summary>
+<details><summary>Q6. Why do we stratify the train/test split here? <!-- id: c-0-4-6 --></summary>
 
 With ~1.4% positives, a random split can give a test set with noticeably more or fewer frauds, making metrics noisy and comparisons unfair. Stratifying keeps the class ratio identical in each split.
 
 </details>
 
 ## 💬 Explain it back
+<!-- id: e-0-4 -->
 
 Write Omar a reply (five sentences maximum) explaining what "98.6% accurate" really meant, what numbers he should ask for instead, and which decision is his to make (hint: the threshold).
 

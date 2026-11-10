@@ -1,4 +1,5 @@
 # Module 1: From Prototype to Production
+<!-- id: m-1 -->
 
 > ⏱ ~10 hours (5 lessons ≈ 4.5 h + lab ≈ 3–4 h + quiz) · Track A: `fraud-service`
 

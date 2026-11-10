@@ -1,4 +1,5 @@
 # Lab 2: Two pipelines you can trust
+<!-- id: lab-2 -->
 
 > ⏱ 4–5 h · 🧰 Needs: Python 3.11+, [uv](https://docs.astral.sh/uv/). No API keys, no GPU, no Docker.
 
@@ -52,6 +53,7 @@ lab/
 ## Part 0 · Setup
 
 ### Step 0 · Set up
+<!-- id: lab-2-step-0 -->
 
 ```bash
 cd modules/02-data-and-model-pipelines/lab
@@ -73,6 +75,7 @@ Expected (the first run downloads dependencies, about 1–2 minutes; the tests t
 ## Part A · Data and model pipelines
 
 ### Step 1 · Ingest
+<!-- id: lab-2-step-1 -->
 
 ```bash
 uv run python -m pipelines.data
@@ -85,6 +88,7 @@ uv run python -m pipelines.data
 The file is git-ignored. Anyone with the repo can regenerate the exact same bytes from `(rows=20000, seed=42)`.
 
 ### Step 2 · Validate (📖 lesson 2.1)
+<!-- id: lab-2-step-2 -->
 
 ```bash
 uv run python -m pipelines.validate data/raw_baseline_20000_42.csv
@@ -98,6 +102,7 @@ rows_in=20000 rows_valid=20000 bad_fraction=0.0000%
 Read `src/pipelines/validate.py`. Find the schema, the row-level checks, the dataset-level checks (duplicates, row count, label rate, **median**), and the `gate()` function.
 
 ### Step 3 · Scan for leakage (📖 lesson 2.2)
+<!-- id: lab-2-step-3 -->
 
 ```bash
 uv run python -m pipelines.leakage data/raw_baseline_20000_42.csv
@@ -112,6 +117,7 @@ uv run python -m pipelines.leakage data/raw_baseline_20000_42.csv
 ```
 
 ### Step 4 · Train with tracking (📖 lesson 2.6)
+<!-- id: lab-2-step-4 -->
 
 ```bash
 uv run python -m pipelines.train
@@ -126,6 +132,7 @@ promoted to @champion ✅
 A PR-AUC of 0.099 might look low. The base rate is about 1.3%, so a random model scores about 0.013: this model is about 7× better than random. Fraud is hard. [Lesson 4.1](../../04-evaluation-and-monitoring/01-offline-vs-online-and-classification-metrics.md) explains why PR-AUC is the right metric here.
 
 ### Step 5 · Explore in the MLflow UI
+<!-- id: lab-2-step-5 -->
 
 ```bash
 uv run mlflow ui --backend-store-uri sqlite:///mlflow.db
@@ -134,6 +141,7 @@ uv run mlflow ui --backend-store-uri sqlite:///mlflow.db
 Open <http://127.0.0.1:5000>. Find: the parent run and its 10 nested `trial-*` runs, the `validated_data_sha256` and `git_commit` tags, `lineage.json` in Artifacts, and the registered model with its aliases. Stop the UI with Ctrl+C.
 
 ### Step 6 · Tune harder and compare
+<!-- id: lab-2-step-6 -->
 
 ```bash
 uv run python -m pipelines.train --trials 30
@@ -147,6 +155,7 @@ kept as @challenger (did not beat champion)
 Compare v1 and v2 in the UI: `best_val_pr_auc` went **up** (0.102 → 0.128) while `test_pr_auc` went **down**. That's overfitting the validation set (lesson 2.6).
 
 ### Step 7 · Load by alias
+<!-- id: lab-2-step-7 -->
 
 ```bash
 uv run python -m pipelines.registry --score
@@ -159,6 +168,7 @@ v2   aliases=challenger             test_pr_auc=0.082 run=...
 ```
 
 ### Step 8 · Prove reproducibility
+<!-- id: lab-2-step-8 -->
 
 Run `uv run python -m pipelines.train` again. The new version should have **exactly** the same best params and test PR-AUC as v1. Then fill in [`REPRODUCIBILITY.md`](REPRODUCIBILITY.md) for your champion.
 
@@ -167,6 +177,7 @@ Run `uv run python -m pipelines.train` again. The new version should have **exac
 ## Part B · docs-assistant RAG
 
 ### Step 9 · Inspect ingestion (📖 lesson 2.4)
+<!-- id: lab-2-step-9 -->
 
 ```bash
 uv run python -m kestrel_docs.ingest
@@ -183,6 +194,7 @@ partner-faq                  public          507      1  removed 1 hidden HTML c
 Check that the `security-faq` chunks contain no navigation ("Home | Help") or footer text.
 
 ### Step 10 · Search without the LLM (📖 lesson 2.5)
+<!-- id: lab-2-step-10 -->
 
 ```bash
 uv run python -m kestrel_docs.search "Can I deploy on Friday?" --role engineer --mode bm25 --no-rerank
@@ -195,6 +207,7 @@ uv run python -m kestrel_docs.search "salary band Staff Engineer" --role hr
 For the hybrid query you should see `deployment-process#001` first with `bm25#=1 dense#=4`. For `customer`, no result has access `hr`.
 
 ### Step 11 · Measure retrieval
+<!-- id: lab-2-step-11 -->
 
 ```bash
 uv run python scripts/eval_retrieval.py
@@ -210,6 +223,7 @@ Expected (approximately; hash embeddings, 27 questions):
 | hybrid + rerank | 0.93 | 1.00 | 1.00 | 0.96 |
 
 ### Step 12 · Run the service
+<!-- id: lab-2-step-12 -->
 
 ```bash
 uv run uvicorn kestrel_docs.main:create_app --factory --port 8000
@@ -243,6 +257,7 @@ You can also open <http://localhost:8000/docs> for the interactive API page.
 > ```
 
 ### Step 13 · GraphRAG in miniature
+<!-- id: lab-2-step-13 -->
 
 ```bash
 uv run python scripts/graph_demo.py --entity director

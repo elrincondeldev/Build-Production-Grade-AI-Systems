@@ -1,4 +1,4 @@
-# Module 5 Quiz: Security and Governance
+# Module 5 quiz: Security and Governance
 
 [Course home](../../README.md) › [Module 5](README.md) › Quiz
 
@@ -8,7 +8,7 @@ Scoring: 12–14 correct, move on. 9–11, re-read the lessons for the ones you 
 
 ---
 
-**1.** Map each scenario to its OWASP LLM Top 10 (2025) entry:
+**1.** Map each scenario to its OWASP LLM Top 10 (2025) entry: <!-- id: q-5-1 -->
 (a) the support UI renders the assistant's answer as HTML and a `<script>` tag runs;
 (b) a script sends 800,000 long questions in a day;
 (c) an agent with a `create_refund` tool issues refunds because a document said so;
@@ -22,7 +22,7 @@ Scoring: 12–14 correct, move on. 9–11, re-read the lessons for the ones you 
 
 ---
 
-**2.** Why is indirect prompt injection generally more dangerous than direct prompt injection?
+**2.** Why is indirect prompt injection generally more dangerous than direct prompt injection? <!-- id: q-5-2 -->
 
 <details><summary>Answer</summary>
 
@@ -32,7 +32,7 @@ The direct attacker only affects their own session. An indirect payload, planted
 
 ---
 
-**3.** The lab sanitises documents *before* chunking. What specific failure does that order prevent?
+**3.** The lab sanitises documents *before* chunking. What specific failure does that order prevent? <!-- id: q-5-3 -->
 
 <details><summary>Answer</summary>
 
@@ -42,7 +42,7 @@ A hidden block (e.g. an HTML comment) split across two chunks. Each half no long
 
 ---
 
-**4.** Compute the noisy-OR injection score for a text that matches patterns with weights 0.6 and 0.5 only. Is it quarantined at a threshold of 0.7?
+**4.** Compute the noisy-OR injection score for a text that matches patterns with weights 0.6 and 0.5 only. Is it quarantined at a threshold of 0.7? <!-- id: q-5-4 -->
 
 <details><summary>Answer</summary>
 
@@ -52,7 +52,7 @@ A hidden block (e.g. an HTML comment) split across two chunks. Each half no long
 
 ---
 
-**5.** A colleague writes `jwt.decode(token, key, algorithms=jwt.get_unverified_header(token)["alg"])`. What's the vulnerability and the fix?
+**5.** A colleague writes `jwt.decode(token, key, algorithms=jwt.get_unverified_header(token)["alg"])`. What's the vulnerability and the fix? <!-- id: q-5-5 -->
 
 <details><summary>Answer</summary>
 
@@ -62,7 +62,7 @@ The token chooses its own algorithm, which enables `alg: none` tokens and RS256�
 
 ---
 
-**6.** Give three reasons post-filtering retrieval results (rank everything, drop forbidden chunks after) is worse than pre-filtering, even if the filter is correct.
+**6.** Give three reasons post-filtering retrieval results (rank everything, drop forbidden chunks after) is worse than pre-filtering, even if the filter is correct. <!-- id: q-5-6 -->
 
 <details><summary>Answer</summary>
 
@@ -72,7 +72,7 @@ The token chooses its own algorithm, which enables `alg: none` tokens and RS256�
 
 ---
 
-**7.** Kestrel's logs have 1,000,000 lines/day; 2% contain an email. A redactor has 98% recall and 90% precision. How many emails leak per day, and which number should you improve first for logs?
+**7.** Kestrel's logs have 1,000,000 lines/day; 2% contain an email. A redactor has 98% recall and 90% precision. How many emails leak per day, and which number should you improve first for logs? <!-- id: q-5-7 -->
 
 <details><summary>Answer</summary>
 
@@ -82,7 +82,7 @@ The token chooses its own algorithm, which enables `alg: none` tokens and RS256�
 
 ---
 
-**8.** Explain envelope encryption in three steps, and say what "crypto-shredding" means.
+**8.** Explain envelope encryption in three steps, and say what "crypto-shredding" means. <!-- id: q-5-8 -->
 
 <details><summary>Answer</summary>
 
@@ -92,7 +92,7 @@ The token chooses its own algorithm, which enables `alg: none` tokens and RS256�
 
 ---
 
-**9.** An answer scores 1.0 on the lab's lexical groundedness check but is factually wrong. How is that possible, and what would catch it?
+**9.** An answer scores 1.0 on the lab's lexical groundedness check but is factually wrong. How is that possible, and what would catch it? <!-- id: q-5-9 -->
 
 <details><summary>Answer</summary>
 
@@ -102,7 +102,7 @@ Lexical overlap only checks that the answer's words appear in the sources, not h
 
 ---
 
-**10.** The hash-chained audit log verifies as intact. Name two ways an attacker with write access could still have altered history, and the mitigation for each.
+**10.** The hash-chained audit log verifies as intact. Name two ways an attacker with write access could still have altered history, and the mitigation for each. <!-- id: q-5-10 -->
 
 <details><summary>Answer</summary>
 
@@ -112,7 +112,7 @@ Lexical overlap only checks that the answer's words appear in the sources, not h
 
 ---
 
-**11.** In the fraud fairness audit, legitimate customers abroad have an FPR of 20.9% vs 0.2% at home, while fraud rates are 7.4% vs 1.1%. Why can't you simply "equalise everything"? What do you do instead?
+**11.** In the fraud fairness audit, legitimate customers abroad have an FPR of 20.9% vs 0.2% at home, while fraud rates are 7.4% vs 1.1%. Why can't you simply "equalise everything"? What do you do instead? <!-- id: q-5-11 -->
 
 <details><summary>Answer</summary>
 
@@ -122,7 +122,7 @@ When base rates differ, a non-perfect classifier can't be calibrated within each
 
 ---
 
-**12.** Under the EU AI Act, what's the likely starting classification of (a) the fraud model, (b) the docs-assistant, (c) a model that sets customers' credit limits? (Remember: confirm with Legal.)
+**12.** Under the EU AI Act, what's the likely starting classification of (a) the fraud model, (b) the docs-assistant, (c) a model that sets customers' credit limits? (Remember: confirm with Legal.) <!-- id: q-5-12 -->
 
 <details><summary>Answer</summary>
 
@@ -132,7 +132,7 @@ When base rates differ, a non-perfect classifier can't be calibrated within each
 
 ---
 
-**13.** 🔁 *(Module 4, progressive delivery)* Bundle 1.1.0 is activated for 5% of traffic as a canary. Which three signals from this module would you watch before going to 100%?
+**13.** 🔁 *(Module 4, progressive delivery)* Bundle 1.1.0 is activated for 5% of traffic as a canary. Which three signals from this module would you watch before going to 100%? <!-- id: q-5-13 -->
 
 <details><summary>Answer</summary>
 
@@ -142,7 +142,7 @@ For example: refusal rate by reason code (`ungrounded`, `contract_violation`, `m
 
 ---
 
-**14.** 🔁 *(Module 2, retrieval; Module 3, caching)* You add a semantic cache in front of the docs-assistant to save cost. What must the cache key include, and what must happen when a document is deleted?
+**14.** 🔁 *(Module 2, retrieval; Module 3, caching)* You add a semantic cache in front of the docs-assistant to save cost. What must the cache key include, and what must happen when a document is deleted? <!-- id: q-5-14 -->
 
 <details><summary>Answer</summary>
 

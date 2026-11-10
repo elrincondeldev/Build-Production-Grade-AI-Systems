@@ -1,4 +1,5 @@
 # Lesson 6.4: Release engineering and SLOs
+<!-- id: l-6-4 -->
 
 > ⏱ ~70 min · 🎚 Level: Core → Advanced · 🧰 Needs: lessons 4.4 (observability) and 4.6 (progressive delivery)
 
@@ -22,9 +23,9 @@
 
 ## 🤔 Predict first
 
-1. A canary has served 40 requests and 1 failed (2.5%). Your limit is 1%. Roll back?
-2. Your SLO is 99.9% availability over 30 days. How many minutes of total downtime is that?
-3. Why not just page whenever the error rate exceeds 0.1% for 5 minutes?
+1. A canary has served 40 requests and 1 failed (2.5%). Your limit is 1%. Roll back? <!-- id: p-6-4-1 -->
+2. Your SLO is 99.9% availability over 30 days. How many minutes of total downtime is that? <!-- id: p-6-4-2 -->
+3. Why not just page whenever the error rate exceeds 0.1% for 5 minutes? <!-- id: p-6-4-3 -->
 
 ---
 
@@ -278,37 +279,38 @@ Progressive delivery tooling is widely available: Argo Rollouts and Flagger on K
 
 ## ✅ Check yourself
 
-<details><summary>Q1. What's the difference between deploying and releasing, and why separate them?</summary>
+<details><summary>Q1. What's the difference between deploying and releasing, and why separate them? <!-- id: c-6-4-1 --></summary>
 
 Deploying makes the new version run in production; releasing sends user traffic to it. Separating them lets you release gradually, measure, and un-release in seconds (shift traffic back) without a new deployment.
 </details>
 
-<details><summary>Q2. Canary: 2 errors in 25 requests, limit 1%. Hold or rollback? Reason with the interval.</summary>
+<details><summary>Q2. Canary: 2 errors in 25 requests, limit 1%. Hold or rollback? Reason with the interval. <!-- id: c-6-4-2 --></summary>
 
 The observed rate is 8%; the Wilson 95% lower bound is about 2.2%, which is above 1%, so **rollback** (fail fast). Even optimistically, the canary is worse than allowed.
 </details>
 
-<details><summary>Q3. Why does "pass slow" need roughly 380 clean requests for a 1% limit?</summary>
+<details><summary>Q3. Why does "pass slow" need roughly 380 clean requests for a 1% limit? <!-- id: c-6-4-3 --></summary>
 
 With zero errors, the 95% upper bound is about z²/(n + z²) with z² ≈ 3.84. It falls below 0.01 only when n ≳ 380. Fewer clean requests are still compatible with a true error rate above 1%.
 </details>
 
-<details><summary>Q4. A 99.5% monthly SLO: how many bad requests are allowed out of 20 million? What fraction of the budget does burn rate 6 spend in 6 hours?</summary>
+<details><summary>Q4. A 99.5% monthly SLO: how many bad requests are allowed out of 20 million? What fraction of the budget does burn rate 6 spend in 6 hours? <!-- id: c-6-4-4 --></summary>
 
 Budget = 0.5% × 20M = 100,000 bad requests. Burn 6 for 6 h spends 6 × 6/720 = 5% of the monthly budget.
 </details>
 
-<details><summary>Q5. Why use both a long and a short window in a burn-rate alert?</summary>
+<details><summary>Q5. Why use both a long and a short window in a burn-rate alert? <!-- id: c-6-4-5 --></summary>
 
 The long window ensures the problem is significant (it consumed a meaningful slice of the budget). The short window ensures it's still happening, so the alert resets quickly after recovery instead of paging about a problem that's already fixed.
 </details>
 
-<details><summary>Q6. Which canary metric would have caught Omar's incident (3% of good customers declined), and why wouldn't error rate or latency?</summary>
+<details><summary>Q6. Which canary metric would have caught Omar's incident (3% of good customers declined), and why wouldn't error rate or latency? <!-- id: c-6-4-6 --></summary>
 
 A decline-rate (or score-distribution) guardrail comparing canary against stable. The service returned fast, valid 200 responses; they were just *wrong*. Technical health metrics can't see quality regressions.
 </details>
 
 ## 💬 Explain it back
+<!-- id: e-6-4 -->
 
 Explain to Omar, without formulas, why the canary sometimes *waits* even when it has seen zero errors, and why it sometimes rolls back after just one error. (Hint: "proving something is rare takes many observations; proving something is common takes few".)
 

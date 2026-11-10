@@ -1,4 +1,5 @@
 # Lesson 6.5: Incident response and on-call
+<!-- id: l-6-5 -->
 
 > ⏱ ~45 min · 🎚 Level: Core · 🧰 Needs: lesson 6.4 (SLOs and alerts)
 
@@ -23,9 +24,9 @@
 
 ## 🤔 Predict first
 
-1. An alert fires at 03:00 for fraud-service latency. A deploy happened 3 hours ago. Do you first find the root cause, or first roll back?
-2. The docs-assistant starts confidently quoting a refund policy that doesn't exist. No error rate moved, no latency moved. How would you find out?
-3. What's wrong with a postmortem whose main action item is "Engineer X will be more careful"?
+1. An alert fires at 03:00 for fraud-service latency. A deploy happened 3 hours ago. Do you first find the root cause, or first roll back? <!-- id: p-6-5-1 -->
+2. The docs-assistant starts confidently quoting a refund policy that doesn't exist. No error rate moved, no latency moved. How would you find out? <!-- id: p-6-5-2 -->
+3. What's wrong with a postmortem whose main action item is "Engineer X will be more careful"? <!-- id: p-6-5-3 -->
 
 ---
 
@@ -183,32 +184,33 @@ Most mature organisations publish their incident process internally in the same 
 
 ## ✅ Check yourself
 
-<details><summary>Q1. Why should the Incident Commander not debug?</summary>
+<details><summary>Q1. Why should the Incident Commander not debug? <!-- id: c-6-5-1 --></summary>
 
 Debugging absorbs all attention. Someone has to keep the big picture: priorities, who's doing what, when to roll back, when to escalate, and keeping communications flowing. Coordination failures make incidents longer than technical difficulty does.
 </details>
 
-<details><summary>Q2. Give three mitigations specific to LLM applications.</summary>
+<details><summary>Q2. Give three mitigations specific to LLM applications. <!-- id: c-6-5-2 --></summary>
 
 Any three of: roll back the prompt/model/index version; kill switch that disables LLM answers while keeping the product working; route to a fallback model; invalidate the semantic cache; remove a poisoned document from the index; tighten a guardrail rule; rate-limit an abusive user or tool.
 </details>
 
-<details><summary>Q3. Name two signals that detect a hallucination spike when error rate and latency look normal.</summary>
+<details><summary>Q3. Name two signals that detect a hallucination spike when error rate and latency look normal. <!-- id: c-6-5-3 --></summary>
 
 For example: groundedness scores from an LLM judge on sampled live traffic; rate of answers with no citations; thumbs-down or user feedback rate; escalations to human support; spot checks from the support team.
 </details>
 
-<details><summary>Q4. Rewrite "Engineer X should be more careful when changing the prompt" as a system action item.</summary>
+<details><summary>Q4. Rewrite "Engineer X should be more careful when changing the prompt" as a system action item. <!-- id: c-6-5-4 --></summary>
 
 For example: "Prompt changes must pass the regression eval suite in CI and be released through the prompt registry with a canary (owner: AI Platform, due in 2 weeks)." It changes the system so the mistake is caught regardless of who makes it.
 </details>
 
-<details><summary>Q5. Four tests every page should pass?</summary>
+<details><summary>Q5. Four tests every page should pass? <!-- id: c-6-5-5 --></summary>
 
 Urgent, actionable, reflects real user impact (ideally an SLO burn), and links to a runbook.
 </details>
 
 ## 💬 Explain it back
+<!-- id: e-6-5 -->
 
 Explain to a new teammate why "roll back first, investigate later" is not lazy engineering. Use the analogy of a doctor stopping the bleeding before running diagnostic tests.
 

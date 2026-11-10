@@ -6,7 +6,7 @@
 
 ---
 
-**1.** An app service runs 6 replicas, and each loads the same 8 GB model in-process. Give two concrete problems and the architectural fix.
+**1.** An app service runs 6 replicas, and each loads the same 8 GB model in-process. Give two concrete problems and the architectural fix. <!-- id: q-3-1 -->
 
 <details><summary>Answer</summary>
 
@@ -16,7 +16,7 @@ Problems: 6× the model memory (48 GB) and cost; every API deploy reloads the we
 
 ---
 
-**2.** For a decode step with batch size *B*, what's the approximate arithmetic intensity, and what does it imply for a GPU with a ridge point of ~300 FLOPs/byte?
+**2.** For a decode step with batch size *B*, what's the approximate arithmetic intensity, and what does it imply for a GPU with a ridge point of ~300 FLOPs/byte? <!-- id: q-3-2 -->
 
 <details><summary>Answer</summary>
 
@@ -26,7 +26,7 @@ Problems: 6× the model memory (48 GB) and cost; every API deploy reloads the we
 
 ---
 
-**3.** A 14B-parameter model runs in BF16 on a GPU with ~2 TB/s memory bandwidth. What's the best possible single-stream decode speed? What happens with INT4 weights?
+**3.** A 14B-parameter model runs in BF16 on a GPU with ~2 TB/s memory bandwidth. What's the best possible single-stream decode speed? What happens with INT4 weights? <!-- id: q-3-3 -->
 
 <details><summary>Answer</summary>
 
@@ -36,7 +36,7 @@ BF16: 28 GB ÷ 2,000 GB/s = 14 ms/token, so ≤ ~71 tokens/s. INT4 (~7 GB plus s
 
 ---
 
-**4.** A model has 48 layers, 8 KV heads and head dimension 128, with a BF16 KV cache. How much KV memory does one 16,000-token sequence need? How many such sequences fit in 40 GB of free KV memory?
+**4.** A model has 48 layers, 8 KV heads and head dimension 128, with a BF16 KV cache. How much KV memory does one 16,000-token sequence need? How many such sequences fit in 40 GB of free KV memory? <!-- id: q-3-4 -->
 
 <details><summary>Answer</summary>
 
@@ -46,7 +46,7 @@ Per token: 2 × 48 × 8 × 128 × 2 = 196,608 bytes = 192 KiB. Per sequence: 16,
 
 ---
 
-**5.** Your small model costs $0.20 per 1,000 requests and the large one $2.00. What escalation rate makes a small→large cascade break even on cost? What else must you measure?
+**5.** Your small model costs $0.20 per 1,000 requests and the large one $2.00. What escalation rate makes a small→large cascade break even on cost? What else must you measure? <!-- id: q-3-5 -->
 
 <details><summary>Answer</summary>
 
@@ -56,7 +56,7 @@ Break-even when 0.20 + p × 2.00 = 2.00, so p = 0.9 (90%). Below 90% escalation 
 
 ---
 
-**6.** Load test results: c=2 → 4 req/s, p50 500 ms; c=8 → 10 req/s, p50 800 ms; c=32 → 10 req/s, p50 3.2 s. Where is the knee, and does Little's law agree with the c=32 row?
+**6.** Load test results: c=2 → 4 req/s, p50 500 ms; c=8 → 10 req/s, p50 800 ms; c=32 → 10 req/s, p50 3.2 s. Where is the knee, and does Little's law agree with the c=32 row? <!-- id: q-3-6 -->
 
 <details><summary>Answer</summary>
 
@@ -66,7 +66,7 @@ The knee is around c=8: throughput plateaus at ~10 req/s and extra concurrency o
 
 ---
 
-**7.** Why can a closed-loop load generator report a better p99 than users actually experience during a stall?
+**7.** Why can a closed-loop load generator report a better p99 than users actually experience during a stall? <!-- id: q-3-7 -->
 
 <details><summary>Answer</summary>
 
@@ -76,7 +76,7 @@ Coordinated omission: closed-loop clients wait for responses before sending more
 
 ---
 
-**8.** A semantic cache serves "What's the ATM fee on Basic?" with the cached answer for "What's the ATM fee on Plus?". Name the bug class, and two fixes.
+**8.** A semantic cache serves "What's the ATM fee on Basic?" with the cached answer for "What's the ATM fee on Plus?". Name the bug class, and two fixes. <!-- id: q-3-8 -->
 
 <details><summary>Answer</summary>
 
@@ -86,7 +86,7 @@ A false hit: high embedding similarity, different meaning. Fixes: raise the thre
 
 ---
 
-**9.** Explain in two sentences why continuous batching achieves much lower TTFT than static batching under load.
+**9.** Explain in two sentences why continuous batching achieves much lower TTFT than static batching under load. <!-- id: q-3-9 -->
 
 <details><summary>Answer</summary>
 
@@ -96,7 +96,7 @@ With static batching a new request must wait until the whole running batch, incl
 
 ---
 
-**10.** Which autoscaling signal would you use for a vLLM deployment, and why not GPU utilization?
+**10.** Which autoscaling signal would you use for a vLLM deployment, and why not GPU utilization? <!-- id: q-3-10 -->
 
 <details><summary>Answer</summary>
 
@@ -106,7 +106,7 @@ Queue depth (waiting requests) and KV-cache usage, with TTFT p95 as a secondary 
 
 ---
 
-**11.** You apply weight-only INT4 quantization. TPOT improves a lot, but TTFT for long RAG prompts barely changes. Explain.
+**11.** You apply weight-only INT4 quantization. TPOT improves a lot, but TTFT for long RAG prompts barely changes. Explain. <!-- id: q-3-11 -->
 
 <details><summary>Answer</summary>
 
@@ -116,7 +116,7 @@ Weight-only quantization reduces bytes read per decode step (decode is memory-bo
 
 ---
 
-**12.** 🔁 *(Module 1)* The ONNX fraud service encodes `merchant_category` with a different column order than training did. Nothing crashes. What is this called, and how does lesson 3.7's packaging prevent it?
+**12.** 🔁 *(Module 1)* The ONNX fraud service encodes `merchant_category` with a different column order than training did. Nothing crashes. What is this called, and how does lesson 3.7's packaging prevent it? <!-- id: q-3-12 -->
 
 <details><summary>Answer</summary>
 
@@ -126,7 +126,7 @@ Training/serving skew: the model receives features that differ from what it was 
 
 ---
 
-**13.** 🔁 *(Module 1)* Your fallback chain retries the primary LLM on every error, immediately, 5 times. Name two problems and the correct policy.
+**13.** 🔁 *(Module 1)* Your fallback chain retries the primary LLM on every error, immediately, 5 times. Name two problems and the correct policy. <!-- id: q-3-13 -->
 
 <details><summary>Answer</summary>
 
@@ -136,7 +136,7 @@ Immediate retries amplify load during an outage (retry storms), and retrying non
 
 ---
 
-**14.** 🔁 *(Module 2)* Retrieval returns 20 chunks "to be safe", making prompts 4,000 tokens. Name three serving consequences and one Module 2 technique that lets you send fewer chunks.
+**14.** 🔁 *(Module 2)* Retrieval returns 20 chunks "to be safe", making prompts 4,000 tokens. Name three serving consequences and one Module 2 technique that lets you send fewer chunks. <!-- id: q-3-14 -->
 
 <details><summary>Answer</summary>
 

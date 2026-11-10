@@ -1,4 +1,5 @@
 # Lesson 3.5: Caching, batching and autoscaling
+<!-- id: l-3-5 -->
 
 > ⏱ ~60 min · 🎚 Level: Core · 🧰 Needs: Lessons 3.2 and 3.4
 
@@ -22,9 +23,9 @@
 
 ## 🤔 Predict first
 
-1. A semantic cache with a cosine threshold of 0.5 has a much higher hit rate than one at 0.95. What's the catch?
-2. A static batch of 32 requests contains one 800-token answer and 31 answers of ~50 tokens. When do the 31 short answers get returned?
-3. Why is CPU utilization a bad autoscaling signal for a GPU model server?
+1. A semantic cache with a cosine threshold of 0.5 has a much higher hit rate than one at 0.95. What's the catch? <!-- id: p-3-5-1 -->
+2. A static batch of 32 requests contains one 800-token answer and 31 answers of ~50 tokens. When do the 31 short answers get returned? <!-- id: p-3-5-2 -->
+3. Why is CPU utilization a bad autoscaling signal for a GPU model server? <!-- id: p-3-5-3 -->
 
 ---
 
@@ -239,32 +240,33 @@ A new GPU replica can take **minutes** to become ready (lesson 3.1: pull weights
 
 ## ✅ Check yourself
 
-<details><summary>Q1. List four things that must be part of a response-cache key for the docs-assistant.</summary>
+<details><summary>Q1. List four things that must be part of a response-cache key for the docs-assistant. <!-- id: c-3-5-1 --></summary>
 
 The normalised question, the prompt template version, the model name and version, the user's permission scope (role/tenant), and the index or data version. Also generation parameters, if they vary.
 </details>
 
-<details><summary>Q2. Why is prefix caching risk-free while semantic caching is not?</summary>
+<details><summary>Q2. Why is prefix caching risk-free while semantic caching is not? <!-- id: c-3-5-2 --></summary>
 
 Prefix caching reuses intermediate computation (KV tensors) for an identical token prefix; the final output is computed fresh and is exactly what you'd get without the cache. Semantic caching returns a stored *answer* for a *different* question that merely looks similar, so it can be wrong.
 </details>
 
-<details><summary>Q3. In static batching, why do short requests suffer?</summary>
+<details><summary>Q3. In static batching, why do short requests suffer? <!-- id: c-3-5-3 --></summary>
 
 The batch runs until its longest sequence finishes and responses return together, so short answers wait for the longest one. Their slots are wasted as padding, and new requests can't join until the batch ends.
 </details>
 
-<details><summary>Q4. Diego's autoscaler uses CPU at 70% for the app service and GPU utilization at 80% for vLLM. Propose better signals.</summary>
+<details><summary>Q4. Diego's autoscaler uses CPU at 70% for the app service and GPU utilization at 80% for vLLM. Propose better signals. <!-- id: c-3-5-4 --></summary>
 
 App service: in-flight requests per replica (or requests/s per replica) and p95 latency. vLLM: waiting requests (queue depth) and KV-cache usage, with TTFT p95 as a secondary SLO-based signal. Add a scheduled scale-up before predictable peaks and keep headroom for cold starts.
 </details>
 
-<details><summary>Q5. Your exact cache shows a 35% hit rate but p95 didn't improve. Is the cache broken?</summary>
+<details><summary>Q5. Your exact cache shows a 35% hit rate but p95 didn't improve. Is the cache broken? <!-- id: c-3-5-5 --></summary>
 
 Not necessarily. p95 is set by the slowest requests, which are cache misses that still go through the full LLM path. Caching improves mean latency, throughput and cost; to move p95 you must speed up the miss path (shorter outputs, batching, faster model) or reduce queueing.
 </details>
 
 ## 💬 Explain it back
+<!-- id: e-3-5 -->
 
 Explain to Lena why "a third of questions are near-duplicates" doesn't mean you can safely cut the LLM bill by a third with a semantic cache. Use the Plus/Premium example.
 

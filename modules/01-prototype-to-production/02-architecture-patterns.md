@@ -1,4 +1,5 @@
 # Lesson 1.2: Architecture patterns for AI systems
+<!-- id: l-1-2 -->
 
 > ⏱ ~50 min · 🎚 Level: Core · 🧰 Needs: [Lesson 1.1](01-prototype-vs-production.md)
 
@@ -23,9 +24,9 @@ Architecture decisions are expensive to reverse. This lesson gives you the vocab
 
 ## 🤔 Predict first
 
-1. Netflix-style "Top picks for you" rows: computed when you open the app, or before?
-2. A fraud check must answer within the card network's authorization window. Roughly how much of that window do you think the ML model itself gets: 50%, 10% or 1%?
-3. Is "make the AI a microservice" always the right call?
+1. Netflix-style "Top picks for you" rows: computed when you open the app, or before? <!-- id: p-1-2-1 -->
+2. A fraud check must answer within the card network's authorization window. Roughly how much of that window do you think the ML model itself gets: 50%, 10% or 1%? <!-- id: p-1-2-2 -->
+3. Is "make the AI a microservice" always the right call? <!-- id: p-1-2-3 -->
 
 ---
 
@@ -234,42 +235,43 @@ For the docs-assistant the budget looks completely different: the LLM call domin
 ## ✅ Check yourself
 
 <details>
-<summary>Q1. Kestrel wants to email every customer a "your spending this month" summary written by an LLM. Batch, online or streaming? Why?</summary>
+<summary>Q1. Kestrel wants to email every customer a "your spending this month" summary written by an LLM. Batch, online or streaming? Why? <!-- id: c-1-2-1 --></summary>
 
 **Batch.** Nobody is waiting, the data (last month's transactions) is complete in advance, and freshness of hours is fine. Batch lets you use cheaper capacity (off-peak, batched requests, maybe a cheaper model) and retry failures without user impact.
 </details>
 
 <details>
-<summary>Q2. Give three concrete reasons to extract fraud scoring from the payments monolith, and one reason not to.</summary>
+<summary>Q2. Give three concrete reasons to extract fraud scoring from the payments monolith, and one reason not to. <!-- id: c-1-2-2 --></summary>
 
 For: independent model releases without redeploying payments; independent scaling and hardware; failure isolation (a model memory leak doesn't crash the ledger); different dependency stacks. Against: a network hop adds latency and new failure modes (timeouts, retries, partial outages) plus operational overhead.
 </details>
 
 <details>
-<summary>Q3. What is point-in-time correctness and what goes wrong without it?</summary>
+<summary>Q3. What is point-in-time correctness and what goes wrong without it? <!-- id: c-1-2-3 --></summary>
 
 When building a training row for an event at time *t*, every feature must use only information available at *t*. Without it, you leak future information (e.g. today's 30-day average into a transaction from March), and offline metrics are better than production performance: a form of training/serving skew.
 </details>
 
 <details>
-<summary>Q4. Why must event consumers be idempotent?</summary>
+<summary>Q4. Why must event consumers be idempotent? <!-- id: c-1-2-4 --></summary>
 
 Most brokers guarantee **at-least-once** delivery: after a crash or retry, the same event can arrive twice. An idempotent consumer produces the same result if it processes an event once or several times (e.g. "upsert case for transaction X" instead of "create a new case").
 </details>
 
 <details>
-<summary>Q5. In the 150 ms fraud budget, which single component deserves the most engineering attention, and why?</summary>
+<summary>Q5. In the 150 ms fraud budget, which single component deserves the most engineering attention, and why? <!-- id: c-1-2-5 --></summary>
 
 The **feature store lookup**: it's a network call to another system, so it has the largest and least predictable latency and can fail. That's why it needs a timeout, bounded retries and a fallback (defaults or rules). The model itself is a small, predictable part of the budget.
 </details>
 
 <details>
-<summary>Q6. Why is the <code>/v1/explain/{id}</code> endpoint in Lab 1 a scaling problem?</summary>
+<summary>Q6. Why is the <code>/v1/explain/{id}</code> endpoint in Lab 1 a scaling problem? <!-- id: c-1-2-6 --></summary>
 
 It depends on **in-memory state** (an LRU of recent scores) in one process. With several replicas, a request may reach a replica that never saw that transaction → 404. Fix: store recent scores in a shared store (Redis/DB) or make the request self-contained.
 </details>
 
 ## 💬 Explain it back
+<!-- id: e-1-2 -->
 
 Diego asked two questions at the top of this lesson. Write the answer you would give in the design review: batch/online/streaming, which architecture, which building blocks, and your latency budget, in **under 150 words**.
 

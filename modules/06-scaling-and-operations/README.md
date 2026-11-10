@@ -1,4 +1,5 @@
 # Module 6: Scaling and Operations
+<!-- id: m-6 -->
 
 > ⏱ ~12 hours (7 lessons × 45–75 min + a 3–5 hour lab) · 🎚 Core → Advanced
 

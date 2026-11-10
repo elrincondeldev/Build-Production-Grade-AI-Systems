@@ -1,4 +1,5 @@
 # Module 4: Evaluation and Monitoring
+<!-- id: m-4 -->
 
 > ⏱ ~12 hours (6 lessons × ~1 h + lab 3–4 h + quiz) · 🎚 Core → Advanced
 

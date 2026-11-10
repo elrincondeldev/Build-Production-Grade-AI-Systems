@@ -1,4 +1,5 @@
 # Lesson 6.3: GPUs, autoscaling and capacity planning
+<!-- id: l-6-3 -->
 
 > ⏱ ~60 min · 🎚 Level: Advanced · 🧰 Needs: lessons 3.2 (LLM inference), 3.5 (batching and autoscaling), 6.1
 
@@ -21,9 +22,9 @@
 
 ## 🤔 Predict first
 
-1. Your LLM server's GPU sits at 100% "utilisation" in `nvidia-smi`, but latency is fine. Should the autoscaler add a replica?
-2. The assistant gets 20 requests/s and each takes 3 s end to end. How many requests are in flight at any moment?
-3. Can two pods share one GPU by each requesting `nvidia.com/gpu: 0.5`?
+1. Your LLM server's GPU sits at 100% "utilisation" in `nvidia-smi`, but latency is fine. Should the autoscaler add a replica? <!-- id: p-6-3-1 -->
+2. The assistant gets 20 requests/s and each takes 3 s end to end. How many requests are in flight at any moment? <!-- id: p-6-3-2 -->
+3. Can two pods share one GPU by each requesting `nvidia.com/gpu: 0.5`? <!-- id: p-6-3-3 -->
 
 ---
 
@@ -234,32 +235,33 @@ GPU capacity is often limited by *availability*, not budget: specific GPU types 
 
 ## ✅ Check yourself
 
-<details><summary>Q1. Why are GPU nodes usually tainted?</summary>
+<details><summary>Q1. Why are GPU nodes usually tainted? <!-- id: c-6-3-1 --></summary>
 
 So that only pods that explicitly tolerate the taint (GPU workloads) are scheduled there. Otherwise ordinary pods would take capacity on expensive GPU nodes, and GPU pods could end up `Pending`.
 </details>
 
-<details><summary>Q2. Name a better autoscaling signal than GPU utilisation for an LLM server, and why.</summary>
+<details><summary>Q2. Name a better autoscaling signal than GPU utilisation for an LLM server, and why. <!-- id: c-6-3-2 --></summary>
 
 Requests waiting in the queue, in-flight requests per replica, or KV-cache usage. They measure demand against usable capacity. GPU utilisation only shows that kernels are running, and it looks near 100% under continuous batching at many load levels.
 </details>
 
-<details><summary>Q3. 12 requests/s, 2.5 s average latency. How many concurrent requests? With 10 concurrent requests per replica allowed by your SLO, how many replicas before headroom?</summary>
+<details><summary>Q3. 12 requests/s, 2.5 s average latency. How many concurrent requests? With 10 concurrent requests per replica allowed by your SLO, how many replicas before headroom? <!-- id: c-6-3-3 --></summary>
 
 L = 12 × 2.5 = 30 in flight; 30 / 10 = 3 replicas before headroom (more with a utilisation target and N+1).
 </details>
 
-<details><summary>Q4. Using the lab's formula: 1,000 input tokens, 100 output tokens, prefill 20,000 tok/s, decode 2,500 tok/s, peak 10 rps, target utilisation 0.5. How many replicas?</summary>
+<details><summary>Q4. Using the lab's formula: 1,000 input tokens, 100 output tokens, prefill 20,000 tok/s, decode 2,500 tok/s, peak 10 rps, target utilisation 0.5. How many replicas? <!-- id: c-6-3-4 --></summary>
 
 GPU-s = 1000/20000 + 100/2500 = 0.05 + 0.04 = 0.09 s. Busy = 10 × 0.09 = 0.9. Replicas = ceil(0.9 / 0.5) = 2, which is also the N+1 minimum.
 </details>
 
-<details><summary>Q5. Why is the "autoscaled" monthly cost a lower bound?</summary>
+<details><summary>Q5. Why is the "autoscaled" monthly cost a lower bound? <!-- id: c-6-3-5 --></summary>
 
 It assumes capacity follows average load perfectly. In reality scaling lags demand (cold starts of minutes), you keep headroom, traffic is spiky, and replicas come in whole units. So real cost lands between the autoscaled and the fixed-peak figures.
 </details>
 
 ## 💬 Explain it back
+<!-- id: e-6-3 -->
 
 Write Lena a three-sentence answer: how many GPUs, what it costs, and the one assumption that, if wrong, changes the answer the most. (Hint: look at which input moves the result most when you change it by 20%.)
 

@@ -1,4 +1,5 @@
 # Lesson 3.2: How LLM inference really works
+<!-- id: l-3-2 -->
 
 > ⏱ ~60 min · 🎚 Level: Core (the most important lesson of this module) · 🧰 Needs: [Lesson 0.5](../00-foundations/05-llms-in-one-hour.md), Lesson 3.1
 
@@ -21,9 +22,9 @@ Every optimisation in this module (batching, caching, quantization, speculative 
 
 ## 🤔 Predict first
 
-1. An 8B-parameter model in 16-bit precision is about 16 GB. To generate **one** token, how much data must the GPU read from its memory?
-2. If you generate tokens for 32 users at once instead of 1, roughly how much more memory traffic does each decode step need: 32×, 2×, or about the same?
-3. Which costs more GPU time per token: reading the prompt, or writing the answer?
+1. An 8B-parameter model in 16-bit precision is about 16 GB. To generate **one** token, how much data must the GPU read from its memory? <!-- id: p-3-2-1 -->
+2. If you generate tokens for 32 users at once instead of 1, roughly how much more memory traffic does each decode step need: 32×, 2×, or about the same? <!-- id: p-3-2-2 -->
+3. Which costs more GPU time per token: reading the prompt, or writing the answer? <!-- id: p-3-2-3 -->
 
 ---
 
@@ -242,37 +243,38 @@ This also explains API pricing: providers typically charge **several times more 
 
 ## ✅ Check yourself
 
-<details><summary>Q1. Why is decode memory-bound but prefill compute-bound?</summary>
+<details><summary>Q1. Why is decode memory-bound but prefill compute-bound? <!-- id: c-3-2-1 --></summary>
 
 Decode processes one new token per sequence, so each weight read from memory is used for only ~B multiply-adds (B = batch size). The arithmetic intensity is about B FLOPs per byte, far below the GPU's ridge point. Prefill processes all prompt tokens together, so each weight is reused across thousands of tokens and the intensity is high.
 </details>
 
-<details><summary>Q2. A 70B model in 8-bit is ~70 GB. On a GPU with ~3.35 TB/s, what's the best possible single-stream decode speed?</summary>
+<details><summary>Q2. A 70B model in 8-bit is ~70 GB. On a GPU with ~3.35 TB/s, what's the best possible single-stream decode speed? <!-- id: c-3-2-2 --></summary>
 
 70 GB / 3,350 GB/s ≈ 21 ms per token, so at most ~48 tokens/s, and realistically less. (A model this size is usually split across several GPUs with tensor parallelism, which aggregates their bandwidth.)
 </details>
 
-<details><summary>Q3. Compute the KV cache per token for a model with 40 layers, 8 KV heads, head dimension 128, in FP16. How much for a 4,000-token conversation?</summary>
+<details><summary>Q3. Compute the KV cache per token for a model with 40 layers, 8 KV heads, head dimension 128, in FP16. How much for a 4,000-token conversation? <!-- id: c-3-2-3 --></summary>
 
 2 × 40 × 8 × 128 × 2 bytes = 163,840 bytes = 160 KiB per token. For 4,000 tokens that's 640,000 KiB ≈ 625 MiB.
 </details>
 
-<details><summary>Q4. Sam doubles the number of retrieved chunks (prompt 1,500 → 3,000 tokens). Which metrics change, and which barely move?</summary>
+<details><summary>Q4. Sam doubles the number of retrieved chunks (prompt 1,500 → 3,000 tokens). Which metrics change, and which barely move? <!-- id: c-3-2-4 --></summary>
 
 TTFT increases (twice the prefill), KV memory per request roughly doubles (fewer concurrent requests fit, so throughput under load can drop), and input-token cost doubles. TPOT for an individual request barely changes, though a busier GPU may slow it slightly.
 </details>
 
-<details><summary>Q5. Why does the same GPU produce far more total tokens/s at batch 32 than at batch 1, while each user gets tokens slightly slower?</summary>
+<details><summary>Q5. Why does the same GPU produce far more total tokens/s at batch 32 than at batch 1, while each user gets tokens slightly slower? <!-- id: c-3-2-5 --></summary>
 
 One read of the weights serves 32 sequences instead of 1, so total throughput rises almost 32× while the step time grows only a little (the per-sequence KV and compute work). Each user waits for a slightly longer step, so TPOT per user increases a bit. That's the classic throughput vs latency trade-off.
 </details>
 
-<details><summary>Q6. Why does putting the system prompt first help, even with the same total tokens?</summary>
+<details><summary>Q6. Why does putting the system prompt first help, even with the same total tokens? <!-- id: c-3-2-6 --></summary>
 
 Prefix caching reuses KV blocks for identical **prefixes**. If every request starts with the same system prompt and instructions, those blocks are computed once and shared. If variable content comes first, no two prompts share a prefix and nothing can be reused.
 </details>
 
 ## 💬 Explain it back
+<!-- id: e-3-2 -->
 
 Answer Sam's original message in 5 sentences or fewer: why the GPU looks "70% idle", and why the answer length matters more than the prompt length.
 

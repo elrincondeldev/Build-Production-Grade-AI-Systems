@@ -6,7 +6,7 @@
 
 ---
 
-**1.** 2,000 of 100,000 transactions are fraud. A model flags 4,000 transactions and catches 1,500 frauds. Compute precision, recall and accuracy.
+**1.** 2,000 of 100,000 transactions are fraud. A model flags 4,000 transactions and catches 1,500 frauds. Compute precision, recall and accuracy. <!-- id: q-4-1 -->
 
 <details><summary>Answer</summary>
 
@@ -15,7 +15,7 @@ Precision = 1,500/4,000 = **0.375**. Recall = 1,500/2,000 = **0.75**. Accuracy =
 
 </details>
 
-**2.** Why is PR-AUC usually preferred over ROC-AUC for fraud, and what is its value for a random model?
+**2.** Why is PR-AUC usually preferred over ROC-AUC for fraud, and what is its value for a random model? <!-- id: q-4-2 -->
 
 <details><summary>Answer</summary>
 
@@ -23,7 +23,7 @@ ROC's FPR has a huge denominator (all negatives), so many false alarms still loo
 
 </details>
 
-**3.** Review costs €4, a false alarm adds €6 of customer friction, and a missed fraud costs its amount. With calibrated probability p, write the rule to flag a €150 transaction, and give the cut-off.
+**3.** Review costs €4, a false alarm adds €6 of customer friction, and a missed fraud costs its amount. With calibrated probability p, write the rule to flag a €150 transaction, and give the cut-off. <!-- id: q-4-3 -->
 
 <details><summary>Answer</summary>
 
@@ -31,7 +31,7 @@ Flag if p·150 > 4 + (1 − p)·6 → 156p > 10 → **p > 0.064**. → [4.2](02-
 
 </details>
 
-**4.** Your model's mean predicted fraud probability is 0.25; the real fraud rate is 0.02. Name the most likely cause and a fix that doesn't change the model's ranking.
+**4.** Your model's mean predicted fraud probability is 0.25; the real fraud rate is 0.02. Name the most likely cause and a fix that doesn't change the model's ranking. <!-- id: q-4-4 -->
 
 <details><summary>Answer</summary>
 
@@ -39,7 +39,7 @@ Training with class weighting or resampling (e.g., `class_weight="balanced"`) in
 
 </details>
 
-**5.** The base rate is 2%. What Brier score does a model need to beat to have any skill?
+**5.** The base rate is 2%. What Brier score does a model need to beat to have any skill? <!-- id: q-4-5 -->
 
 <details><summary>Answer</summary>
 
@@ -47,7 +47,7 @@ The no-skill reference is b(1 − b) = 0.02 × 0.98 = **0.0196**. → [4.2](02-t
 
 </details>
 
-**6.** List the six categories of a good golden set for a RAG assistant, and explain why two of them are "negative".
+**6.** List the six categories of a good golden set for a RAG assistant, and explain why two of them are "negative". <!-- id: q-4-6 -->
 
 <details><summary>Answer</summary>
 
@@ -55,7 +55,7 @@ Factual, procedural, reasoning, **access-denied**, **unanswerable**, injection p
 
 </details>
 
-**7.** An LLM judge agrees with human labels on 85% of items; humans said "pass" on 85% of items. What do you need to compute, and what might it show?
+**7.** An LLM judge agrees with human labels on 85% of items; humans said "pass" on 85% of items. What do you need to compute, and what might it show? <!-- id: q-4-7 -->
 
 <details><summary>Answer</summary>
 
@@ -63,7 +63,7 @@ Factual, procedural, reasoning, **access-denied**, **unanswerable**, injection p
 
 </details>
 
-**8.** Give an example of a check that evaluates an agent's trajectory rather than its final answer, and explain why trajectories can be graded without a judge.
+**8.** Give an example of a check that evaluates an agent's trajectory rather than its final answer, and explain why trajectories can be graded without a judge. <!-- id: q-4-8 -->
 
 <details><summary>Answer</summary>
 
@@ -71,7 +71,7 @@ Expected tool `freeze_card` with `card_last4 = "4242"` after the user mentioned 
 
 </details>
 
-**9.** Why can't you compute fleet-wide p95 latency by averaging each server's p95? What do you do instead?
+**9.** Why can't you compute fleet-wide p95 latency by averaging each server's p95? What do you do instead? <!-- id: q-4-9 -->
 
 <details><summary>Answer</summary>
 
@@ -79,7 +79,7 @@ Percentiles aren't additive. Export **histograms**, sum bucket counts across ser
 
 </details>
 
-**10.** A teammate adds `labels=["user_id"]` to the request counter "to debug a customer issue". What's the risk, and where should that information go?
+**10.** A teammate adds `labels=["user_id"]` to the request counter "to debug a customer issue". What's the risk, and where should that information go? <!-- id: q-4-10 -->
 
 <details><summary>Answer</summary>
 
@@ -87,7 +87,7 @@ Cardinality explosion: one time series per user can overload Prometheus. Put per
 
 </details>
 
-**11.** Recall dropped from 0.49 to 0.31 while every feature's PSI is below 0.1. What kind of drift is this, how did you see it, and what early signal could catch it next time?
+**11.** Recall dropped from 0.49 to 0.31 while every feature's PSI is below 0.1. What kind of drift is this, how did you see it, and what early signal could catch it next time? <!-- id: q-4-11 -->
 
 <details><summary>Answer</summary>
 
@@ -95,7 +95,7 @@ Cardinality explosion: one time series per user can overload Prometheus. Put per
 
 </details>
 
-**12.** A canary at 5% shows 3 thumbs-down in 40 ratings (7.5%) vs a 2% baseline. Roll back now? Justify with one number.
+**12.** A canary at 5% shows 3 thumbs-down in 40 ratings (7.5%) vs a 2% baseline. Roll back now? Justify with one number. <!-- id: q-4-12 -->
 
 <details><summary>Answer</summary>
 
@@ -107,7 +107,7 @@ Not on this evidence alone: the 95% interval for 3/40 is roughly **2.6%–19.9%*
 
 ### 🔁 Spaced review (earlier modules)
 
-**13.** 🔁 *(Module 2)* Why is `chargeback_filed` excluded from the fraud model's features, and what would offline metrics look like if it were included?
+**13.** 🔁 *(Module 2)* Why is `chargeback_filed` excluded from the fraud model's features, and what would offline metrics look like if it were included? <!-- id: q-4-13 -->
 
 <details><summary>Answer</summary>
 
@@ -115,7 +115,7 @@ It is only known **after** the fraud label exists (target leakage). Including it
 
 </details>
 
-**14.** 🔁 *(Module 1)* The `/ready` endpoint in the lab returns the number of chunks and the active prompt version. Why is readiness different from liveness, and why include those details?
+**14.** 🔁 *(Module 1)* The `/ready` endpoint in the lab returns the number of chunks and the active prompt version. Why is readiness different from liveness, and why include those details? <!-- id: q-4-14 -->
 
 <details><summary>Answer</summary>
 
@@ -123,7 +123,7 @@ Liveness = "the process is up" (restart if not). Readiness = "I can serve correc
 
 </details>
 
-**15.** 🔁 *(Module 3)* The cache hit ratio panel drops from 40% to 5% right after a prompt release. Why might a prompt change cause that, and what are the cost/latency consequences?
+**15.** 🔁 *(Module 3)* The cache hit ratio panel drops from 40% to 5% right after a prompt release. Why might a prompt change cause that, and what are the cost/latency consequences? <!-- id: q-4-15 -->
 
 <details><summary>Answer</summary>
 

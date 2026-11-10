@@ -8,7 +8,7 @@ Scoring: 12–14 correct → move on to the capstone. 9–11 → re-read the tak
 
 ---
 
-**1.** Your LLM server takes ~2 minutes to load its weights. Which probe stops Kubernetes from killing it during startup, and what must liveness *not* check?
+**1.** Your LLM server takes ~2 minutes to load its weights. Which probe stops Kubernetes from killing it during startup, and what must liveness *not* check? <!-- id: q-6-1 -->
 
 <details><summary>Answer</summary>
 
@@ -16,7 +16,7 @@ A **startupProbe** with enough budget (e.g. `periodSeconds: 5`, `failureThreshol
 
 </details>
 
-**2.** A pod is failing its readiness probe but passing liveness. What happens to it?
+**2.** A pod is failing its readiness probe but passing liveness. What happens to it? <!-- id: q-6-2 -->
 
 <details><summary>Answer</summary>
 
@@ -24,7 +24,7 @@ It keeps running (no restart) but is removed from the Service's endpoints, so it
 
 </details>
 
-**3.** A small team, all on AWS, runs four stateless APIs and has no Kubernetes experience. Kubernetes, ECS or a managed ML platform for the APIs? Justify in one sentence.
+**3.** A small team, all on AWS, runs four stateless APIs and has no Kubernetes experience. Kubernetes, ECS or a managed ML platform for the APIs? Justify in one sentence. <!-- id: q-6-3 -->
 
 <details><summary>Answer</summary>
 
@@ -32,7 +32,7 @@ ECS with Fargate is a strong default: fewer concepts and no cluster or nodes to 
 
 </details>
 
-**4.** Which two properties must a pipeline task have so that retries and backfills are safe?
+**4.** Which two properties must a pipeline task have so that retries and backfills are safe? <!-- id: q-6-4 -->
 
 <details><summary>Answer</summary>
 
@@ -40,7 +40,7 @@ It must be **idempotent** (running it twice equals running it once) and driven b
 
 </details>
 
-**5.** True or false: "Ray replaces Airflow."
+**5.** True or false: "Ray replaces Airflow." <!-- id: q-6-5 -->
 
 <details><summary>Answer</summary>
 
@@ -48,7 +48,7 @@ False. Ray is a distributed compute engine (tasks, actors, Train/Tune/Serve). Ai
 
 </details>
 
-**6.** 15 requests/s, 800 input and 300 output tokens, prefill 20,000 tok/s and decode 2,500 tok/s per replica, target utilisation 0.6, minimum 2 replicas. How many replicas at peak?
+**6.** 15 requests/s, 800 input and 300 output tokens, prefill 20,000 tok/s and decode 2,500 tok/s per replica, target utilisation 0.6, minimum 2 replicas. How many replicas at peak? <!-- id: q-6-6 -->
 
 <details><summary>Answer</summary>
 
@@ -56,7 +56,7 @@ GPU-s = 800/20,000 + 300/2,500 = 0.04 + 0.12 = 0.16 s. Busy = 15 × 0.16 = 2.4. 
 
 </details>
 
-**7.** Why is GPU utilisation a poor autoscaling signal for a vLLM server, and what should you use instead?
+**7.** Why is GPU utilisation a poor autoscaling signal for a vLLM server, and what should you use instead? <!-- id: q-6-7 -->
 
 <details><summary>Answer</summary>
 
@@ -64,7 +64,7 @@ With continuous batching the GPU looks busy at many load levels; utilisation sho
 
 </details>
 
-**8.** Canary analysis: 0 errors in 150 requests, limit 1%. Promote? Why or why not?
+**8.** Canary analysis: 0 errors in 150 requests, limit 1%. Promote? Why or why not? <!-- id: q-6-8 -->
 
 <details><summary>Answer</summary>
 
@@ -72,7 +72,7 @@ With continuous batching the GPU looks busy at many load levels; utilisation sho
 
 </details>
 
-**9.** 99.9% SLO over 30 days. The last hour had a 2% error rate and the last 5 minutes 3%. Which alert fires, and how much budget does a sustained hour at this rate consume?
+**9.** 99.9% SLO over 30 days. The last hour had a 2% error rate and the last 5 minutes 3%. Which alert fires, and how much budget does a sustained hour at this rate consume? <!-- id: q-6-9 -->
 
 <details><summary>Answer</summary>
 
@@ -80,7 +80,7 @@ Burn rates are 20× (1h) and 30× (5m), both ≥ 14.4, so the **fast-burn page**
 
 </details>
 
-**10.** At 03:00 fraud-service latency is burning its SLO and a model was deployed 3 hours ago. What's the first action, and who should be doing what once a second engineer joins?
+**10.** At 03:00 fraud-service latency is burning its SLO and a model was deployed 3 hours ago. What's the first action, and who should be doing what once a second engineer joins? <!-- id: q-6-10 -->
 
 <details><summary>Answer</summary>
 
@@ -88,7 +88,7 @@ Burn rates are 20× (1h) and 30× (5m), both ≥ 14.4, so the **fast-burn page**
 
 </details>
 
-**11.** Name two AI-specific incidents that error-rate and latency dashboards cannot detect, and one signal for each.
+**11.** Name two AI-specific incidents that error-rate and latency dashboards cannot detect, and one signal for each. <!-- id: q-6-11 -->
 
 <details><summary>Answer</summary>
 
@@ -96,7 +96,7 @@ For example: a hallucination spike → groundedness judge on sampled traffic; a 
 
 </details>
 
-**12.** The refund agent's system prompt says "never refund more than €50 without approval". Priya says that's not a control. What is the control, and where does it live?
+**12.** The refund agent's system prompt says "never refund more than €50 without approval". Priya says that's not a control. What is the control, and where does it live? <!-- id: q-6-12 -->
 
 <details><summary>Answer</summary>
 
@@ -104,7 +104,7 @@ A deterministic **approval gate** in the runtime (`gate_refund`) that the model 
 
 </details>
 
-**13.** 🔁 *(Modules 2 and 4)* Why does the lab's training pipeline gate on PR-AUC relative to the base rate instead of an absolute threshold, and which metric would you *not* use for this problem?
+**13.** 🔁 *(Modules 2 and 4)* Why does the lab's training pipeline gate on PR-AUC relative to the base rate instead of an absolute threshold, and which metric would you *not* use for this problem? <!-- id: q-6-13 -->
 
 <details><summary>Answer</summary>
 
@@ -112,7 +112,7 @@ With ~1.4% fraud, a random model scores PR-AUC ≈ base rate, and the achievable
 
 </details>
 
-**14.** 🔁 *(Module 5)* A partner uploads a FAQ containing hidden instructions telling the assistant to ask customers for their CVV. Name three defences from Module 5 and the operational step from this module once it's discovered in production.
+**14.** 🔁 *(Module 5)* A partner uploads a FAQ containing hidden instructions telling the assistant to ask customers for their CVV. Name three defences from Module 5 and the operational step from this module once it's discovered in production. <!-- id: q-6-14 -->
 
 <details><summary>Answer</summary>
 

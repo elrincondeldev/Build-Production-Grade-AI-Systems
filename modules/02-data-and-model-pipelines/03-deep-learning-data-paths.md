@@ -1,4 +1,5 @@
 # Lesson 2.3: Deep-learning data paths
+<!-- id: l-2-3 -->
 
 > ⏱ ~45 min · 🎚 Level: Core (conceptual, with one runnable demo) · 🧰 Needs: [Lesson 2.2](02-lineage-versioning-and-leakage.md)
 
@@ -20,9 +21,9 @@
 
 ## 🤔 Predict first
 
-1. A GPU can process 2,000 samples per second. Decoding one sample on the CPU takes 5 ms. How many CPU workers do you need to keep it busy?
-2. You batch 32 text sequences whose lengths range from 20 to 500 tokens. Roughly what fraction of the computation is spent on padding?
-3. You train on 8 GPUs with a batch of 32 per GPU. What's the effective batch size, and does the learning rate need to change?
+1. A GPU can process 2,000 samples per second. Decoding one sample on the CPU takes 5 ms. How many CPU workers do you need to keep it busy? <!-- id: p-2-3-1 -->
+2. You batch 32 text sequences whose lengths range from 20 to 500 tokens. Roughly what fraction of the computation is spent on padding? <!-- id: p-2-3-2 -->
+3. You train on 8 GPUs with a batch of 32 per GPU. What's the effective batch size, and does the learning rate need to change? <!-- id: p-2-3-3 -->
 
 ---
 
@@ -230,36 +231,37 @@ Large-scale training write-ups consistently report that input pipelines, checkpo
 ## ✅ Check yourself
 
 <details>
-<summary>Q1. A GPU processes 1,500 samples/s; one CPU worker produces 100 samples/s. Minimum workers?</summary>
+<summary>Q1. A GPU processes 1,500 samples/s; one CPU worker produces 100 samples/s. Minimum workers? <!-- id: c-2-3-1 --></summary>
 
 15, plus headroom (about 16–18). If the machine has fewer cores, reduce per-sample CPU work (pre-process offline, use cheaper formats) instead.
 </details>
 
 <details>
-<summary>Q2. Why does bucketing beat dynamic padding alone so clearly in the demo?</summary>
+<summary>Q2. Why does bucketing beat dynamic padding alone so clearly in the demo? <!-- id: c-2-3-2 --></summary>
 
 With skewed lengths, almost every random batch of 32 contains at least one long sequence, so dynamic padding still pads most sequences to a long width. Bucketing puts similar lengths together, so each batch's maximum is close to its typical length.
 </details>
 
 <details>
-<summary>Q3. Name two augmentation mistakes that corrupt your evaluation.</summary>
+<summary>Q3. Name two augmentation mistakes that corrupt your evaluation. <!-- id: c-2-3-3 --></summary>
 
 Augmenting validation or test data; augmenting before splitting, so variants of test examples end up in training. Bonus: augmentations that change the label, like flipping an image of text.
 </details>
 
 <details>
-<summary>Q4. In DDP, what goes wrong if you forget the distributed sampler?</summary>
+<summary>Q4. In DDP, what goes wrong if you forget the distributed sampler? <!-- id: c-2-3-4 --></summary>
 
 Every GPU iterates over the same data in the same order, so you pay for N GPUs but learn as if you had one (with a larger effective batch of duplicates).
 </details>
 
 <details>
-<summary>Q5. 4 GPUs × batch 16 × 4 gradient-accumulation steps. Global batch?</summary>
+<summary>Q5. 4 GPUs × batch 16 × 4 gradient-accumulation steps. Global batch? <!-- id: c-2-3-5 --></summary>
 
 16 × 4 × 4 = 256.
 </details>
 
 ## 💬 Explain it back
+<!-- id: e-2-3 -->
 
 Diego asks: "Will doubling the GPUs fix 31% utilisation?" Answer in three sentences, using the factory-line analogy.
 

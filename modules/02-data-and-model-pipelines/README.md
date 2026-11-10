@@ -1,4 +1,5 @@
 # Module 2: Data and Model Pipelines
+<!-- id: m-2 -->
 
 > ⏱ ~14 h (7 lessons × 45–60 min + a 4–5 h lab) · 🎚 Core · 🧰 Needs: [Module 1](../01-prototype-to-production/README.md) (or comfort with FastAPI and Python packaging)
 

@@ -1,4 +1,5 @@
 # Lesson 4.5: Drift and alerting
+<!-- id: l-4-5 -->
 
 > ⏱ ~55 min · 🎚 Level: Core → Advanced · 🧰 Needs: [lesson 4.1](01-offline-vs-online-and-classification-metrics.md), [lesson 4.4](04-observability-tracing-and-metrics.md)
 
@@ -26,9 +27,9 @@
 
 ## 🤔 Predict first
 
-1. Inputs look identical to last month, yet the model got worse. Is that possible?
-2. Inputs changed a lot this month. Must the model have gotten worse?
-3. Which is likelier to page you at 3 a.m. for nothing: "PSI of `amount` > 0.2" or "fraud losses above budget for 2 days"?
+1. Inputs look identical to last month, yet the model got worse. Is that possible? <!-- id: p-4-5-1 -->
+2. Inputs changed a lot this month. Must the model have gotten worse? <!-- id: p-4-5-2 -->
+3. Which is likelier to page you at 3 a.m. for nothing: "PSI of `amount` > 0.2" or "fraud losses above budget for 2 days"? <!-- id: p-4-5-3 -->
 
 ---
 
@@ -255,36 +256,37 @@ PSI comes from credit scoring, where lenders have long monitored score and chara
 ## ✅ Check yourself
 
 <details>
-<summary>Q1. Fraud rate doubles but P(X|y) stays the same. Which drift is this, and what breaks first?</summary>
+<summary>Q1. Fraud rate doubles but P(X|y) stays the same. Which drift is this, and what breaks first? <!-- id: c-4-5-1 --></summary>
 
 Label (prior) drift. Calibration and threshold choice break first: probabilities are now too low and the cost-optimal threshold moves.
 </details>
 
 <details>
-<summary>Q2. PSI on <code>amount</code> jumps from 0.02 to 0.9 overnight. First hypothesis?</summary>
+<summary>Q2. PSI on <code>amount</code> jumps from 0.02 to 0.9 overnight. First hypothesis? <!-- id: c-4-5-2 --></summary>
 
 A pipeline bug, such as amounts now in cents instead of euros. A step change that large overnight is rarely the world changing.
 </details>
 
 <details>
-<summary>Q3. Why does monitoring 60 features with KS at p < 0.05 every hour create alert fatigue?</summary>
+<summary>Q3. Why does monitoring 60 features with KS at p < 0.05 every hour create alert fatigue? <!-- id: c-4-5-3 --></summary>
 
 Multiple testing: about 3 false positives per hourly run by chance alone, plus large samples make trivial differences "significant". Use effect sizes, fewer aggregated signals and outcome-based alerts.
 </details>
 
 <details>
-<summary>Q4. How can you estimate recall in production when only flagged transactions get reviewed?</summary>
+<summary>Q4. How can you estimate recall in production when only flagged transactions get reviewed? <!-- id: c-4-5-4 --></summary>
 
 Review a small random sample of unflagged transactions too. The fraud found there estimates missed fraud (FN), which gives recall without the feedback-loop bias.
 </details>
 
 <details>
-<summary>Q5. The assistant's refusal rate rose from 8% to 20%. Retrieval top scores dropped and new queries mention "crypto". Retrain the model?</summary>
+<summary>Q5. The assistant's refusal rate rose from 8% to 20%. Retrieval top scores dropped and new queries mention "crypto". Retrain the model? <!-- id: c-4-5-5 --></summary>
 
 No. This is embedding/topic drift into uncovered content. The fix is content (add documents) or product scope (a clear redirect), not the model.
 </details>
 
 ## 💬 Explain it back
+<!-- id: e-4-5 -->
 
 Explain to Omar why the dashboards were green while losses rose, using the terms P(X) and P(y|X) once each, then propose two monitoring changes that would have caught it earlier.
 

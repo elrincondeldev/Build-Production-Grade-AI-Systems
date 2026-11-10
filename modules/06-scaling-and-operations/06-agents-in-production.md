@@ -1,4 +1,5 @@
 # Lesson 6.6: Agents in production
+<!-- id: l-6-6 -->
 
 > ⏱ ~70 min · 🎚 Level: Advanced · 🧰 Needs: lessons 5.2 (prompt injection), 5.5 (guardrails), 4.4 (tracing)
 
@@ -26,9 +27,9 @@
 
 ## 🤔 Predict first
 
-1. The refund process is always: look up the charge → check the policy → refund or refuse. Does it need an LLM to decide the steps?
-2. You tell the agent in its system prompt: "Never refund more than €50 without approval." Is that a control?
-3. The approval request times out because no human answered. What should the agent do?
+1. The refund process is always: look up the charge → check the policy → refund or refuse. Does it need an LLM to decide the steps? <!-- id: p-6-6-1 -->
+2. You tell the agent in its system prompt: "Never refund more than €50 without approval." Is that a control? <!-- id: p-6-6-2 -->
+3. The approval request times out because no human answered. What should the agent do? <!-- id: p-6-6-3 -->
 
 ---
 
@@ -263,37 +264,38 @@ Production agent deployments that hold up tend to share the same traits: narrow 
 
 ## ✅ Check yourself
 
-<details><summary>Q1. What's the difference between a workflow and an agent?</summary>
+<details><summary>Q1. What's the difference between a workflow and an agent? <!-- id: c-6-6-1 --></summary>
 
 In a workflow, code defines the sequence of steps (LLMs fill in individual steps). In an agent, the LLM decides the next step dynamically in a loop, choosing tools until it decides it's done.
 </details>
 
-<details><summary>Q2. Give three reasons not to use an agent for fraud scoring in the card authorisation path.</summary>
+<details><summary>Q2. Give three reasons not to use an agent for fraud scoring in the card authorisation path. <!-- id: c-6-6-2 --></summary>
 
 For example: the steps are known in advance (so a model or rules suffice); the latency budget (~200 ms) rules out multi-step LLM loops; decisions are high-stakes and can't wait for a human; cost per transaction would be far too high at payment volumes.
 </details>
 
-<details><summary>Q3. Why is "Never refund more than €50 without approval" in the system prompt not sufficient?</summary>
+<details><summary>Q3. Why is "Never refund more than €50 without approval" in the system prompt not sufficient? <!-- id: c-6-6-3 --></summary>
 
 The model can ignore or misinterpret it, and prompt injection can override it. Controls must be enforced in code the model can't influence (the approval gate), and ideally again at the payments API (least privilege).
 </details>
 
-<details><summary>Q4. What should happen when an approval request gets no answer?</summary>
+<details><summary>Q4. What should happen when an approval request gets no answer? <!-- id: c-6-6-4 --></summary>
 
 Nothing risky: default deny, or pause in an `awaiting_approval` state that can resume when a human decides. Never treat silence as consent.
 </details>
 
-<details><summary>Q5. Humans approve 99.7% of the agent's approval requests within 4 seconds. What might be wrong?</summary>
+<details><summary>Q5. Humans approve 99.7% of the agent's approval requests within 4 seconds. What might be wrong? <!-- id: c-6-6-5 --></summary>
 
 The risk tier is probably mis-set (those actions could be AUTO), or humans are rubber-stamping without reading. That gives false assurance. Adjust tiers, improve the approval UI with decision-relevant context, and audit a sample of approvals.
 </details>
 
-<details><summary>Q6. Name four things a production agent trace should contain.</summary>
+<details><summary>Q6. Name four things a production agent trace should contain. <!-- id: c-6-6-6 --></summary>
 
 Any four of: task and requester; each planner decision (model, prompt version, tokens, latency, fallback); each tool call with arguments and result (PII-redacted); each gate decision and reason; each approval (who, when, decision); final status and limits hit.
 </details>
 
 ## 💬 Explain it back
+<!-- id: e-6-6 -->
 
 Answer Lena's original question ("can we have both?") in five sentences, to Lena and Priya together. Include: which parts an LLM should do, which parts code should do, where humans approve, and what makes it auditable.
 

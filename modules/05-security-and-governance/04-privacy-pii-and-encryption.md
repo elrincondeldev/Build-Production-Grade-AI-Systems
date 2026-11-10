@@ -1,4 +1,5 @@
 # Lesson 5.4: Privacy: PII and encryption
+<!-- id: l-5-4 -->
 
 > ⏱ ~50 min · 🎚 Level: Core · 🧰 Needs: lesson 1.4 (structured logging), lesson 5.3
 
@@ -19,9 +20,9 @@
 
 ## 🤔 Predict first
 
-1. List every place a card number typed into the assistant could end up. Aim for at least five.
-2. Is hashing an email address (`sha256("bob@example.com")`) a good way to anonymise it in logs?
-3. Your redactor catches 95% of email addresses. Is that good?
+1. List every place a card number typed into the assistant could end up. Aim for at least five. <!-- id: p-5-4-1 -->
+2. Is hashing an email address (`sha256("bob@example.com")`) a good way to anonymise it in logs? <!-- id: p-5-4-2 -->
+3. Your redactor catches 95% of email addresses. Is that good? <!-- id: p-5-4-3 -->
 
 ---
 
@@ -253,36 +254,37 @@ Payment companies generally keep raw card numbers inside a small, heavily contro
 ## ✅ Check yourself
 
 <details>
-<summary>Q1. Name five places a card number typed into the assistant can end up, beyond the answer.</summary>
+<summary>Q1. Name five places a card number typed into the assistant can end up, beyond the answer. <!-- id: c-5-4-1 --></summary>
 
 The prompt sent to the LLM provider, application logs (and the log vendor), traces/spans, the audit log, the semantic cache, evaluation datasets sampled from production, backups of all of these, and error reports (e.g. exception trackers capturing request bodies).
 </details>
 
 <details>
-<summary>Q2. Why is <code>sha256(email)</code> not anonymisation? What would you use for a joinable identifier?</summary>
+<summary>Q2. Why is <code>sha256(email)</code> not anonymisation? What would you use for a joinable identifier? <!-- id: c-5-4-2 --></summary>
 
 Anyone can hash a large list of known emails and match them (a dictionary attack), so the hash is reversible in practice and remains personal data. Use a keyed hash (HMAC with a secret in a KMS) for joinability, and still treat it as pseudonymous personal data.
 </details>
 
 <details>
-<summary>Q3. Run Luhn on <code>4111 1111 1111 1112</code>.</summary>
+<summary>Q3. Run Luhn on <code>4111 1111 1111 1112</code>. <!-- id: c-5-4-3 --></summary>
 
 From the right: 2, 1×2=2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 4×2=8. Sum = 2 + 7×2 + 7×1 + 8 = 2 + 14 + 7 + 8 = 31. 31 % 10 ≠ 0, so it's invalid and not redacted.
 </details>
 
 <details>
-<summary>Q4. For logs, which matters more, precision or recall? For user-facing answers?</summary>
+<summary>Q4. For logs, which matters more, precision or recall? For user-facing answers? <!-- id: c-5-4-4 --></summary>
 
 Logs: recall. A miss is a leak; a false positive just makes a log line slightly less useful. Answers: precision matters more, because over-redaction destroys useful content (dates, prices, ids), though recall still matters for genuinely sensitive values.
 </details>
 
 <details>
-<summary>Q5. What is envelope encryption and what does it make cheap?</summary>
+<summary>Q5. What is envelope encryption and what does it make cheap? <!-- id: c-5-4-5 --></summary>
 
 Data is encrypted locally with a random data key (DEK); the DEK is encrypted by a master key (KEK) held in a KMS. Bulk encryption stays fast and local, KEK rotation only re-wraps small DEKs, every decrypt is logged by the KMS, and deleting a DEK crypto-shreds its data everywhere, including backups.
 </details>
 
 ## 💬 Explain it back
+<!-- id: e-5-4 -->
 
 Priya asks: "Is our audit log PCI-safe now?" Answer in four sentences: what you changed, how you know it works (which test), what's still not covered (names), and what you'd do next.
 

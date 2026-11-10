@@ -1,4 +1,5 @@
 # Lesson 3.4: Measure first: profiling and load testing
+<!-- id: l-3-4 -->
 
 > ⏱ ~55 min · 🎚 Level: Core · 🧰 Needs: Lessons 3.1–3.2
 
@@ -19,9 +20,9 @@
 
 ## 🤔 Predict first
 
-1. 98 requests take 100 ms and 2 take 5 s. What are the mean and the p99? Which one would a user complain about?
-2. A service handles 8 requests/s at most. 16 users each send a request as soon as their last one returns. What will the average latency be?
-3. Is a GPU at 90% utilization "nicely efficient" or "about to fall over"?
+1. 98 requests take 100 ms and 2 take 5 s. What are the mean and the p99? Which one would a user complain about? <!-- id: p-3-4-1 -->
+2. A service handles 8 requests/s at most. 16 users each send a request as soon as their last one returns. What will the average latency be? <!-- id: p-3-4-2 -->
+3. Is a GPU at 90% utilization "nicely efficient" or "about to fall over"? <!-- id: p-3-4-3 -->
 
 ---
 
@@ -206,32 +207,33 @@ When a stage exceeds its budget, you know whose problem it is.
 
 ## ✅ Check yourself
 
-<details><summary>Q1. Why is p95 a better SLO metric than the mean?</summary>
+<details><summary>Q1. Why is p95 a better SLO metric than the mean? <!-- id: c-3-4-1 --></summary>
 
 The mean is pulled down by the many fast requests and hides the slow tail. p95 states a guarantee about what most users experience and moves when the tail gets worse. Users and SLOs care about the bad experiences, not the average one.
 </details>
 
-<details><summary>Q2. Using Little's law: 40 requests are in flight on average and throughput is 10 req/s. What's the average latency?</summary>
+<details><summary>Q2. Using Little's law: 40 requests are in flight on average and throughput is 10 req/s. What's the average latency? <!-- id: c-3-4-2 --></summary>
 
 W = L / λ = 40 / 10 = 4 seconds.
 </details>
 
-<details><summary>Q3. What is coordinated omission, and which kind of load generator suffers from it?</summary>
+<details><summary>Q3. What is coordinated omission, and which kind of load generator suffers from it? <!-- id: c-3-4-3 --></summary>
 
 Closed-loop generators wait for each response before sending the next. When the server stalls, they stop sending, so the requests that would have arrived and queued during the stall are never measured, and tail latency is under-reported. Open-loop (fixed arrival rate) generators avoid it.
 </details>
 
-<details><summary>Q4. Throughput stays at 8 req/s from 4 to 16 users while p50 grows from 0.4 s to 1.8 s. What happened, and what are two ways to fix it?</summary>
+<details><summary>Q4. Throughput stays at 8 req/s from 4 to 16 users while p50 grows from 0.4 s to 1.8 s. What happened, and what are two ways to fix it? <!-- id: c-3-4-4 --></summary>
 
 The service is saturated: capacity is ~8 req/s, and extra users just queue. Fixes: add capacity (more replicas or GPU slots, or bigger batches with continuous batching), reduce work per request (caching, shorter outputs, a smaller or quantized model), or shed and limit load (rate limits, admission control) to protect latency.
 </details>
 
-<details><summary>Q5. A teammate wants to optimise retrieval, which takes 0.6 ms of a 590 ms request. What do you tell them?</summary>
+<details><summary>Q5. A teammate wants to optimise retrieval, which takes 0.6 ms of a 590 ms request. What do you tell them? <!-- id: c-3-4-5 --></summary>
 
 Amdahl's law: even eliminating retrieval completely saves 0.1%. Optimise the LLM path (output length, caching, batching, model size) first. Retrieval *quality* may still matter (shorter, better prompts reduce LLM time and cost), but not retrieval latency.
 </details>
 
 ## 💬 Explain it back
+<!-- id: e-3-4 -->
 
 Explain to Lena (non-technical) why adding more users to the assistant at 9 a.m. didn't make it "work harder" but just made everyone wait longer. Use a supermarket checkout analogy.
 

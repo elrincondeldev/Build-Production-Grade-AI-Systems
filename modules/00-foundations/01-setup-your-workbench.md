@@ -1,4 +1,5 @@
 # Lesson 0.1: Set up your workbench
+<!-- id: l-0-1 -->
 
 > ⏱ ~60 min (most of it waiting for downloads) · 🎚 Level: Core · 🧰 Needs: a laptop with ~10 GB free disk and admin rights
 
@@ -22,9 +23,9 @@
 
 Answer in your head before reading on:
 
-1. Two engineers run `pip install fastapi` one month apart. Will they get the same code? Why might that matter?
-2. Why would you run an application inside a *container* when it already runs fine on your laptop?
-3. Why would a course want you to run an LLM **locally** instead of just using an API key?
+1. Two engineers run `pip install fastapi` one month apart. Will they get the same code? Why might that matter? <!-- id: p-0-1-1 -->
+2. Why would you run an application inside a *container* when it already runs fine on your laptop? <!-- id: p-0-1-2 -->
+3. Why would a course want you to run an LLM **locally** instead of just using an API key? <!-- id: p-0-1-3 -->
 
 ---
 
@@ -261,37 +262,38 @@ Teams that ship ML reliably treat the development environment as code. The repo 
 
 ## ✅ Check yourself
 
-<details><summary>Q1. What is the difference between <code>pyproject.toml</code> and <code>uv.lock</code>?</summary>
+<details><summary>Q1. What is the difference between <code>pyproject.toml</code> and <code>uv.lock</code>? <!-- id: c-0-1-1 --></summary>
 
 `pyproject.toml` declares what you **want** (often ranges, like `fastapi>=0.115`). `uv.lock` records what was **actually resolved**: exact versions and hashes of every package, including transitive dependencies. Commit both. The lock file makes installs reproducible across machines and over time.
 
 </details>
 
-<details><summary>Q2. Why does every lab default to a fake LLM instead of Ollama?</summary>
+<details><summary>Q2. Why does every lab default to a fake LLM instead of Ollama? <!-- id: c-0-1-2 --></summary>
 
 Tests must be **deterministic, fast, free and offline**. A real model's output can vary, it needs memory and time, and an API needs keys and costs money. The fake model tests the *plumbing* (request formatting, parsing, error handling); real models are used deliberately in experiments and evaluations (Module 4).
 
 </details>
 
-<details><summary>Q3. A teammate says "Docker is just a lightweight VM." What's the important difference?</summary>
+<details><summary>Q3. A teammate says "Docker is just a lightweight VM." What's the important difference? <!-- id: c-0-1-3 --></summary>
 
 A VM emulates hardware and runs a full guest OS kernel. A container is an **isolated process sharing the host's kernel**, with its own filesystem and libraries. That makes containers start in milliseconds to seconds and much smaller, which is why they are the standard unit of deployment. (On macOS and Windows, Docker runs a small Linux VM behind the scenes because containers need a Linux kernel.)
 
 </details>
 
-<details><summary>Q4. Why should Windows users clone the repo inside the WSL filesystem?</summary>
+<details><summary>Q4. Why should Windows users clone the repo inside the WSL filesystem? <!-- id: c-0-1-4 --></summary>
 
 Accessing Windows files from Linux (and the reverse) goes through a translation layer that is much slower and can produce permission and line-ending issues. Keeping the code inside WSL's own filesystem gives native Linux performance and behaviour, which matches production.
 
 </details>
 
-<details><summary>Q5. Why is the first <code>ollama run</code> slower than the second?</summary>
+<details><summary>Q5. Why is the first <code>ollama run</code> slower than the second? <!-- id: c-0-1-5 --></summary>
 
 The first call must **load the model weights from disk into memory** (cold start). Later calls reuse the loaded model until Ollama unloads it after an idle period. In production, cold starts are why you keep warm replicas and why scaling model servers from zero is slow.
 
 </details>
 
 ## 💬 Explain it back
+<!-- id: e-0-1 -->
 
 Explain to Sam, in four sentences or fewer, why "just send me your notebook and a `requirements.txt` with no versions" isn't enough to put the fraud model in production, and which two tools from this lesson fix it.
 

@@ -1,4 +1,5 @@
 # Lesson 6.1: Kubernetes and managed ML platforms
+<!-- id: l-6-1 -->
 
 > ⏱ ~60 min · 🎚 Level: Core · 🧰 Needs: lesson 1.5 (containers)
 
@@ -23,9 +24,9 @@
 
 ## 🤔 Predict first
 
-1. Your service's liveness probe checks that the database is reachable. The database has a 30-second blip. What does Kubernetes do to your 20 pods?
-2. A pod requests 250m CPU and has no CPU limit. The node has spare CPU. Can the pod use 2 full CPUs?
-3. "Managed Kubernetes" (EKS/GKE/AKS): which parts does the cloud manage, and which are still yours?
+1. Your service's liveness probe checks that the database is reachable. The database has a 30-second blip. What does Kubernetes do to your 20 pods? <!-- id: p-6-1-1 -->
+2. A pod requests 250m CPU and has no CPU limit. The node has spare CPU. Can the pod use 2 full CPUs? <!-- id: p-6-1-2 -->
+3. "Managed Kubernetes" (EKS/GKE/AKS): which parts does the cloud manage, and which are still yours? <!-- id: p-6-1-3 -->
 
 Keep your answers and check them at the end.
 
@@ -258,37 +259,38 @@ Most production AI platforms you'll meet have this shape: managed Kubernetes for
 
 ## ✅ Check yourself
 
-<details><summary>Q1. In one sentence, what does a Kubernetes controller do?</summary>
+<details><summary>Q1. In one sentence, what does a Kubernetes controller do? <!-- id: c-6-1-1 --></summary>
 
 It continuously compares the desired state stored in the API server with the actual state of the cluster and takes actions to remove the difference (the reconciliation loop).
 </details>
 
-<details><summary>Q2. Your model server takes 90 seconds to load weights. Liveness is checked every 10 s with failureThreshold 3, and there is no startupProbe. What happens?</summary>
+<details><summary>Q2. Your model server takes 90 seconds to load weights. Liveness is checked every 10 s with failureThreshold 3, and there is no startupProbe. What happens? <!-- id: c-6-1-2 --></summary>
 
 After about 30 s of failed liveness checks the container is restarted, before it ever finishes loading. It loops in `CrashLoopBackOff` forever. Fix: add a `startupProbe` with enough budget (for example `periodSeconds: 5`, `failureThreshold: 30`), which disables liveness checks until startup succeeds.
 </details>
 
-<details><summary>Q3. What's the difference between failing readiness and failing liveness?</summary>
+<details><summary>Q3. What's the difference between failing readiness and failing liveness? <!-- id: c-6-1-3 --></summary>
 
 Failing readiness removes the pod from Service endpoints: no traffic, no restart. Failing liveness restarts the container. Use readiness for "temporarily unable to serve" (warming up, overloaded, draining) and liveness only for "stuck beyond repair".
 </details>
 
-<details><summary>Q4. Why does the lab set a memory limit but no CPU limit?</summary>
+<details><summary>Q4. Why does the lab set a memory limit but no CPU limit? <!-- id: c-6-1-4 --></summary>
 
 Exceeding a CPU limit causes throttling, which shows up as unexplained tail latency. Using idle CPU above the request harms nobody, as long as requests reflect real usage. Exceeding memory can destabilise the whole node, so memory gets a hard limit (the container is OOMKilled instead).
 </details>
 
-<details><summary>Q5. Name two situations where ECS or a managed ML platform is a better choice than self-managed serving on Kubernetes.</summary>
+<details><summary>Q5. Name two situations where ECS or a managed ML platform is a better choice than self-managed serving on Kubernetes. <!-- id: c-6-1-5 --></summary>
 
 For example: a small AWS-only team with a few stateless services and no Kubernetes expertise (ECS + Fargate); a small ML team with bursty GPU training and standard serving needs (a managed ML platform). Any answer that weighs team skills, workload type and operational burden is good.
 </details>
 
-<details><summary>Q6. Why does the ConfigMap name end in a hash, and why does that matter for production safety?</summary>
+<details><summary>Q6. Why does the ConfigMap name end in a hash, and why does that matter for production safety? <!-- id: c-6-1-6 --></summary>
 
 Kustomize hashes the ConfigMap contents into its name. A config change creates a new name, which changes the pod template and triggers a normal, health-checked rolling update. Config changes then go through the same safe rollout path as code changes, and old pods keep the old config until they are replaced.
 </details>
 
 ## 💬 Explain it back
+<!-- id: e-6-1 -->
 
 Explain to Maya, who is not an engineer, why "the pod is alive but not ready" is a *good* state for a model server to be in sometimes. Use the restaurant analogy: a waiter who is on shift but not taking new tables right now.
 

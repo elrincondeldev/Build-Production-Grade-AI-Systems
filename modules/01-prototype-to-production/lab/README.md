@@ -1,4 +1,5 @@
 # 🛠 Lab 1: Ship the fraud model as a containerised service
+<!-- id: lab-1 -->
 
 > ⏱ 3–4 hours · Track A (`fraud-service`, port **8001**) · Lessons: [1.1](../01-prototype-vs-production.md) · [1.2](../02-architecture-patterns.md) · [1.3](../03-reliability-primitives.md) · [1.4](../04-production-services.md) · [1.5](../05-artifacts-and-containers.md)
 
@@ -65,6 +66,7 @@ lab/
 ## 📋 Steps
 
 ### Step 0 · Set up (5 min)
+<!-- id: lab-1-step-0 -->
 
 ```bash
 cd modules/01-prototype-to-production/lab
@@ -81,6 +83,7 @@ wrote 50,000 rows to …/datasets/fraud/transactions.csv  (scenario=baseline, fr
 > 💡 The dataset is **not** committed to Git. It is regenerated from a script with a fixed seed. That's your first reproducibility habit: version the *recipe*, not just the output.
 
 ### Step 1 · Code review Sam's prototype (20 min)
+<!-- id: lab-1-step-1 -->
 
 Open [`prototype/sam_notebook.py`](prototype/sam_notebook.py). Pretend Sam asked you for a review before it goes live. Write down **every problem** you can find in a file (or on paper). For each one, note *what would actually go wrong in production*.
 
@@ -111,6 +114,7 @@ Bonus problems: country one-hot encoding at training time but a country never se
 </details>
 
 ### Step 2 · Run Sam's prototype and be suspicious (10 min)
+<!-- id: lab-1-step-2 -->
 
 ```bash
 cd prototype && uv run python sam_notebook.py && rm -f model.pkl && cd ..
@@ -129,6 +133,7 @@ FRAUD
 🤔 An AUC of 0.95 on fraud from ten simple features is **too good to be true**. Before Step 3, write down your guess of what the honest AUC will be once the leaky column is removed.
 
 ### Step 3 · Train properly and inspect the artifact (15 min)
+<!-- id: lab-1-step-3 -->
 
 ```bash
 uv run python scripts/train.py
@@ -167,6 +172,7 @@ shasum -a 256 artifacts/fraud-model/*/model.joblib
 Both hashes are **identical**. Same data, code, seed and library versions produce a bit-for-bit identical model: reproducibility you can prove. (Try `--seed 7` and watch the hash change.)
 
 ### Step 4 · Run the tests (5 min)
+<!-- id: lab-1-step-4 -->
 
 ```bash
 uv run pytest -v
@@ -175,6 +181,7 @@ uv run pytest -v
 Expected: `32 passed`. Skim the test names: they are the service's executable specification. Read at least `tests/test_features.py::test_training_and_serving_build_identical_rows` and `tests/test_retry.py::test_retry_budget_prevents_retry_storms`.
 
 ### Step 5 · Run the service (15 min)
+<!-- id: lab-1-step-5 -->
 
 ```bash
 uv run uvicorn kestrel_fraud.main:create_app --factory --port 8001
@@ -207,6 +214,7 @@ Expected (score and version will differ):
 Open **http://localhost:8001/docs**. The interactive OpenAPI page was generated from `api/schemas.py`. Try sending `"hour": 25` from the docs page and look at the 422 response.
 
 ### Step 6 · Request IDs and structured logs (10 min)
+<!-- id: lab-1-step-6 -->
 
 Send a request with your own ID:
 
@@ -225,6 +233,7 @@ In the service terminal you'll see a JSON line like:
 Pipe the logs through `jq` to filter (`… | jq 'select(.request_id=="lab1-step6")'`). That one habit is what makes debugging at 3 a.m. possible.
 
 ### Step 7 · Survive a flaky dependency (25 min)
+<!-- id: lab-1-step-7 -->
 
 Stop the service (Ctrl+C). Start the fake feature store with **40% failures**:
 
@@ -260,6 +269,7 @@ and in the feature-store terminal the **same request ID** arriving more than onc
 Now make it worse: restart the feature store with `--fail-rate 1.0`. Every request now comes back `True ['enrichment_unavailable']`, **with status 200**: the payment is still scored, just with less information. After a few requests the log says `"reason": "budget_exhausted"` and the service stops retrying entirely. That's the retry budget protecting a dependency that's already down.
 
 ### Step 8 · Stream an explanation (10 min)
+<!-- id: lab-1-step-8 -->
 
 ```bash
 curl -N localhost:8001/v1/explain/txn_r1
@@ -281,6 +291,7 @@ data: [DONE]
 Optional, with Ollama installed: `ollama pull qwen2.5:1.5b-instruct`, restart the service with `KESTREL_LLM_PROVIDER=ollama`, and get a real explanation with no other code change.
 
 ### Step 9 · Build and run the container (20 min)
+<!-- id: lab-1-step-9 -->
 
 Stop the local service and the fake feature store first (Ctrl+C), so port 8001 is free. Make sure you trained a model in Step 3: the image bakes in `artifacts/fraud-model/`.
 
@@ -301,6 +312,7 @@ docker images kestrel/fraud-service:0.1.0  # ≈ 440 MB, mostly numpy/scipy/scik
 Change one line in `src/` and rebuild: notice that the dependency layer is **CACHED** and the rebuild takes seconds. That's why the Dockerfile copies `pyproject.toml` + `uv.lock` before `src/`.
 
 ### Step 10 · Read the Kubernetes manifests (15 min)
+<!-- id: lab-1-step-10 -->
 
 Open [`k8s/deployment.yaml`](k8s/deployment.yaml) and [`k8s/README.md`](k8s/README.md). For each of these fields, write one sentence on what would break without it: `replicas: 2`, `maxUnavailable: 0`, `readinessProbe → /ready`, `livenessProbe → /health`, `resources.limits.memory`, `runAsNonRoot`, `image: …:0.1.0` (not `:latest`).
 

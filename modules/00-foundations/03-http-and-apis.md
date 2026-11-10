@@ -1,4 +1,5 @@
 # Lesson 0.3: HTTP and APIs
+<!-- id: l-0-3 -->
 
 > ⏱ ~50 min · 🎚 Level: Core · 🧰 Needs: [Lesson 0.2](02-python-for-production.md)
 
@@ -18,9 +19,9 @@
 
 ## 🤔 Predict first
 
-1. A client sends a request, the network drops, and the client never sees the response. Is it safe to just send it again?
-2. Which side is at fault for a `422`: the client or the server? And for a `500`?
-3. What do you think FastAPI does if the JSON body is missing a required field: does your function run?
+1. A client sends a request, the network drops, and the client never sees the response. Is it safe to just send it again? <!-- id: p-0-3-1 -->
+2. Which side is at fault for a `422`: the client or the server? And for a `500`? <!-- id: p-0-3-2 -->
+3. What do you think FastAPI does if the JSON body is missing a required field: does your function run? <!-- id: p-0-3-3 -->
 
 ---
 
@@ -282,43 +283,44 @@ Every major LLM provider exposes an HTTP API, and many self-hosted inference ser
 
 ## ✅ Check yourself
 
-<details><summary>Q1. A client gets a timeout on <code>POST /payments</code>. Should it retry automatically?</summary>
+<details><summary>Q1. A client gets a timeout on <code>POST /payments</code>. Should it retry automatically? <!-- id: c-0-3-1 --></summary>
 
 Only if the operation is **idempotent**, for example because the client sends an `Idempotency-Key` and the server deduplicates. Otherwise, a retry can charge twice, because the first request may have succeeded with only the response lost.
 
 </details>
 
-<details><summary>Q2. Your service returns 401 to one caller and 403 to another. What's the difference?</summary>
+<details><summary>Q2. Your service returns 401 to one caller and 403 to another. What's the difference? <!-- id: c-0-3-2 --></summary>
 
 **401**: the caller isn't authenticated (no token, or an invalid or expired one), so "who are you?" **403**: the caller *is* authenticated but isn't allowed to do this, so "I know who you are, and no." In Module 5, a customer requesting HR documents gets 403.
 
 </details>
 
-<details><summary>Q3. An LLM API returns <code>429</code> with <code>Retry-After: 20</code>. What should your client do?</summary>
+<details><summary>Q3. An LLM API returns <code>429</code> with <code>Retry-After: 20</code>. What should your client do? <!-- id: c-0-3-3 --></summary>
 
 Wait at least 20 seconds before retrying that request (with jitter if many clients are affected), and treat sustained 429s as a capacity problem: request a higher quota, add client-side rate limiting, cache, or route some traffic to a fallback model.
 
 </details>
 
-<details><summary>Q4. Why does FastAPI return 422 instead of running your function with bad data?</summary>
+<details><summary>Q4. Why does FastAPI return 422 instead of running your function with bad data? <!-- id: c-0-3-4 --></summary>
 
 Because the request body is validated against the Pydantic model **before** the handler runs. Invalid data never enters your business logic, and the client gets field-level errors that tell them exactly what to fix.
 
 </details>
 
-<details><summary>Q5. Why is <code>{"error": "failed"}</code> with status 200 harmful?</summary>
+<details><summary>Q5. Why is <code>{"error": "failed"}</code> with status 200 harmful? <!-- id: c-0-3-5 --></summary>
 
 Monitoring, alerting, load balancers, retries and client libraries rely on status codes. A 200 makes failures invisible: dashboards show 0% errors, retries don't happen, and callers may treat the error body as valid data.
 
 </details>
 
-<details><summary>Q6. What is the purpose of the <code>X-Request-ID</code> header?</summary>
+<details><summary>Q6. What is the purpose of the <code>X-Request-ID</code> header? <!-- id: c-0-3-6 --></summary>
 
 To **correlate** everything that happened for one request across services and log lines. The first service creates it (or accepts the caller's), and every downstream call and log entry carries it. Distributed tracing (Lesson 4.4) generalises this idea.
 
 </details>
 
 ## 💬 Explain it back
+<!-- id: e-0-3 -->
 
 Write a three-sentence reply to Lena explaining what "429" and "503" meant yesterday, who owns each, and what users would ideally see instead of an error (hint: graceful degradation, Lesson 1.3).
 

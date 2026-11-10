@@ -1,4 +1,5 @@
 # Lesson 3.1: Serving architecture
+<!-- id: l-3-1 -->
 
 > ⏱ ~45 min · 🎚 Level: Core · 🧰 Needs: Module 1 (services and containers)
 
@@ -19,9 +20,9 @@
 
 ## 🤔 Predict first
 
-1. Your API needs 6 CPU replicas to handle JSON parsing, auth and retrieval. How many copies of the model should it load?
-2. Two requests arrive 3 ms apart for the same 8-billion-parameter model. Should they be processed one after another or together?
-3. Why might a model server take 2–5 minutes to become "ready" even though the container started in 2 seconds?
+1. Your API needs 6 CPU replicas to handle JSON parsing, auth and retrieval. How many copies of the model should it load? <!-- id: p-3-1-1 -->
+2. Two requests arrive 3 ms apart for the same 8-billion-parameter model. Should they be processed one after another or together? <!-- id: p-3-1-2 -->
+3. Why might a model server take 2–5 minutes to become "ready" even though the container started in 2 seconds? <!-- id: p-3-1-3 -->
 
 Keep your answers. You'll check them at the end.
 
@@ -206,32 +207,33 @@ One user sending 100k-token prompts can fill the KV cache and slow everyone else
 
 ## ✅ Check yourself
 
-<details><summary>Q1. Name three reasons to separate the inference service from the application service.</summary>
+<details><summary>Q1. Name three reasons to separate the inference service from the application service. <!-- id: c-3-1-1 --></summary>
 
 Any three of: independent scaling (CPU vs GPU), independent deploys (no weight reload for an API change), one shared model for many app replicas (memory and cost), batching across all callers, different startup and readiness behaviour, and a different hardware and runtime stack.
 </details>
 
-<details><summary>Q2. Your team serves a fraud classifier, an embedding model, a reranker and an image model. Which server is the natural fit and why?</summary>
+<details><summary>Q2. Your team serves a fraud classifier, an embedding model, a reranker and an image model. Which server is the natural fit and why? <!-- id: c-3-1-2 --></summary>
 
 Triton Inference Server: it serves multiple frameworks and model types from one model repository, with dynamic batching for fixed-shape inputs and HTTP/gRPC endpoints. Ray Serve is a reasonable alternative if the team is Python/Ray-centric and wants to compose them in code.
 </details>
 
-<details><summary>Q3. Why is "the container started" not the same as "ready for traffic" for an LLM server?</summary>
+<details><summary>Q3. Why is "the container started" not the same as "ready for traffic" for an LLM server? <!-- id: c-3-1-3 --></summary>
 
 After the process starts it must download weights (GBs), load them into GPU memory, and often compile kernels or CUDA graphs and run warm-up requests. Sending traffic before that leads to timeouts or very slow first requests, so the readiness probe must reflect "model loaded and warm".
 </details>
 
-<details><summary>Q4. A teammate says "let's put the fraud model behind Triton for consistency". What would you check before agreeing?</summary>
+<details><summary>Q4. A teammate says "let's put the fraud model behind Triton for consistency". What would you check before agreeing? <!-- id: c-3-1-4 --></summary>
 
 Latency budget and overhead: the model scores in microseconds in-process, while a network hop plus serialisation adds roughly 0.5–2 ms. If consistency of operations matters more than that latency and the model is shared by several services, it can be justified. Otherwise in-process ONNX Runtime is simpler and faster. Measure both.
 </details>
 
-<details><summary>Q5. What does "OpenAI-compatible" buy you, and what does it not guarantee?</summary>
+<details><summary>Q5. What does "OpenAI-compatible" buy you, and what does it not guarantee? <!-- id: c-3-1-5 --></summary>
 
 It buys a common request/response contract, so the same client can talk to many engines and providers and swapping is configuration, not code. It doesn't guarantee identical support for every parameter (tool calling, logprobs, structured output), identical error semantics or identical token accounting. Contract-test the features you rely on.
 </details>
 
 ## 💬 Explain it back
+<!-- id: e-3-1 -->
 
 Explain to Maya, in under 90 seconds and with no jargon, why "just add more API replicas" is an expensive way to scale the docs-assistant once it uses a large model, and what you'd do instead.
 

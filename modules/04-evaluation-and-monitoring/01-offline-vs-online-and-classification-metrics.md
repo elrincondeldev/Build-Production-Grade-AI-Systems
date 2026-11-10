@@ -1,4 +1,5 @@
 # Lesson 4.1: Offline vs online evaluation and classification metrics
+<!-- id: l-4-1 -->
 
 > ⏱ ~50 min · 🎚 Level: Core · 🧰 Needs: [Module 0, lesson 0.4](../00-foundations/04-ml-in-one-hour.md)
 
@@ -21,9 +22,9 @@
 
 Answer in your head before reading on.
 
-1. 1.6% of Kestrel transactions are fraud. A "model" that *always* says "not fraud" has what accuracy?
-2. Your model has ROC-AUC = 0.74. Is that 74% of fraud caught?
-3. A model scores great on last year's data. Name two reasons it could still disappoint once live.
+1. 1.6% of Kestrel transactions are fraud. A "model" that *always* says "not fraud" has what accuracy? <!-- id: p-4-1-1 -->
+2. Your model has ROC-AUC = 0.74. Is that 74% of fraud caught? <!-- id: p-4-1-2 -->
+3. A model scores great on last year's data. Name two reasons it could still disappoint once live. <!-- id: p-4-1-3 -->
 
 ---
 
@@ -222,36 +223,37 @@ Payment companies publish surprisingly little about their fraud metrics, but the
 ## ✅ Check yourself
 
 <details>
-<summary>Q1. A model flags 100 transactions; 20 are fraud. There were 80 fraud cases in total. Precision? Recall?</summary>
+<summary>Q1. A model flags 100 transactions; 20 are fraud. There were 80 fraud cases in total. Precision? Recall? <!-- id: c-4-1-1 --></summary>
 
 Precision = 20/100 = **0.20**. Recall = 20/80 = **0.25**. (TP = 20, FP = 80, FN = 60.)
 </details>
 
 <details>
-<summary>Q2. Why can ROC-AUC look good while the model is useless in practice on rare events?</summary>
+<summary>Q2. Why can ROC-AUC look good while the model is useless in practice on rare events? <!-- id: c-4-1-2 --></summary>
 
 ROC's x-axis is the false positive rate, whose denominator is the (huge) number of negatives. Thousands of false alarms are still a small FPR, so the curve looks good while precision, the share of alerts that are real, is tiny. PR curves expose this directly.
 </details>
 
 <details>
-<summary>Q3. Your new model raises PR-AUC from 0.077 to 0.126, but it was evaluated on a different month. Can you conclude it is better?</summary>
+<summary>Q3. Your new model raises PR-AUC from 0.077 to 0.126, but it was evaluated on a different month. Can you conclude it is better? <!-- id: c-4-1-3 --></summary>
 
 No. PR-AUC depends on the base rate, and if that month had more fraud, PR-AUC rises for any model. Compare both models **on the same test set**.
 </details>
 
 <details>
-<summary>Q4. Name one thing you can only learn from online evaluation, not offline.</summary>
+<summary>Q4. Name one thing you can only learn from online evaluation, not offline. <!-- id: c-4-1-4 --></summary>
 
 Any of: real business impact (fraud losses, conversion); user behaviour changes caused by the model (feedback loops, fraudsters adapting); performance on today's distribution; system effects like latency under real load.
 </details>
 
 <details>
-<summary>Q5. Why split fraud data by time instead of randomly?</summary>
+<summary>Q5. Why split fraud data by time instead of randomly? <!-- id: c-4-1-5 --></summary>
 
 Production always predicts the future from the past. A random split mixes future patterns into training (temporal leakage), inflating offline scores.
 </details>
 
 ## 💬 Explain it back
+<!-- id: e-4-1 -->
 
 Explain to Omar, in three sentences and without the word "AUC", why 98.4% accuracy is not good news, and what two numbers you'd show instead.
 

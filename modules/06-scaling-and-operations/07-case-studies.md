@@ -1,4 +1,5 @@
 # Lesson 6.7: Case studies: recommendation and search, fintech risk, consumer assistants
+<!-- id: l-6-7 -->
 
 > ⏱ ~75 min · 🎚 Level: Advanced · 🧰 Needs: the whole course so far
 
@@ -22,9 +23,9 @@
 
 ## 🤔 Predict first
 
-1. Why do recommendation systems almost always use *two or more* stages instead of one model scoring every item?
-2. Fraud labels (chargebacks) arrive weeks after the transaction. What does that do to monitoring and retraining?
-3. An assistant that costs €0.002 per question goes from 10,000 internal users to 2 million customers. Besides cost, what *changes in kind*, not just in size?
+1. Why do recommendation systems almost always use *two or more* stages instead of one model scoring every item? <!-- id: p-6-7-1 -->
+2. Fraud labels (chargebacks) arrive weeks after the transaction. What does that do to monitoring and retraining? <!-- id: p-6-7-2 -->
+3. An assistant that costs €0.002 per question goes from 10,000 internal users to 2 million customers. Besides cost, what *changes in kind*, not just in size? <!-- id: p-6-7-3 -->
 
 ---
 
@@ -219,32 +220,33 @@ The three architectures in this lesson are deliberately generic. Real systems va
 
 ## ✅ Check yourself
 
-<details><summary>Q1. Why do recommenders use a retrieval stage before ranking?</summary>
+<details><summary>Q1. Why do recommenders use a retrieval stage before ranking? <!-- id: c-6-7-1 --></summary>
 
 Scoring millions of items with a feature-rich model per request is far too slow and expensive. A cheap retrieval stage (ANN over embeddings, heuristics) narrows millions to hundreds or thousands, and the expensive ranker only scores those.
 </details>
 
-<details><summary>Q2. Name two consequences of delayed fraud labels and one mitigation for each.</summary>
+<details><summary>Q2. Name two consequences of delayed fraud labels and one mitigation for each. <!-- id: c-6-7-2 --></summary>
 
 (1) You can't measure current precision/recall → monitor proxies in real time (score distribution, decline rate, feature drift). (2) Recent training data has incomplete labels → wait for label maturity before training on a period, or correct for it. Also: feedback loops from declined transactions → randomised holdouts or analyst review of a sample of declines.
 </details>
 
-<details><summary>Q3. Why should "freeze my card" in a consumer assistant run as a deterministic workflow, not an LLM tool call decided by an agent?</summary>
+<details><summary>Q3. Why should "freeze my card" in a consumer assistant run as a deterministic workflow, not an LLM tool call decided by an agent? <!-- id: c-6-7-3 --></summary>
 
 It's a side-effecting action on a customer's money and account. The LLM should only recognise the intent; a deterministic, tested, authorised workflow (with confirmation) performs it. That keeps the action predictable, auditable and immune to prompt injection (lesson 6.6).
 </details>
 
-<details><summary>Q4. What is a position-bias feedback loop in recommendations, and how do you counter it?</summary>
+<details><summary>Q4. What is a position-bias feedback loop in recommendations, and how do you counter it? <!-- id: c-6-7-4 --></summary>
 
 Users click what's shown at the top, so a model trained on clicks learns to favour whatever it already ranked high, which reinforces itself. Counter it by logging position and modelling it, reserving exploration traffic, and using counterfactual or A/B evaluation.
 </details>
 
-<details><summary>Q5. In the consumer assistant cost sketch, why is the LLM not the dominant cost?</summary>
+<details><summary>Q5. In the consumer assistant cost sketch, why is the LLM not the dominant cost? <!-- id: c-6-7-5 --></summary>
 
 Questions per user are few, many are cached, and a small model handles most of them, so LLM spend is modest. Fixed platform costs (retrieval infrastructure, guardrails, observability) and especially human support for escalations are larger.
 </details>
 
 ## 💬 Explain it back
+<!-- id: e-6-7 -->
 
 Pick one of the three systems and explain its *single hardest constraint* to Maya in two sentences, then say which component of the Kestrel platform you'd reuse for it unchanged.
 

@@ -1,4 +1,5 @@
 # 🛠 Lab 4: Eval gate in CI, dashboards and drift detection
+<!-- id: lab-4 -->
 
 > ⏱ 3–4 hours · Needs: Python 3.11+, [uv](https://docs.astral.sh/uv/). Optional: Docker (dashboards), Ollama (real model)
 
@@ -61,6 +62,7 @@ lab/
 ## Part 0 · Setup
 
 ### Step 0 · Install and run the tests
+<!-- id: lab-4-step-0 -->
 
 ```bash
 cd modules/04-evaluation-and-monitoring/lab
@@ -75,6 +77,7 @@ uv run pytest
 ## Part A · Track A: thresholds and calibration (lessons 4.1, 4.2)
 
 ### Step 1 · Pick a threshold with Omar's cost model
+<!-- id: lab-4-step-1 -->
 
 ```bash
 uv run python scripts/threshold_sweep.py
@@ -101,6 +104,7 @@ Read it slowly:
 Open `artifacts/threshold_sweep.png` to see the cost curve.
 
 ### Step 2 · Change the business, change the threshold
+<!-- id: lab-4-step-2 -->
 
 ```bash
 uv run python scripts/threshold_sweep.py --review-cost 1 --friction-cost 0
@@ -109,6 +113,7 @@ uv run python scripts/threshold_sweep.py --review-cost 1 --friction-cost 0
 **Expected:** the min-cost threshold moves **down** (reviews are cheap, so flag more). Try `--review-cost 20`: it moves up. The model did not change; the **decision** did.
 
 ### Step 3 · Are the scores probabilities?
+<!-- id: lab-4-step-3 -->
 
 ```bash
 uv run python scripts/calibration.py
@@ -132,6 +137,7 @@ The uncalibrated model says "30% fraud" on average when reality is 1.6%: that is
 ## Part B · Track B: the eval suite and the gate (lesson 4.3)
 
 ### Step 4 · Run the offline evals
+<!-- id: lab-4-step-4 -->
 
 ```bash
 uv run python -m evals.run_evals
@@ -168,6 +174,7 @@ grep '"answer_pass": false' results/eval_cases.jsonl
 You will find `q04` ("I see a card payment I don't recognise") and `q11` ("I lost my phone"): the user's words don't match the document's words. That is a **retrieval vocabulary gap**, and it tells you to add dense embeddings (lesson 2.5) rather than tweak the prompt.
 
 ### Step 5 · The gate
+<!-- id: lab-4-step-5 -->
 
 ```bash
 uv run python scripts/eval_gate.py; echo "exit code: $?"
@@ -176,6 +183,7 @@ uv run python scripts/eval_gate.py; echo "exit code: $?"
 **Expected:** `✅ Eval gate passed` followed by a table, and `exit code: 0`.
 
 ### Step 6 · How far can you trust the judge?
+<!-- id: lab-4-step-6 -->
 
 ```bash
 uv run python -m evals.judge_calibration
@@ -198,6 +206,7 @@ The judge **agrees with humans 70% of the time, but kappa is only 0.40** ("moder
 ## Part C · Observability (lesson 4.4)
 
 ### Step 7 · Run the service and look at a trace
+<!-- id: lab-4-step-7 -->
 
 ```bash
 uv run uvicorn kestrel_docs.main:create_app --factory --port 8000
@@ -217,6 +226,7 @@ curl -s localhost:8000/metrics | grep -E '^kestrel_(answers|request_latency_seco
 ```
 
 ### Step 8 · Dashboards (needs Docker)
+<!-- id: lab-4-step-8 -->
 
 ```bash
 cd observability && docker compose up -d && cd ..
@@ -236,6 +246,7 @@ uv run python scripts/traffic.py --minutes 3 --bad-rate 0.6
 ## Part D · Drift (lesson 4.5)
 
 ### Step 9 · Three kinds of drift in one report
+<!-- id: lab-4-step-9 -->
 
 ```bash
 uv run python scripts/drift_report.py
@@ -271,6 +282,7 @@ Three lessons are hiding in there:
 ## Part E · Prompt releases (lesson 4.6)
 
 ### Step 10 · Release a bad prompt, get blocked, roll back
+<!-- id: lab-4-step-10 -->
 
 Lena's team proposed `v2` ("shorter answers"). Evaluate it **without** activating it:
 
@@ -297,6 +309,7 @@ git diff prompts/registry/docs_assistant/active.yaml
 **Expected:** `active: v2`, then `rolled back to: v1`, and the diff shows two new audit entries. Discard them with `git checkout prompts/registry/docs_assistant/active.yaml` if you like.
 
 ### Step 11 · Score a real model (optional)
+<!-- id: lab-4-step-11 -->
 
 ```bash
 ollama pull qwen2.5:1.5b-instruct

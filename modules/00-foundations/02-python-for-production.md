@@ -1,4 +1,5 @@
 # Lesson 0.2: Python for production
+<!-- id: l-0-2 -->
 
 > ⏱ ~60 min · 🎚 Level: Core · 🧰 Needs: [Lesson 0.1](01-setup-your-workbench.md)
 
@@ -21,9 +22,9 @@
 
 ## 🤔 Predict first
 
-1. A function is declared `def score(amount: float) -> float`. What happens if you call `score("12.5")`?
-2. You call five slow web APIs, each taking 0.5 s. Sequentially that's 2.5 s. With `async`, roughly how long could it take?
-3. Why is `print(f"user {email} paid {amount}")` a problem in a production service, beyond style?
+1. A function is declared `def score(amount: float) -> float`. What happens if you call `score("12.5")`? <!-- id: p-0-2-1 -->
+2. You call five slow web APIs, each taking 0.5 s. Sequentially that's 2.5 s. With `async`, roughly how long could it take? <!-- id: p-0-2-2 -->
+3. Why is `print(f"user {email} paid {amount}")` a problem in a production service, beyond style? <!-- id: p-0-2-3 -->
 
 ---
 
@@ -388,43 +389,44 @@ Most production Python services follow the same skeleton you just saw: a `pyproj
 
 ## ✅ Check yourself
 
-<details><summary>Q1. You must accept JSON from an external partner and pass it to your scoring logic. Dataclass or Pydantic model, and why?</summary>
+<details><summary>Q1. You must accept JSON from an external partner and pass it to your scoring logic. Dataclass or Pydantic model, and why? <!-- id: c-0-2-1 --></summary>
 
 **Pydantic**: the data crosses a trust boundary. It validates types and constraints, coerces safe conversions (`"3"` → `3`), and rejects bad input with a clear error before it reaches your logic. Inside, after validation, dataclasses are fine.
 
 </details>
 
-<details><summary>Q2. Why does <code>OllamaLLM</code> take an optional <code>transport</code> argument?</summary>
+<details><summary>Q2. Why does <code>OllamaLLM</code> take an optional <code>transport</code> argument? <!-- id: c-0-2-2 --></summary>
 
 **Dependency injection** for testability. In production it's `None` (real network). In tests you pass `httpx.MockTransport(handler)`, so the real adapter code runs against a fake server: no Ollama, no network, deterministic.
 
 </details>
 
-<details><summary>Q3. Your async FastAPI endpoint calls <code>requests.get()</code> to fetch a document. Under load, everything gets slow. Why?</summary>
+<details><summary>Q3. Your async FastAPI endpoint calls <code>requests.get()</code> to fetch a document. Under load, everything gets slow. Why? <!-- id: c-0-2-3 --></summary>
 
 `requests` is **blocking**: while it waits for the network, the event loop can't run anything else, so every concurrent request on that worker stalls. Use `httpx.AsyncClient` with `await`, or move the blocking call to a thread pool.
 
 </details>
 
-<details><summary>Q4. Will <code>async</code> make training a scikit-learn model on 1M rows faster?</summary>
+<details><summary>Q4. Will <code>async</code> make training a scikit-learn model on 1M rows faster? <!-- id: c-0-2-4 --></summary>
 
 No. Training is **CPU-bound**: there's no waiting for I/O, so there's nothing to overlap. Speed-ups come from better algorithms, vectorised libraries, multiple processes or cores, or more hardware.
 
 </details>
 
-<details><summary>Q5. A teammate committed an API key, then deleted it in the next commit. Is it safe now?</summary>
+<details><summary>Q5. A teammate committed an API key, then deleted it in the next commit. Is it safe now? <!-- id: c-0-2-5 --></summary>
 
 No. It's still in **Git history** (and maybe in forks, CI logs and clones). Rotate (revoke and replace) the key immediately, then clean the history if needed. Prevent repeats with `.env` files that are git-ignored and secret scanning in CI.
 
 </details>
 
-<details><summary>Q6. What does <code>uv.lock</code> give you that <code>pyproject.toml</code> alone doesn't?</summary>
+<details><summary>Q6. What does <code>uv.lock</code> give you that <code>pyproject.toml</code> alone doesn't? <!-- id: c-0-2-6 --></summary>
 
 Exact, hashed versions of **every** dependency, including transitive ones. Without it, `fastapi>=0.115` could resolve to different versions (with different behaviour or bugs) on different days and machines.
 
 </details>
 
 ## 💬 Explain it back
+<!-- id: e-0-2 -->
 
 Reply to Sam's message: in five bullet points, list the changes their notebook needs to become a runnable project, and give one sentence of *why* for each.
 

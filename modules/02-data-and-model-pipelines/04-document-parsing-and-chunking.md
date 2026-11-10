@@ -1,4 +1,5 @@
 # Lesson 2.4: Document parsing and chunking
+<!-- id: l-2-4 -->
 
 > ⏱ ~55 min · 🎚 Level: Core · 🧰 Needs: [Lesson 2.1](01-data-pipelines-and-validation.md), [Lesson 0.5](../00-foundations/05-llms-in-one-hour.md)
 
@@ -26,9 +27,9 @@ All three failures happened **before the model saw anything**: in parsing and ch
 
 ## 🤔 Predict first
 
-1. Why not just embed whole documents instead of chunks?
-2. A chunk reads: "Within **60 days** of the charge." What's missing that a retriever and an LLM need?
-3. A PDF looks perfect on screen. Name two ways its extracted text could still be garbage.
+1. Why not just embed whole documents instead of chunks? <!-- id: p-2-4-1 -->
+2. A chunk reads: "Within **60 days** of the charge." What's missing that a retriever and an LLM need? <!-- id: p-2-4-2 -->
+3. A PDF looks perfect on screen. Name two ways its extracted text could still be garbage. <!-- id: p-2-4-3 -->
 
 ---
 
@@ -287,42 +288,43 @@ Teams that publish RAG lessons learned tend to report the same order of impact: 
 ## ✅ Check yourself
 
 <details>
-<summary>Q1. Why not embed whole documents?</summary>
+<summary>Q1. Why not embed whole documents? <!-- id: c-2-4-1 --></summary>
 
 One vector per multi-topic document is too blurry to match specific questions, and pasting whole documents into prompts is costly and dilutes the relevant passage. Chunks are specific enough to retrieve precisely and small enough to send.
 </details>
 
 <details>
-<summary>Q2. What's missing from the chunk "Within 60 days of the charge."?</summary>
+<summary>Q2. What's missing from the chunk "Within 60 days of the charge."? <!-- id: c-2-4-2 --></summary>
 
 Its context: which document and section (Refund Policy › Eligibility) and what the 60 days applies to (fee refund requests). Contextual headers, or LLM-written chunk context, restore it.
 </details>
 
 <details>
-<summary>Q3. Two ways a PDF that looks perfect can produce garbage text.</summary>
+<summary>Q3. Two ways a PDF that looks perfect can produce garbage text. <!-- id: c-2-4-3 --></summary>
 
 Multi-column layouts extracted in the wrong reading order; repeated headers/footers mixed into sentences; tables flattened; or it's a scanned image with no text layer (needs OCR). Any two.
 </details>
 
 <details>
-<summary>Q4. A document has no access level in its metadata. What should ingestion do, and why?</summary>
+<summary>Q4. A document has no access level in its metadata. What should ingestion do, and why? <!-- id: c-2-4-4 --></summary>
 
 Reject or quarantine it (fail closed). Defaulting to "public" could expose confidential content to every user.
 </details>
 
 <details>
-<summary>Q5. When would you choose parent-child (small-to-big) chunking?</summary>
+<summary>Q5. When would you choose parent-child (small-to-big) chunking? <!-- id: c-2-4-5 --></summary>
 
 When small chunks retrieve precisely but don't carry enough context for a good answer, for example long policy sections. You match on small chunks and send their parent section to the LLM.
 </details>
 
 <details>
-<summary>Q6. A document is edited and now has 3 chunks instead of 5. You upsert the 3 new chunks. What's wrong?</summary>
+<summary>Q6. A document is edited and now has 3 chunks instead of 5. You upsert the 3 new chunks. What's wrong? <!-- id: c-2-4-6 --></summary>
 
 Chunks #003 and #004 from the old version remain in the index as stale content. Delete the document's old chunks (by `doc_id`) before inserting, or reconcile by content hash.
 </details>
 
 ## 💬 Explain it back
+<!-- id: e-2-4 -->
 
 Explain to Lena, without using the word "embedding", why the assistant answered "Home | Help | Log in" and what you changed so it can't happen again.
 

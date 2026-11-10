@@ -1,4 +1,5 @@
 # Lesson 2.1: Data pipelines and validation gates
+<!-- id: l-2-1 -->
 
 > ⏱ ~50 min · 🎚 Level: Core · 🧰 Needs: [Lesson 1.1](../01-prototype-to-production/01-prototype-vs-production.md)
 
@@ -22,9 +23,9 @@
 
 Answer in your head or in a notebook before reading. Being wrong is fine: guessing first makes the answer stick.
 
-1. If 0.05% of rows in a 10-million-row batch have a negative `amount`, should the whole training run stop?
-2. If the fraud rate in today's batch is 0.0%, is that good news?
-3. Which is more dangerous: a pipeline that crashes on bad data, or one that keeps running?
+1. If 0.05% of rows in a 10-million-row batch have a negative `amount`, should the whole training run stop? <!-- id: p-2-1-1 -->
+2. If the fraud rate in today's batch is 0.0%, is that good news? <!-- id: p-2-1-2 -->
+3. Which is more dangerous: a pipeline that crashes on bad data, or one that keeps running? <!-- id: p-2-1-3 -->
 
 ---
 
@@ -259,36 +260,37 @@ Large ML platforms treat data validation as a first-class pipeline step. Google'
 ## ✅ Check yourself
 
 <details>
-<summary>Q1. 0.05% of rows in a 10M-row batch have a negative amount. Stop the run?</summary>
+<summary>Q1. 0.05% of rows in a 10M-row batch have a negative amount. Stop the run? <!-- id: c-2-1-1 --></summary>
 
 Usually **no**: that is 5,000 rows, a row-level issue below a 1% tolerance. Quarantine them with the reason, continue, and alert the data owner if the fraction is unusual. Stop if the fraction exceeds the agreed tolerance or keeps growing.
 </details>
 
 <details>
-<summary>Q2. Today's batch has a 0.0% fraud rate. Good news?</summary>
+<summary>Q2. Today's batch has a 0.0% fraud rate. Good news? <!-- id: c-2-1-2 --></summary>
 
 No. It almost certainly means the labelling job or a join broke. A label rate outside expected bounds is a **dataset-level** failure, so the run should stop.
 </details>
 
 <details>
-<summary>Q3. Why does the schema include an "availability" field?</summary>
+<summary>Q3. Why does the schema include an "availability" field? <!-- id: c-2-1-3 --></summary>
 
 To record *when* a value is known relative to the prediction. Columns that are known only after the label (like `chargeback_filed`) must never become features. Encoding this in the schema turns leakage prevention into an automatic check.
 </details>
 
 <details>
-<summary>Q4. Your team needs fresh "transactions in the last 10 minutes" features for scoring, and a nightly training set. Batch or streaming?</summary>
+<summary>Q4. Your team needs fresh "transactions in the last 10 minutes" features for scoring, and a nightly training set. Batch or streaming? <!-- id: c-2-1-4 --></summary>
 
 Both. Streaming (or near-real-time) computation for the online feature, batch for the training snapshot, with the **same feature definition** used by both paths to avoid training/serving skew.
 </details>
 
 <details>
-<summary>Q5. Why might you prefer ELT for tabular ML data but ETL for a RAG document pipeline?</summary>
+<summary>Q5. Why might you prefer ELT for tabular ML data but ETL for a RAG document pipeline? <!-- id: c-2-1-5 --></summary>
 
 ELT keeps raw data in the warehouse so features can be recomputed with SQL when definitions change. RAG transformations (parsing, chunking, embedding, redaction) aren't SQL and some content must be removed *before* it reaches the index. You should still keep raw documents in object storage so you can re-process them later.
 </details>
 
 ## 💬 Explain it back
+<!-- id: e-2-1 -->
 
 Explain to Omar, who is not an engineer, in three sentences, why the pipeline should **crash** when 10% of transactions have impossible amounts, but **not** crash when 0.01% do.
 

@@ -1,4 +1,5 @@
 # Lesson 4.6: Progressive delivery and prompt registries
+<!-- id: l-4-6 -->
 
 > ⏱ ~55 min · 🎚 Level: Core → Advanced · 🧰 Needs: [lesson 4.3](03-evaluating-llm-systems.md), [lesson 2.6](../02-data-and-model-pipelines/06-experiment-tracking-and-reproducibility.md)
 
@@ -19,9 +20,9 @@
 
 ## 🤔 Predict first
 
-1. A teammate edits one sentence of the system prompt directly in production "because it's just text". What could go wrong, and how would you even know which prompt produced yesterday's bad answer?
-2. In a 5% canary, the new version has 3 thumbs-down out of 40 ratings vs 2% for the old one. Roll back?
-3. What's the difference between shadow mode and a canary?
+1. A teammate edits one sentence of the system prompt directly in production "because it's just text". What could go wrong, and how would you even know which prompt produced yesterday's bad answer? <!-- id: p-4-6-1 -->
+2. In a 5% canary, the new version has 3 thumbs-down out of 40 ratings vs 2% for the old one. Roll back? <!-- id: p-4-6-2 -->
+3. What's the difference between shadow mode and a canary? <!-- id: p-4-6-3 -->
 
 ---
 
@@ -251,36 +252,37 @@ Canary releases are standard practice in large-scale operations; the Google SRE 
 ## ✅ Check yourself
 
 <details>
-<summary>Q1. Name four kinds of change, besides code, that should go through the release pipeline of an LLM app.</summary>
+<summary>Q1. Name four kinds of change, besides code, that should go through the release pipeline of an LLM app. <!-- id: c-4-6-1 --></summary>
 
 Model version, prompt version, retrieval index/data (re-chunking, new documents), configuration (top_k, temperature, thresholds). Also dependency upgrades that change tokenization or parsing.
 </details>
 
 <details>
-<summary>Q2. Shadow vs canary: one thing each can measure that the other can't.</summary>
+<summary>Q2. Shadow vs canary: one thing each can measure that the other can't. <!-- id: c-4-6-2 --></summary>
 
 Shadow: impact of a risky version on latency, cost or flag volume at **full** traffic with zero user exposure. Canary: real **user reactions** (thumbs-down, escalations, conversions), which shadow can't see because users never get the output.
 </details>
 
 <details>
-<summary>Q3. Why must released prompt versions be immutable?</summary>
+<summary>Q3. Why must released prompt versions be immutable? <!-- id: c-4-6-3 --></summary>
 
 So a version ID always refers to the same text. Otherwise eval results, traces and incident timelines tied to "v1" become ambiguous, and rollback may restore something different from what was tested.
 </details>
 
 <details>
-<summary>Q4. A retrained fraud model has PR-AUC 0.081 vs the champion's 0.077 on last month's data. Ship it?</summary>
+<summary>Q4. A retrained fraud model has PR-AUC 0.081 vs the champion's 0.077 on last month's data. Ship it? <!-- id: c-4-6-4 --></summary>
 
 Not yet. Check that the difference is beyond noise (bootstrap CI), compare on every important slice, recalibrate and compare in **euros** at the operating threshold, then go through shadow (flag volume!) and canary.
 </details>
 
 <details>
-<summary>Q5. During a canary, error rate and latency are fine but cost per request rose 40%. What should happen?</summary>
+<summary>Q5. During a canary, error rate and latency are fine but cost per request rose 40%. What should happen? <!-- id: c-4-6-5 --></summary>
 
 The cost gate should fail and roll back (or pause promotion) automatically. Cost regressions are real regressions; they often come from prompts that pack more context or produce longer answers.
 </details>
 
 ## 💬 Explain it back
+<!-- id: e-4-6 -->
 
 Write the five-line release policy you'd send Maya for "any change to the docs-assistant's prompt", covering where it's stored, how it's evaluated, how it's rolled out, what triggers rollback, and who can activate it.
 

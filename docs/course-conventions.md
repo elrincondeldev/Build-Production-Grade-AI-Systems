@@ -146,6 +146,38 @@ Module `README.md` must include:
 6. 📊 a self-assessment rubric (1 = never heard of it … 4 = could teach it)
 7. 🎤 "Interview corner": 3–5 system-design questions this module prepares you for
 
+### Stable IDs
+
+Every module, lesson, lab, lab step, predict-first question, check-yourself question,
+explain-it-back prompt and quiz question carries a stable ID as an HTML comment, which GitHub
+doesn't show. Learner progress on the Real Env platform is keyed by these IDs, so they outlive
+edits, reordering and translations. (Interview-corner questions, rubric rows, "Try it",
+"Break it" and "Extend it" have no IDs yet.)
+
+| What | Where the ID goes | Shape | Example |
+|---|---|---|---|
+| Module, lesson, lab | Line after the `#` title | `m-M`, `l-M-L`, `lab-M` | `<!-- id: l-2-5 -->` |
+| Predict-first question | End of its `1. …` line | `p-M-L-N` | `1. Which finds "T+2" better…? <!-- id: p-2-5-1 -->` |
+| Check-yourself question | End of its `<summary>` | `c-M-L-N` | `<summary>Q1. … <!-- id: c-2-5-1 --></summary>` |
+| Explain it back | Line after its heading | `e-M-L` | `<!-- id: e-2-5 -->` |
+| Quiz question | End of its `**N.**` line | `q-M-N` | `**13.** … <!-- id: q-2-13 -->` |
+| Lab step | Line after its heading | `lab-M-step-N` | `<!-- id: lab-1-step-3 -->` |
+
+M, L and N are numbers without leading zeros. Rules:
+
+- **An ID is a name, not a position.** It never changes, even when the item moves to another
+  place in the same lesson, quiz or lab, so its number can drift from the visible numbering.
+- **Never reuse an ID.** `tools/issued-ids.txt` lists every ID ever issued. A new item takes
+  the next number for its kind and place that isn't listed (even if it sits between two
+  others) and is added to the file. A removed item's line becomes `<id> retired`.
+- **Wording fixes keep the ID; a new question gets a new ID.** If an edit changes what the
+  question asks or what the right answer is, retire the old ID and issue a new one, so
+  nobody's history points at a question they never saw.
+- An item that moves to another lesson or module is a new item there: new ID, old one retired.
+
+`python3 tools/check_ids.py` checks all of this (and that items use the formats above); CI
+runs it.
+
 ## 5. Code conventions (labs)
 
 - Python **3.11+**, managed with **[uv](https://docs.astral.sh/uv/)**. Each lab has its own

@@ -1,4 +1,5 @@
 # Lesson 2.7: Prompt, RAG or fine-tune?
+<!-- id: l-2-7 -->
 
 > ⏱ ~45 min · 🎚 Level: Core · 🧰 Needs: [Lesson 2.5](05-vector-search-and-hybrid-retrieval.md), [Lesson 0.5](../00-foundations/05-llms-in-one-hour.md)
 
@@ -25,9 +26,9 @@
 
 ## 🤔 Predict first
 
-1. Can fine-tuning reliably teach a model *new facts*, such as this month's refund policy?
-2. A LoRA adapter for an 8-billion-parameter model is roughly how big: 40 MB, 4 GB or 16 GB?
-3. Which should you try first for any LLM task, and why?
+1. Can fine-tuning reliably teach a model *new facts*, such as this month's refund policy? <!-- id: p-2-7-1 -->
+2. A LoRA adapter for an 8-billion-parameter model is roughly how big: 40 MB, 4 GB or 16 GB? <!-- id: p-2-7-2 -->
+3. Which should you try first for any LLM task, and why? <!-- id: p-2-7-3 -->
 
 ---
 
@@ -213,42 +214,43 @@ Public guidance from model providers converges on the same order: start with pro
 ## ✅ Check yourself
 
 <details>
-<summary>Q1. What's the single most useful question when choosing between RAG and fine-tuning?</summary>
+<summary>Q1. What's the single most useful question when choosing between RAG and fine-tuning? <!-- id: c-2-7-1 --></summary>
 
 Is the gap in the model's **knowledge** (facts, which change) → RAG, or in its **behaviour** (style, format, narrow task) → prompting, then fine-tuning?
 </details>
 
 <details>
-<summary>Q2. Why is RAG better than fine-tuning for a frequently changing policy?</summary>
+<summary>Q2. Why is RAG better than fine-tuning for a frequently changing policy? <!-- id: c-2-7-2 --></summary>
 
 Updates are a re-index instead of a retrain; answers can cite sources; per-user permissions can be enforced at retrieval; and retrieval injects facts more reliably than fine-tuning does.
 </details>
 
 <details>
-<summary>Q3. A weight matrix is 4096 × 1024. How many LoRA parameters at rank 16?</summary>
+<summary>Q3. A weight matrix is 4096 × 1024. How many LoRA parameters at rank 16? <!-- id: c-2-7-3 --></summary>
 
 r × (d_out + d_in) = 16 × (4096 + 1024) = 81,920.
 </details>
 
 <details>
-<summary>Q4. What does QLoRA change compared with LoRA, and why does it matter?</summary>
+<summary>Q4. What does QLoRA change compared with LoRA, and why does it matter? <!-- id: c-2-7-4 --></summary>
 
 It stores the frozen base model in 4-bit precision instead of 16-bit, cutting base-weight memory by about 4×, so large models can be fine-tuned on a single GPU. Adapters are still trained in higher precision.
 </details>
 
 <details>
-<summary>Q5. Name two things you must have before starting any fine-tune.</summary>
+<summary>Q5. Name two things you must have before starting any fine-tune. <!-- id: c-2-7-5 --></summary>
 
 An evaluation set with a prompted (and/or RAG) baseline score to beat, and a clean, representative, versioned training set (plus a held-out test split). Also a plan for re-training when the base model changes.
 </details>
 
 <details>
-<summary>Q6. What is RAFT and when would you use it?</summary>
+<summary>Q6. What is RAFT and when would you use it? <!-- id: c-2-7-6 --></summary>
 
 Retrieval-Augmented Fine-Tuning: fine-tune the generator on questions with retrieved documents, including distractors, and cited answers, so it learns to use relevant context and ignore irrelevant chunks. Use it when retrieval finds the right documents but the model still answers poorly from them.
 </details>
 
 ## 💬 Explain it back
+<!-- id: e-2-7 -->
 
 Write Maya the three-line recommendation for Lena's requests, one line each, with the reason and the evaluation you'd run first.
 

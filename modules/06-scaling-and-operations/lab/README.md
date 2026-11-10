@@ -1,4 +1,5 @@
 # 🛠 Lab 6: Deploy the platform with a canary, a cost report and a supervised agent
+<!-- id: lab-6 -->
 
 > ⏱ 3–5 hours · 🧰 Needs: Python 3.11+, [uv](https://docs.astral.sh/uv/), Docker. Optional: `kubectl` + [kind](https://kind.sigs.k8s.io/) or [minikube](https://minikube.sigs.k8s.io/) for steps 7–8.
 
@@ -43,6 +44,7 @@ flowchart LR
 ## 📋 Steps
 
 ### Step 0 · Install and run the tests
+<!-- id: lab-6-step-0 -->
 
 ```bash
 cd modules/06-scaling-and-operations/lab
@@ -60,6 +62,7 @@ Expected (timings vary):
 The Kubernetes tests run `kubectl kustomize` (no cluster needed). Without `kubectl` they are skipped, not failed.
 
 ### Step 1 · Run the service and poke its probes
+<!-- id: lab-6-step-1 -->
 
 ```bash
 uv run uvicorn kestrel_platform.main:app --port 8080
@@ -87,6 +90,7 @@ kestrel_requests_total{route="/v1/score",service="kestrel-platform",status="200"
 Now restart it as a "not ready" pod: `KESTREL_READY=false uv run uvicorn kestrel_platform.main:app --port 8080`. `/health` still returns 200 but `/ready` returns **503**. In Kubernetes that pod stays alive but receives no traffic. That's the difference between liveness and readiness (lesson 6.1).
 
 ### Step 2 · Build the container
+<!-- id: lab-6-step-2 -->
 
 ```bash
 docker build -t kestrel-platform:dev .
@@ -96,6 +100,7 @@ docker run --rm -p 8080:8080 kestrel-platform:dev
 The image runs as a non-root user (UID 10001), matching `runAsNonRoot` in `k8s/base/deployment.yaml`.
 
 ### Step 3 · Render the Kubernetes manifests (no cluster needed)
+<!-- id: lab-6-step-3 -->
 
 ```bash
 kubectl kustomize k8s/overlays/dev  | grep -E '^kind:|replicas:|namespace:' | sort | uniq -c
@@ -116,6 +121,7 @@ Read the diff. Everything that differs between environments should be **intentio
 </details>
 
 ### Step 4 · Simulate a canary and watch it roll back
+<!-- id: lab-6-step-4 -->
 
 ```bash
 uv run python scripts/simulate_canary.py --fault errors
@@ -146,6 +152,7 @@ kill %1 %2
 ```
 
 ### Step 5 · SLOs and burn-rate alerts
+<!-- id: lab-6-step-5 -->
 
 ```bash
 uv run python -m kestrel_platform.slo --objective 0.999 --total 10000000 --bad 4200 --ratio 1h=0.02 --ratio 5m=0.03
@@ -166,6 +173,7 @@ Budget consumed: 42.0%   remaining: 58.0%
 Now try `--ratio 1h=0.02 --ratio 5m=0.0005`. The incident has *already stopped* (the 5-minute window is clean), so nobody gets woken up. That's what the short window is for.
 
 ### Step 6 · Run the pipeline DAG
+<!-- id: lab-6-step-6 -->
 
 ```bash
 uv run python -m orchestration.pipeline --rows 20000
@@ -193,6 +201,7 @@ uv run python -m orchestration.prefect_flow
 ```
 
 ### Step 7 · Deploy to a local cluster (optional, needs kind or minikube)
+<!-- id: lab-6-step-7 -->
 
 ```bash
 kind create cluster --name kestrel
@@ -210,6 +219,7 @@ Then `curl localhost:8080/ready`. Try these:
 - `kubectl -n kestrel-dev get hpa`: shows `<unknown>` targets until you install metrics-server. Why does the HPA need it?
 
 ### Step 8 · Run a real canary with Argo Rollouts (optional, advanced)
+<!-- id: lab-6-step-8 -->
 
 Install the controller and the kubectl plugin by following the [Argo Rollouts installation guide](https://argo-rollouts.readthedocs.io/en/stable/installation/). You also need Prometheus (for example, the community `kube-prometheus-stack` Helm chart). Then:
 
@@ -225,6 +235,7 @@ kubectl -n kestrel-prod set env deployment/kestrel-platform KESTREL_APP_VERSION=
 Watch the AnalysisRun fail and the rollout abort. The prod overlay points at `registry.example.com/...`, so for a local cluster either load your image under that name or edit the overlay.
 
 ### Step 9 · Capacity plan and cost report
+<!-- id: lab-6-step-9 -->
 
 ```bash
 uv run python scripts/capacity_plan.py
@@ -244,6 +255,7 @@ Expected (capacity plan):
 The cost report is written to `reports/cost-report.md`. Edit `cost_assumptions.toml` (traffic, token counts, prices) and regenerate. Every price in that file is an **illustrative placeholder**; before you defend these numbers, replace them with your provider's current pricing and your own load-test throughput.
 
 ### Step 10 · The supervised refund agent
+<!-- id: lab-6-step-10 -->
 
 ```bash
 uv run python scripts/run_agent.py

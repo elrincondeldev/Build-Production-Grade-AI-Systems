@@ -1,4 +1,5 @@
 # Lesson 1.3: Reliability primitives
+<!-- id: l-1-3 -->
 
 > ⏱ ~60 min · 🎚 Level: Core · 🧰 Needs: [Lesson 1.2](02-architecture-patterns.md)
 
@@ -24,9 +25,9 @@ This lesson is about the small set of patterns that keep a system working when i
 
 ## 🤔 Predict first
 
-1. A request touches 5 dependencies, each available 99.9% of the time. What's the request's availability?
-2. Three services call each other in a chain, and each retries failed calls 3 times. If the last one is down, how many requests does it receive for one user click?
-3. Should you retry an HTTP 400? A 503? A timeout on `POST /payments`?
+1. A request touches 5 dependencies, each available 99.9% of the time. What's the request's availability? <!-- id: p-1-3-1 -->
+2. Three services call each other in a chain, and each retries failed calls 3 times. If the last one is down, how many requests does it receive for one user click? <!-- id: p-1-3-2 -->
+3. Should you retry an HTTP 400? A 503? A timeout on `POST /payments`? <!-- id: p-1-3-3 -->
 
 ---
 
@@ -356,42 +357,43 @@ In [Lab 1](lab/README.md):
 ## ✅ Check yourself
 
 <details>
-<summary>Q1. A request path has 4 dependencies at 99.95% each. Roughly what availability can the request reach without any fault tolerance?</summary>
+<summary>Q1. A request path has 4 dependencies at 99.95% each. Roughly what availability can the request reach without any fault tolerance? <!-- id: c-1-3-1 --></summary>
 
 0.9995⁴ ≈ **99.80%**, about 2,000 failed requests per million. Fault tolerance (timeouts + retries + fallbacks) is how you climb back above the individual dependencies' numbers.
 </details>
 
 <details>
-<summary>Q2. Why is full jitter better than a fixed exponential backoff when many clients fail at once?</summary>
+<summary>Q2. Why is full jitter better than a fixed exponential backoff when many clients fail at once? <!-- id: c-1-3-2 --></summary>
 
 With a fixed backoff, every client that failed at the same moment retries at the same moments, producing synchronized load spikes (a thundering herd). Full jitter spreads retries uniformly across the backoff window, so the dependency sees a smooth, lower load and can recover.
 </details>
 
 <details>
-<summary>Q3. Your service calls <code>POST /refunds</code> on another service and gets a timeout. Should you retry?</summary>
+<summary>Q3. Your service calls <code>POST /refunds</code> on another service and gets a timeout. Should you retry? <!-- id: c-1-3-3 --></summary>
 
 Only if the operation is **idempotent**, which a refund normally isn't: the first attempt may have succeeded even though you didn't get the response. Send an **idempotency key** with every attempt so the server can return the stored result for duplicates; then retrying is safe.
 </details>
 
 <details>
-<summary>Q4. What is the difference between a retry budget and a circuit breaker?</summary>
+<summary>Q4. What is the difference between a retry budget and a circuit breaker? <!-- id: c-1-3-4 --></summary>
 
 A **retry budget** limits the *extra* load created by retries to a fraction of normal traffic; first attempts still go through. A **circuit breaker** stops *all* calls to a dependency for a while after repeated failures, then probes. They complement each other.
 </details>
 
 <details>
-<summary>Q5. The feature store is down. Lab 1 still returns 200 with <code>"degraded": true</code>. Why not return 503?</summary>
+<summary>Q5. The feature store is down. Lab 1 still returns 200 with <code>"degraded": true</code>. Why not return 503? <!-- id: c-1-3-5 --></summary>
 
 Because the business requirement (Omar) is that fraud checks must not block payments. A degraded score (model with default features) is still far better than no score, and the explicit `degraded_reasons` field keeps the degradation visible to callers and monitoring. Returning 503 would push the decision to the caller's much cruder fallback.
 </details>
 
 <details>
-<summary>Q6. An LLM answer takes 8 s in total, TTFT is 400 ms. Without streaming, what's the perceived wait? With streaming?</summary>
+<summary>Q6. An LLM answer takes 8 s in total, TTFT is 400 ms. Without streaming, what's the perceived wait? With streaming? <!-- id: c-1-3-6 --></summary>
 
 Without streaming: ~8 s of nothing, then the full answer. With streaming: text starts appearing after ~0.4 s. Total time is unchanged; perceived latency drops ~20×, and users can stop reading (and you can stop generating) early.
 </details>
 
 ## 💬 Explain it back
+<!-- id: e-1-3 -->
 
 Diego's checkout outage had two phases: "everything hung" and "it recovered, then fell over again". Explain to a new teammate which primitive was missing in each phase and how Lab 1's enrichment client prevents both. Use no more than five sentences.
 
