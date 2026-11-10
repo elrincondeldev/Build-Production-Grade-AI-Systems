@@ -4,7 +4,7 @@
 
 [Course home](../../../README.md) › [Module 0](../README.md) › Lab 0
 
-> 📨 **From: Maya (Engineering Manager)**
+> **From: Maya (Engineering Manager)**
 > Before you touch Sam's prototypes, I want you to have run each moving part yourself, once, end to end:
 > a model trained on our transaction data, a call to an LLM, an API answering over HTTP, and a similarity search over the handbook.
 > Nothing fancy. Just make sure you understand every line. Everything after this builds on it.
@@ -59,7 +59,7 @@ All commands run from this folder:
 cd modules/00-foundations/lab
 ```
 
-### Step 1: Install and run the tests
+### Step 1 · Install and run the tests
 
 ```bash
 uv sync
@@ -75,7 +75,7 @@ uv run pytest
 
 `uv sync` reads `pyproject.toml` and `uv.lock`, creates `.venv/` with Python 3.12 (downloading it if needed) and installs exact versions. If any test fails here, your setup is wrong, not your code: go back to [Lesson 0.1](../01-setup-your-workbench.md).
 
-### Step 2: Train your first model
+### Step 2 · Train your first model
 
 ```bash
 uv run train-first-model
@@ -95,7 +95,7 @@ logistic regression @0.50      98.59%     50.00%    0.71%      1 / 141        1
 
 Stop and look at it. A model that **never** predicts fraud has 98.59% accuracy. The trained model has exactly the same accuracy and catches **one** fraud out of 141. Accuracy is the wrong question for rare events ([Lesson 0.4](../04-ml-in-one-hour.md)).
 
-### Step 3: Move the threshold
+### Step 3 · Move the threshold
 
 ```bash
 uv run train-first-model --threshold 0.1
@@ -109,7 +109,7 @@ logistic regression @0.10      97.72%     17.29%   16.31%     23 / 141      110
 
 Same model, different decision rule: it now catches 23 frauds and raises 110 false alarms. Accuracy went **down** while the model became more useful. Who decides whether 110 false alarms is acceptable? Omar (Risk), not you. Module 4 turns this into a cost-based decision.
 
-### Step 4: Watch a model overfit
+### Step 4 · Watch a model overfit
 
 ```bash
 uv run train-first-model --overfitting
@@ -127,7 +127,7 @@ Overfitting demo (decision trees):
 
 The unlimited tree catches **100%** of training frauds and **7%** of test frauds. It memorised the training data. Your test set exists to catch exactly this.
 
-### Step 5: Your first LLM call (no network)
+### Step 5 · Your first LLM call (no network)
 
 ```bash
 uv run first-llm-call
@@ -147,7 +147,7 @@ What would 1,000,000 calls like this cost? (illustrative prices)
 
 The fake model doesn't understand anything, and that's the point: it is **deterministic**, so tests built on it never flake. The cost table uses *illustrative* prices to show the maths; real prices change, so check the provider's pricing page.
 
-### Step 6: A real model, locally (optional, needs Ollama)
+### Step 6 · A real model, locally (optional, needs Ollama)
 
 ```bash
 ollama pull qwen2.5:1.5b-instruct     # ~1 GB, once
@@ -160,7 +160,7 @@ KESTREL_LLM_PROVIDER=ollama uv run first-llm-call --prompt "Explain a chargeback
 
 > No Ollama? Skip this step. Everything else in the course works with the fake model.
 
-### Step 7: Run an API and call it
+### Step 7 · Run an API and call it
 
 Terminal 1:
 
@@ -197,7 +197,7 @@ content-type: application/json
 {"echo":"hello Kestrel hello Kestrel","length":27,"request_id":"7a76e977-..."}
 ```
 
-### Step 8: Search the handbook with embeddings
+### Step 8 · Search the handbook with embeddings
 
 ```bash
 uv run embeddings-playground

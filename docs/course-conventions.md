@@ -49,11 +49,14 @@ Each lesson opens with a short message from one of them (`📨 The situation`).
 
 ## 3. Lesson template
 
+Titles use ':' as the separator: `# Lesson N.L: Title`, `# Module N: Title`,
+`# 🛠 Lab N: Title`, `# Module N quiz: Title`.
+
 Every lesson file is `modules/NN-name/LL-lesson-slug.md` and uses this skeleton
 (sections may be omitted only if truly not applicable):
 
 ```markdown
-# Lesson N.L — Title
+# Lesson N.L: Title
 
 > ⏱ ~45 min · 🎚 Level: Core | Advanced · 🧰 Needs: lesson N.(L-1)
 
@@ -61,7 +64,8 @@ Every lesson file is `modules/NN-name/LL-lesson-slug.md` and uses this skeleton
 [Course home](../../README.md) › [Module N](README.md) › Lesson N.L
 
 ## 📨 The situation
-Short in-story message (3–8 lines) that creates the need for this lesson.
+> **From: Name (Role)**
+> Short in-story message (3–8 lines) that creates the need for this lesson.
 
 ## 🎯 By the end you can
 - Measurable objectives with action verbs (explain, implement, choose, measure, debug)
@@ -83,7 +87,11 @@ Concrete hands-on steps against the module lab, with expected output.
 A short real-world framing or case (no invented quotes of real companies).
 
 ## ✅ Check yourself
-<details><summary>Q1. ...</summary>Answer + why.</details>
+<details>
+<summary>Q1. ...</summary>
+
+Answer + why.
+</details>
 
 ## 💬 Explain it back
 One prompt that asks the learner to explain the idea to someone else.
@@ -108,9 +116,25 @@ Every module folder `modules/NN-name/` contains:
 ```
 README.md          overview, story, objectives, lesson table, lab, checkpoint, self-assessment
 LL-*.md            lessons
-lab/               runnable, tested code + lab/README.md (step-by-step)
+lab/               runnable, tested code + lab/README.md (step-by-step: each step is a
+                   "### Step N · Title" heading under "## 📋 Steps" or a "## Part X · …";
+                   an optional step ends its title with "(optional…)")
 quiz.md            end-of-module quiz (10–15 Qs, mixed with 2–3 spaced-review Qs from earlier modules)
 cheatsheet.md      one-page summary to review later
+```
+
+Every quiz question uses one format, so tools (and the Real Env platform) can read it. A
+spaced-review question carries 🔁 and, in parentheses, the module(s) it reviews, optionally
+with topics (`*(Module 2, retrieval; Module 3, caching)*`); a short title is optional:
+
+```markdown
+**13.** 🔁 *(Module 2)* *Optional title.* The question…
+
+<details><summary>Answer</summary>
+
+The answer, with a link to the lesson.
+
+</details>
 ```
 
 Module `README.md` must include:

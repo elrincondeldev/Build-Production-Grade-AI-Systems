@@ -6,7 +6,8 @@
 
 ## 📨 The situation
 
-> **Maya (Engineering Manager):** Two requests landed on my desk today. Lena wants the "shorter answers" prompt (`v2`) live tomorrow. Omar wants the fraud model retrained every month because fraud patterns move. I'm fine with both, **as long as** no change reaches all users before it has proven itself, and any change can be undone in minutes, not after a redeploy. Design the release process.
+> **From: Maya (Engineering Manager)**
+> Two requests landed on my desk today. Lena wants the "shorter answers" prompt (`v2`) live tomorrow. Omar wants the fraud model retrained every month because fraud patterns move. I'm fine with both, **as long as** no change reaches all users before it has proven itself, and any change can be undone in minutes, not after a redeploy. Design the release process.
 
 ## 🎯 By the end you can
 

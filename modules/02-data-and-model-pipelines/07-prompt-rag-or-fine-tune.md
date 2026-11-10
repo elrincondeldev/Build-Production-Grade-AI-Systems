@@ -1,4 +1,4 @@
-# Lesson 2.7 · Prompt, RAG or fine-tune?
+# Lesson 2.7: Prompt, RAG or fine-tune?
 
 > ⏱ ~45 min · 🎚 Level: Core · 🧰 Needs: [Lesson 2.5](05-vector-search-and-hybrid-retrieval.md), [Lesson 0.5](../00-foundations/05-llms-in-one-hour.md)
 
@@ -273,4 +273,4 @@ Write Maya the three-line recommendation for Lena's requests, one line each, wit
 | 🔍 | [Anthropic's interactive prompt engineering tutorial](https://github.com/anthropics/prompt-eng-interactive-tutorial) | A free, hands-on prompting course | 3 h |
 
 ---
-⬅️ [Lesson 2.6 · Experiment tracking and reproducibility](06-experiment-tracking-and-reproducibility.md) · ➡️ [Lab 2](lab/README.md) · [Module quiz](quiz.md) · [Module 3 · Serving and Optimization](../03-serving-and-optimization/README.md)
+⬅️ [Lesson 2.6: Experiment tracking and reproducibility](06-experiment-tracking-and-reproducibility.md) · ➡️ [Lab 2](lab/README.md) · [Module quiz](quiz.md) · [Module 3: Serving and Optimization](../03-serving-and-optimization/README.md)

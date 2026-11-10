@@ -201,31 +201,31 @@ Prompt injection moved from a curiosity to a mainstream security concern once as
 ## ✅ Check yourself
 
 <details>
-<summary>1. Why can't you "just escape" prompt injection the way parameterised queries fixed SQL injection?</summary>
+<summary>Q1. Why can't you "just escape" prompt injection the way parameterised queries fixed SQL injection?</summary>
 
 Because an LLM has no separate channel for instructions and data. Everything is tokens in one context, and the model decides what to treat as an instruction. Delimiters and labels help, but nothing enforces them. Hence layered defences rather than one fix.
 </details>
 
 <details>
-<summary>2. The docs-assistant has no tools. Which OWASP LLM risks still apply? Name three.</summary>
+<summary>Q2. The docs-assistant has no tools. Which OWASP LLM risks still apply? Name three.</summary>
 
 LLM01 (it can be manipulated into *saying* harmful things, such as asking for CVVs), LLM02 (it can disclose HR data if retrieval isn't permission-aware), LLM05 (if the UI renders its output as HTML), LLM07, LLM08, LLM09 and LLM10. LLM06 (excessive agency) is low **today**. Re-assess the day a tool is added.
 </details>
 
 <details>
-<summary>3. Rank T1–T7 from the threat model again, assuming the assistant is internal-only (employees, no customers). What changes?</summary>
+<summary>Q3. Rank T1–T7 from the threat model again, assuming the assistant is internal-only (employees, no customers). What changes?</summary>
 
 Likelihood of T1 (customers being asked for CVV) and T4 (anonymous bots) drops; insider threats (T2: employees trying to see salary bands, T5: unreviewed prompt changes) become relatively more important. The *list* barely changes; the *ranking* does. That's why the scoring step matters.
 </details>
 
 <details>
-<summary>4. What is model extraction, and which API design choice makes it harder for the fraud service?</summary>
+<summary>Q4. What is model extraction, and which API design choice makes it harder for the fraud service?</summary>
 
 Querying a model many times to reconstruct its decision boundary (or a copy of the model). Returning a decision (`approve` / `review`) instead of a precise probability, plus rate limits and anomaly detection on query patterns, makes it much more expensive.
 </details>
 
 <details>
-<summary>5. Recompute the bot cost for 2 requests/second with 1,000 input and 300 output tokens at the same prices.</summary>
+<summary>Q5. Recompute the bot cost for 2 requests/second with 1,000 input and 300 output tokens at the same prices.</summary>
 
 Per request: `1,000 × 0.15e-6 + 300 × 0.6e-6 = 0.00015 + 0.00018 = $0.00033`. Per day: `2 × 86,400 = 172,800 × 0.00033 ≈ $57/day`, about $1,700/month. Still worth a rate limit.
 </details>

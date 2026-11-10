@@ -1,4 +1,4 @@
-# Lab 2 · Two pipelines you can trust
+# Lab 2: Two pipelines you can trust
 
 > ⏱ 4–5 h · 🧰 Needs: Python 3.11+, [uv](https://docs.astral.sh/uv/). No API keys, no GPU, no Docker.
 
@@ -49,7 +49,9 @@ lab/
 └── tests/                    33 tests, all offline
 ```
 
-## 0. Setup
+## Part 0 · Setup
+
+### Step 0 · Set up
 
 ```bash
 cd modules/02-data-and-model-pipelines/lab

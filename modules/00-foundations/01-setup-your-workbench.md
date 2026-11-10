@@ -6,7 +6,7 @@
 
 ## 📨 The situation
 
-> 📨 **From: Diego (SRE / platform lead)**
+> **From: Diego (SRE / platform lead)**
 > Hi! Before you write a single line of code: Sam's prototypes only run on Sam's laptop, with Python versions and packages nobody wrote down.
 > We are not doing that again. Your machine needs to build **exactly** what CI builds and what production runs.
 > Install the standard toolchain, run the checker, and ping me when it's all green. 🟢

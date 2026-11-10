@@ -1,4 +1,4 @@
-# Lesson 2.6 · Experiment tracking and reproducibility
+# Lesson 2.6: Experiment tracking and reproducibility
 
 > ⏱ ~50 min · 🎚 Level: Core · 🧰 Needs: [Lesson 2.2](02-lineage-versioning-and-leakage.md)
 
@@ -293,4 +293,4 @@ Draft the answer to the regulator's three questions for your `@champion` model, 
 | 🔍 | [Made With ML](https://madewithml.com/) (Goku Mohandas) | Experiment tracking and reproducibility inside a full MLOps course | weeks |
 
 ---
-⬅️ [Lesson 2.5 · Vector search and hybrid retrieval](05-vector-search-and-hybrid-retrieval.md) · ➡️ [Lesson 2.7 · Prompt, RAG or fine-tune?](07-prompt-rag-or-fine-tune.md)
+⬅️ [Lesson 2.5: Vector search and hybrid retrieval](05-vector-search-and-hybrid-retrieval.md) · ➡️ [Lesson 2.7: Prompt, RAG or fine-tune?](07-prompt-rag-or-fine-tune.md)

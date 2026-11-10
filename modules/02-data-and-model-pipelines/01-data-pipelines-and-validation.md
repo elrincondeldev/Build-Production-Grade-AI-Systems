@@ -1,4 +1,4 @@
-# Lesson 2.1 · Data pipelines and validation gates
+# Lesson 2.1: Data pipelines and validation gates
 
 > ⏱ ~50 min · 🎚 Level: Core · 🧰 Needs: [Lesson 1.1](../01-prototype-to-production/01-prototype-vs-production.md)
 
@@ -313,4 +313,4 @@ Explain to Omar, who is not an engineer, in three sentences, why the pipeline sh
 | 🔍 | [Apache Kafka introduction](https://kafka.apache.org/intro) | What a streaming log is and why it underpins most streaming pipelines | 20 min |
 
 ---
-⬅️ [Module 2 overview](README.md) · ➡️ [Lesson 2.2 · Lineage, versioning and leakage](02-lineage-versioning-and-leakage.md)
+⬅️ [Module 2 overview](README.md) · ➡️ [Lesson 2.2: Lineage, versioning and leakage](02-lineage-versioning-and-leakage.md)

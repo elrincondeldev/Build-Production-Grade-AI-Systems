@@ -6,11 +6,14 @@
 
 ## 📨 The situation
 
-> **Omar (Risk):** Fraud losses are up sharply this month, but every dashboard is green: latency fine, no errors, the model is "running". Our analysts say fraudsters switched to **card testing**: dozens of tiny online charges to check whether a stolen card works.
+> **From: Omar (Risk)**
+> Fraud losses are up sharply this month, but every dashboard is green: latency fine, no errors, the model is "running". Our analysts say fraudsters switched to **card testing**: dozens of tiny online charges to check whether a stolen card works.
 >
-> **Lena (Support):** Related or not, the docs-assistant refuses more questions lately. People keep asking about crypto.
+> **From: Lena (Support)**
+> Related or not, the docs-assistant refuses more questions lately. People keep asking about crypto.
 >
-> **Diego (SRE):** And please, no more alerts that wake me up for things nobody can act on.
+> **From: Diego (SRE)**
+> And please, no more alerts that wake me up for things nobody can act on.
 
 ## 🎯 By the end you can
 

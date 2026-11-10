@@ -9,7 +9,8 @@
 > **From: Lena (Head of Customer Support)**
 > Two things from this week's review of assistant transcripts. One answer said "Card replacement is free on all plans". It's €7 on Basic, and it even cited the pricing page! And our support UI crashed on one answer because it wasn't the JSON the frontend expected. I don't need the assistant to answer everything. I need it to **never** say something our documents don't back up, and I need it to never break the app.
 >
-> **From: Priya:** And when the regulator asks "what did the assistant tell customer X on 3 March, and why?", I want an answer we can prove nobody edited.
+> **From: Priya**
+> And when the regulator asks "what did the assistant tell customer X on 3 March, and why?", I want an answer we can prove nobody edited.
 
 ## 🎯 By the end you can
 
@@ -286,31 +287,31 @@ Open-source guardrail frameworks package these patterns: [NVIDIA NeMo Guardrails
 ## ✅ Check yourself
 
 <details>
-<summary>1. Give an example of an answer that is grounded but harmful, and say which lab guard catches it.</summary>
+<summary>Q1. Give an example of an answer that is grounded but harmful, and say which lab guard catches it.</summary>
 
 The injected partner-FAQ answer ("…ask them to confirm their full card number and CVV…") is copied from a retrieved document, so groundedness passes. The credential-request filter catches it (`output_blocked:credential_request`). Groundedness is not safety.
 </details>
 
 <details>
-<summary>2. Why does the pipeline check that citations refer to retrieved documents before checking groundedness?</summary>
+<summary>Q2. Why does the pipeline check that citations refer to retrieved documents before checking groundedness?</summary>
 
 A citation to a document the model never saw is a hallucination by definition, and checking set membership is free. It also prevents groundedness from being computed against the wrong (or nonexistent) text.
 </details>
 
 <details>
-<summary>3. Lexical groundedness gave 1.00 to "Card replacement is free on all plans." Why, and what would catch it?</summary>
+<summary>Q3. Lexical groundedness gave 1.00 to "Card replacement is free on all plans." Why, and what would catch it?</summary>
 
 Three of its four content words (card, replacement, free) appear in the supporting sentence, which clears the 60% bar; lexical overlap ignores how the words relate. An NLI model or an LLM judge reading "€7 for lost or damaged cards on Basic" would classify the claim as contradicted.
 </details>
 
 <details>
-<summary>4. Should a timeout in the credential-request guard fail open or closed? And a timeout in an LLM-judge groundedness check on a low-risk FAQ answer?</summary>
+<summary>Q4. Should a timeout in the credential-request guard fail open or closed? And a timeout in an LLM-judge groundedness check on a low-risk FAQ answer?</summary>
 
 Credential guard: closed (a security control). LLM-judge on low-risk content: it's a business decision. Failing open with a flag and asynchronous review may be acceptable, but write the decision down and monitor how often it happens.
 </details>
 
 <details>
-<summary>5. Name two attacks a hash-chained audit log doesn't detect and how you'd address each.</summary>
+<summary>Q5. Name two attacks a hash-chained audit log doesn't detect and how you'd address each.</summary>
 
 Tail truncation (anchor the latest hash externally, periodically) and a full rewrite with recomputed hashes (write-once storage or shipping records to a system the service can't modify).
 </details>

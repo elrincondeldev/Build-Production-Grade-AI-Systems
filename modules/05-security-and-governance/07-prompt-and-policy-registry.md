@@ -230,31 +230,31 @@ The pattern "configuration changes deserve the same release discipline as code" 
 ## ✅ Check yourself
 
 <details>
-<summary>1. Why version the system prompt and the guardrail thresholds together rather than separately?</summary>
+<summary>Q1. Why version the system prompt and the guardrail thresholds together rather than separately?</summary>
 
 They interact: the same prompt with a looser groundedness or injection threshold is a different risk profile. Testing and rolling back them as one unit guarantees the combination you evaluated is the combination you run.
 </details>
 
 <details>
-<summary>2. Why doesn't rollback re-run the offline checks?</summary>
+<summary>Q2. Why doesn't rollback re-run the offline checks?</summary>
 
 The previous bundle already passed them when released, and a rollback happens during incidents, when it must be fast and reliable. A flaky or changed eval must not block it. (Record and review afterwards if today's checks would fail it.)
 </details>
 
 <details>
-<summary>3. Security metrics are gated at exactly 1.0, quality metrics at ≥ 0.7. Why the difference?</summary>
+<summary>Q3. Security metrics are gated at exactly 1.0, quality metrics at ≥ 0.7. Why the difference?</summary>
 
 A single leak of HR data or a single successful injection is an incident, not a 3% quality dip. Quality varies naturally across model runs and question sets, so it gets a tolerance.
 </details>
 
 <details>
-<summary>4. Bundles 1.0.0 and 1.1.0 score identically on the golden set. What do you conclude, and what do you add?</summary>
+<summary>Q4. Bundles 1.0.0 and 1.1.0 score identically on the golden set. What do you conclude, and what do you add?</summary>
 
 The eval can't detect the change (the fake model quotes verbatim, so groundedness is always 1.0). It's not evidence that 1.1.0 is better. Add cases that distinguish them: paraphrased answers and Lena's incorrect fee answer, evaluated with a real model.
 </details>
 
 <details>
-<summary>5. Your company wants a UI where Support can edit prompts. How do you keep the review process?</summary>
+<summary>Q5. Your company wants a UI where Support can edit prompts. How do you keep the review process?</summary>
 
 The UI creates a draft bundle or opens a pull request. Activation only happens through the same checked, four-eyes, audited path. The UI is an authoring tool, never a bypass.
 </details>

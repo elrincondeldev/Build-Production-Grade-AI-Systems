@@ -58,7 +58,9 @@ flowchart LR
 
 ---
 
-## Step 0: Install and run the tests
+## 📋 Steps
+
+### Step 0 · Install and run the tests
 
 ```bash
 cd modules/03-serving-and-optimization/lab
@@ -76,7 +78,7 @@ The skipped test is the ONNX parity test; it runs once you install the optional 
 
 ---
 
-## Step 1: The "aha": why batching changes everything (📖 lessons 3.2 and 3.5)
+### Step 1 · The "aha": why batching changes everything (📖 lessons 3.2 and 3.5)
 
 ```bash
 uv run python scripts/simulate_batching.py
@@ -116,7 +118,7 @@ uv run python scripts/simulate_batching.py --rps 3 --decode-base-ms 10 # a GPU w
 
 ---
 
-## Step 2: Run the service and read its timings (📖 lesson 3.4)
+### Step 2 · Run the service and read its timings (📖 lesson 3.4)
 
 In terminal 1:
 
@@ -150,7 +152,7 @@ curl -s -X POST localhost:8000/v1/answer \
 
 ---
 
-## Step 3: Baseline and saturation (📖 lesson 3.4)
+### Step 3 · Baseline and saturation (📖 lesson 3.4)
 
 With the server still running (default settings: the fake "GPU" serves 4 requests at a time and queues the rest):
 
@@ -173,7 +175,7 @@ cat results/loadtest.md
 
 ---
 
-## Step 4: Streaming and TTFT
+### Step 4 · Streaming and TTFT
 
 ```bash
 uv run python scripts/loadtest.py --concurrency 4 --requests 120 --stream --label "streaming c=4"
@@ -183,7 +185,7 @@ uv run python scripts/loadtest.py --concurrency 4 --requests 120 --stream --labe
 
 ---
 
-## Step 5: Caching, and its failure mode (📖 lesson 3.5)
+### Step 5 · Caching, and its failure mode (📖 lesson 3.5)
 
 Stop the server (Ctrl-C) and restart it with the exact cache:
 
@@ -214,13 +216,13 @@ ask "What is the FX markup on the Premium plan?"   # different question: should 
 
 **Expected:** `None | ...`, then `semantic | ...`, then `None | ...`.
 
-### 💥 Break it: the false hit
+#### 💥 Break it: the false hit
 
 Restart with `KESTREL_CACHE_SEMANTIC_THRESHOLD=0.5` and run the same three `ask` lines. The Premium question now returns `semantic`, which means **a Premium customer just got the Plus plan's answer**. The two questions have a cosine similarity of ~0.57 with our hash embeddings: almost the same words, a different meaning. This is why semantic caching needs a threshold tuned on labelled pairs, a monitored hit precision, and is usually kept off for anything involving money, permissions or personal data. (`tests/test_service.py::test_loose_threshold_serves_the_wrong_plan` captures this bug as a test.)
 
 ---
 
-## Step 6: Quantization by hand (📖 lesson 3.6)
+### Step 6 · Quantization by hand (📖 lesson 3.6)
 
 ```bash
 uv run python scripts/quantize_demo.py
@@ -243,7 +245,7 @@ uv run python scripts/quantize_demo.py
 
 ---
 
-## Step 7: ONNX export and runtime comparison (📖 lesson 3.7)
+### Step 7 · ONNX export and runtime comparison (📖 lesson 3.7)
 
 ```bash
 uv sync --extra onnx
@@ -267,7 +269,7 @@ Single-row scoring, which is what an online fraud API does, is ~10× faster in O
 
 ---
 
-## Step 8: Cost it out (📖 lesson 3.3)
+### Step 8 · Cost it out (📖 lesson 3.3)
 
 ```bash
 uv run python scripts/cost_calculator.py
@@ -286,7 +288,7 @@ uv run python scripts/cost_calculator.py --api-in 0.15 --api-out 0.60
 
 ---
 
-## Step 9 (optional): Point the same harness at a real model
+### Step 9 · Point the same harness at a real model (optional)
 
 Everything above works unchanged against a real model:
 

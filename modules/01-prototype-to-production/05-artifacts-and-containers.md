@@ -318,37 +318,37 @@ In [Lab 1](lab/README.md):
 ## ✅ Check yourself
 
 <details>
-<summary>1. Why does Lab 1 compute the sha256 <i>before</i> calling <code>joblib.load</code>, not after?</summary>
+<summary>Q1. Why does Lab 1 compute the sha256 <i>before</i> calling <code>joblib.load</code>, not after?</summary>
 
 Because loading a joblib/pickle file can execute code. If the file was tampered with, loading it first could already have run malicious code. Verifying first means a corrupted or substituted file is rejected before it's ever deserialized.
 </details>
 
 <details>
-<summary>2. An attacker with write access to the artifact bucket replaces <code>model.joblib</code> <i>and</i> updates <code>metadata.json</code> with the new hash. Does the check catch it? What would?</summary>
+<summary>Q2. An attacker with write access to the artifact bucket replaces <code>model.joblib</code> <i>and</i> updates <code>metadata.json</code> with the new hash. Does the check catch it? What would?</summary>
 
 No: the checksum only proves the file matches the metadata. A **signature** would: the training pipeline signs the hash with a private key the attacker doesn't have, and the service verifies it with the public key (e.g. Sigstore/cosign). Also restrict write access to the bucket.
 </details>
 
 <details>
-<summary>3. Reorder these Dockerfile lines for the best caching: <code>COPY src ./src</code>, <code>COPY pyproject.toml uv.lock ./</code>, <code>RUN uv sync --no-install-project</code>, <code>RUN uv sync</code>.</summary>
+<summary>Q3. Reorder these Dockerfile lines for the best caching: <code>COPY src ./src</code>, <code>COPY pyproject.toml uv.lock ./</code>, <code>RUN uv sync --no-install-project</code>, <code>RUN uv sync</code>.</summary>
 
 1. `COPY pyproject.toml uv.lock ./` 2. `RUN uv sync --no-install-project` (dependencies only, cached until the lockfile changes) 3. `COPY src ./src` 4. `RUN uv sync` (installs the project itself, fast).
 </details>
 
 <details>
-<summary>4. Give two advantages of baking the model into the image and two of fetching it at startup.</summary>
+<summary>Q4. Give two advantages of baking the model into the image and two of fetching it at startup.</summary>
 
 Baking: the image tag identifies code + model exactly (great for audits and rollbacks); no runtime dependency on storage for startup. Fetching: smaller images and faster builds (important for big models); new models can ship without rebuilding the image.
 </details>
 
 <details>
-<summary>5. A new pod's readiness probe never succeeds. What does a Deployment with <code>maxUnavailable: 0</code> do, and why is that good?</summary>
+<summary>Q5. A new pod's readiness probe never succeeds. What does a Deployment with <code>maxUnavailable: 0</code> do, and why is that good?</summary>
 
 The new pod never joins the Service, so it gets no traffic, and the rollout stalls because old pods aren't removed until new ones are ready. Production keeps running on the old version instead of being broken; you investigate and roll back.
 </details>
 
 <details>
-<summary>6. Why should production manifests avoid <code>image: kestrel/fraud-service:latest</code>?</summary>
+<summary>Q6. Why should production manifests avoid <code>image: kestrel/fraud-service:latest</code>?</summary>
 
 `latest` is a mutable tag: it can point to different images over time, so you can't tell what's running, deploys aren't reproducible, and different nodes may pull different images. Use an immutable version tag or a digest (`@sha256:…`).
 </details>

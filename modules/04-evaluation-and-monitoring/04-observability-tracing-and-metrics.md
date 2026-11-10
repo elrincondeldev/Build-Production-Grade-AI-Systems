@@ -6,7 +6,8 @@
 
 ## 📨 The situation
 
-> **Diego (SRE):** At 03:10 last night the docs-assistant got slow and a few answers were weird. I had logs full of `print("got here")` and no idea whether it was retrieval, the model, or one user hammering us. Before the assistant goes to all employees, I want three things: a dashboard I can glance at, alerts that mean something, and a way to pull up **one** bad request and see exactly what happened inside it.
+> **From: Diego (SRE)**
+> At 03:10 last night the docs-assistant got slow and a few answers were weird. I had logs full of `print("got here")` and no idea whether it was retrieval, the model, or one user hammering us. Before the assistant goes to all employees, I want three things: a dashboard I can glance at, alerts that mean something, and a way to pull up **one** bad request and see exactly what happened inside it.
 
 ## 🎯 By the end you can
 

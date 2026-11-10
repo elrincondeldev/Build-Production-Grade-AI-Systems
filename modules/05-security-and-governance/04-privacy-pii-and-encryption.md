@@ -253,31 +253,31 @@ Payment companies generally keep raw card numbers inside a small, heavily contro
 ## ✅ Check yourself
 
 <details>
-<summary>1. Name five places a card number typed into the assistant can end up, beyond the answer.</summary>
+<summary>Q1. Name five places a card number typed into the assistant can end up, beyond the answer.</summary>
 
 The prompt sent to the LLM provider, application logs (and the log vendor), traces/spans, the audit log, the semantic cache, evaluation datasets sampled from production, backups of all of these, and error reports (e.g. exception trackers capturing request bodies).
 </details>
 
 <details>
-<summary>2. Why is <code>sha256(email)</code> not anonymisation? What would you use for a joinable identifier?</summary>
+<summary>Q2. Why is <code>sha256(email)</code> not anonymisation? What would you use for a joinable identifier?</summary>
 
 Anyone can hash a large list of known emails and match them (a dictionary attack), so the hash is reversible in practice and remains personal data. Use a keyed hash (HMAC with a secret in a KMS) for joinability, and still treat it as pseudonymous personal data.
 </details>
 
 <details>
-<summary>3. Run Luhn on <code>4111 1111 1111 1112</code>.</summary>
+<summary>Q3. Run Luhn on <code>4111 1111 1111 1112</code>.</summary>
 
 From the right: 2, 1×2=2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 4×2=8. Sum = 2 + 7×2 + 7×1 + 8 = 2 + 14 + 7 + 8 = 31. 31 % 10 ≠ 0, so it's invalid and not redacted.
 </details>
 
 <details>
-<summary>4. For logs, which matters more, precision or recall? For user-facing answers?</summary>
+<summary>Q4. For logs, which matters more, precision or recall? For user-facing answers?</summary>
 
 Logs: recall. A miss is a leak; a false positive just makes a log line slightly less useful. Answers: precision matters more, because over-redaction destroys useful content (dates, prices, ids), though recall still matters for genuinely sensitive values.
 </details>
 
 <details>
-<summary>5. What is envelope encryption and what does it make cheap?</summary>
+<summary>Q5. What is envelope encryption and what does it make cheap?</summary>
 
 Data is encrypted locally with a random data key (DEK); the DEK is encrypted by a master key (KEK) held in a KMS. Bulk encryption stays fast and local, KEK rotation only re-wraps small DEKs, every decrypt is logged by the KMS, and deleting a DEK crypto-shreds its data everywhere, including backups.
 </details>

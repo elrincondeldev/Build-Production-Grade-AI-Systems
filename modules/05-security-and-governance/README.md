@@ -1,4 +1,4 @@
-# Module 5 · Security and Governance
+# Module 5: Security and Governance
 
 > ⏱ ~12 hours (7 lessons × 45–60 min + a 3–4 h lab) · Track B focus (`docs-assistant`), with Track A governance
 

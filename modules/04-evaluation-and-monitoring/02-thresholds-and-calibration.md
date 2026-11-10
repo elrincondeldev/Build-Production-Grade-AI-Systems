@@ -6,7 +6,8 @@
 
 ## 📨 The situation
 
-> **Omar (Risk):** Two questions about the fraud scores.
+> **From: Omar (Risk)**
+> Two questions about the fraud scores.
 > 1. Which threshold do we use? Sam used 0.5 "because that's the default".
 > 2. The model says this transaction has a **30%** chance of fraud. Our real fraud rate is under 2%. If the average score is 30%, what does "30%" even mean?
 >

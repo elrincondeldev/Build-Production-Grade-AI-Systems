@@ -6,7 +6,7 @@
 
 ## 📨 The situation
 
-> 📨 **From: Omar (Risk Analyst)**
+> **From: Omar (Risk Analyst)**
 > Sam told leadership the fraud model is "98.6% accurate" and everyone was thrilled.
 > But my team still reviews fraud cases by hand, and I'm not seeing fewer of them. Can you check what that number actually means before we bet the quarter on it?
 

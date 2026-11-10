@@ -234,37 +234,37 @@ For the docs-assistant the budget looks completely different: the LLM call domin
 ## ✅ Check yourself
 
 <details>
-<summary>1. Kestrel wants to email every customer a "your spending this month" summary written by an LLM. Batch, online or streaming? Why?</summary>
+<summary>Q1. Kestrel wants to email every customer a "your spending this month" summary written by an LLM. Batch, online or streaming? Why?</summary>
 
 **Batch.** Nobody is waiting, the data (last month's transactions) is complete in advance, and freshness of hours is fine. Batch lets you use cheaper capacity (off-peak, batched requests, maybe a cheaper model) and retry failures without user impact.
 </details>
 
 <details>
-<summary>2. Give three concrete reasons to extract fraud scoring from the payments monolith, and one reason not to.</summary>
+<summary>Q2. Give three concrete reasons to extract fraud scoring from the payments monolith, and one reason not to.</summary>
 
 For: independent model releases without redeploying payments; independent scaling and hardware; failure isolation (a model memory leak doesn't crash the ledger); different dependency stacks. Against: a network hop adds latency and new failure modes (timeouts, retries, partial outages) plus operational overhead.
 </details>
 
 <details>
-<summary>3. What is point-in-time correctness and what goes wrong without it?</summary>
+<summary>Q3. What is point-in-time correctness and what goes wrong without it?</summary>
 
 When building a training row for an event at time *t*, every feature must use only information available at *t*. Without it, you leak future information (e.g. today's 30-day average into a transaction from March), and offline metrics are better than production performance: a form of training/serving skew.
 </details>
 
 <details>
-<summary>4. Why must event consumers be idempotent?</summary>
+<summary>Q4. Why must event consumers be idempotent?</summary>
 
 Most brokers guarantee **at-least-once** delivery: after a crash or retry, the same event can arrive twice. An idempotent consumer produces the same result if it processes an event once or several times (e.g. "upsert case for transaction X" instead of "create a new case").
 </details>
 
 <details>
-<summary>5. In the 150 ms fraud budget, which single component deserves the most engineering attention, and why?</summary>
+<summary>Q5. In the 150 ms fraud budget, which single component deserves the most engineering attention, and why?</summary>
 
 The **feature store lookup**: it's a network call to another system, so it has the largest and least predictable latency and can fail. That's why it needs a timeout, bounded retries and a fallback (defaults or rules). The model itself is a small, predictable part of the budget.
 </details>
 
 <details>
-<summary>6. Why is the <code>/v1/explain/{id}</code> endpoint in Lab 1 a scaling problem?</summary>
+<summary>Q6. Why is the <code>/v1/explain/{id}</code> endpoint in Lab 1 a scaling problem?</summary>
 
 It depends on **in-memory state** (an LRU of recent scores) in one process. With several replicas, a request may reach a replica that never saw that transaction → 404. Fix: store recent scores in a shared store (Redis/DB) or make the request self-contained.
 </details>
