@@ -1,4 +1,5 @@
 # Lesson 1.5: Artifacts, Docker and Kubernetes
+<!-- id: l-1-5 -->
 
 > ⏱ ~60 min · 🎚 Level: Core · 🧰 Needs: [Lesson 1.4](04-production-services.md), [Lesson 0.1](../00-foundations/01-setup-your-workbench.md) (Docker installed)
 
@@ -23,9 +24,9 @@ This lesson covers the last mile of the packaging path: **notebook → versioned
 
 ## 🤔 Predict first
 
-1. You change one line of Python and rebuild your image. Why might Docker re-download every dependency, and how do you prevent it?
-2. A sha256 checksum proves which of these: the file isn't corrupted, the file was made by your training job, the model is good?
-3. Your Python image is 1.2 GB. Name two reasons it might be that big.
+1. You change one line of Python and rebuild your image. Why might Docker re-download every dependency, and how do you prevent it? <!-- id: p-1-5-1 -->
+2. A sha256 checksum proves which of these: the file isn't corrupted, the file was made by your training job, the model is good? <!-- id: p-1-5-2 -->
+3. Your Python image is 1.2 GB. Name two reasons it might be that big. <!-- id: p-1-5-3 -->
 
 ---
 
@@ -318,42 +319,43 @@ In [Lab 1](lab/README.md):
 ## ✅ Check yourself
 
 <details>
-<summary>Q1. Why does Lab 1 compute the sha256 <i>before</i> calling <code>joblib.load</code>, not after?</summary>
+<summary>Q1. Why does Lab 1 compute the sha256 <i>before</i> calling <code>joblib.load</code>, not after? <!-- id: c-1-5-1 --></summary>
 
 Because loading a joblib/pickle file can execute code. If the file was tampered with, loading it first could already have run malicious code. Verifying first means a corrupted or substituted file is rejected before it's ever deserialized.
 </details>
 
 <details>
-<summary>Q2. An attacker with write access to the artifact bucket replaces <code>model.joblib</code> <i>and</i> updates <code>metadata.json</code> with the new hash. Does the check catch it? What would?</summary>
+<summary>Q2. An attacker with write access to the artifact bucket replaces <code>model.joblib</code> <i>and</i> updates <code>metadata.json</code> with the new hash. Does the check catch it? What would? <!-- id: c-1-5-2 --></summary>
 
 No: the checksum only proves the file matches the metadata. A **signature** would: the training pipeline signs the hash with a private key the attacker doesn't have, and the service verifies it with the public key (e.g. Sigstore/cosign). Also restrict write access to the bucket.
 </details>
 
 <details>
-<summary>Q3. Reorder these Dockerfile lines for the best caching: <code>COPY src ./src</code>, <code>COPY pyproject.toml uv.lock ./</code>, <code>RUN uv sync --no-install-project</code>, <code>RUN uv sync</code>.</summary>
+<summary>Q3. Reorder these Dockerfile lines for the best caching: <code>COPY src ./src</code>, <code>COPY pyproject.toml uv.lock ./</code>, <code>RUN uv sync --no-install-project</code>, <code>RUN uv sync</code>. <!-- id: c-1-5-3 --></summary>
 
 1. `COPY pyproject.toml uv.lock ./` 2. `RUN uv sync --no-install-project` (dependencies only, cached until the lockfile changes) 3. `COPY src ./src` 4. `RUN uv sync` (installs the project itself, fast).
 </details>
 
 <details>
-<summary>Q4. Give two advantages of baking the model into the image and two of fetching it at startup.</summary>
+<summary>Q4. Give two advantages of baking the model into the image and two of fetching it at startup. <!-- id: c-1-5-4 --></summary>
 
 Baking: the image tag identifies code + model exactly (great for audits and rollbacks); no runtime dependency on storage for startup. Fetching: smaller images and faster builds (important for big models); new models can ship without rebuilding the image.
 </details>
 
 <details>
-<summary>Q5. A new pod's readiness probe never succeeds. What does a Deployment with <code>maxUnavailable: 0</code> do, and why is that good?</summary>
+<summary>Q5. A new pod's readiness probe never succeeds. What does a Deployment with <code>maxUnavailable: 0</code> do, and why is that good? <!-- id: c-1-5-5 --></summary>
 
 The new pod never joins the Service, so it gets no traffic, and the rollout stalls because old pods aren't removed until new ones are ready. Production keeps running on the old version instead of being broken; you investigate and roll back.
 </details>
 
 <details>
-<summary>Q6. Why should production manifests avoid <code>image: kestrel/fraud-service:latest</code>?</summary>
+<summary>Q6. Why should production manifests avoid <code>image: kestrel/fraud-service:latest</code>? <!-- id: c-1-5-6 --></summary>
 
 `latest` is a mutable tag: it can point to different images over time, so you can't tell what's running, deploys aren't reproducible, and different nodes may pull different images. Use an immutable version tag or a digest (`@sha256:…`).
 </details>
 
 ## 💬 Explain it back
+<!-- id: e-1-5 -->
 
 Answer Maya's leadership question ("which fraud model is running, and what data was it trained on?") as you would after this lesson: which command or file you'd check, and what fields you'd read, in under five sentences.
 

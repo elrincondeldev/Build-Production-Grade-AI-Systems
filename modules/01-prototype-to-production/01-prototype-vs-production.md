@@ -1,4 +1,5 @@
 # Lesson 1.1: Prototype vs production and the AI lifecycle
+<!-- id: l-1-1 -->
 
 > ⏱ ~45 min · 🎚 Level: Core · 🧰 Needs: [Module 0](../00-foundations/README.md)
 
@@ -24,9 +25,9 @@
 
 Answer in your head or in a notebook before reading on. Being wrong is fine: guessing first makes the explanation stick.
 
-1. Sam's model has 99% accuracy on a dataset where 1.4% of transactions are fraud. Is that good?
-2. If you train a model in a notebook and serve it from an API, the features are computed by… how many pieces of code?
-3. Name three things, other than the model file, that someone would need to rebuild Sam's model from scratch six months from now.
+1. Sam's model has 99% accuracy on a dataset where 1.4% of transactions are fraud. Is that good? <!-- id: p-1-1-1 -->
+2. If you train a model in a notebook and serve it from an API, the features are computed by… how many pieces of code? <!-- id: p-1-1-2 -->
+3. Name three things, other than the model file, that someone would need to rebuild Sam's model from scratch six months from now. <!-- id: p-1-1-3 -->
 
 ---
 
@@ -242,42 +243,43 @@ Expected: Sam's notebook reports AUC ≈ 0.95; the proper pipeline reports ROC-A
 ## ✅ Check yourself
 
 <details>
-<summary>Q1. A teammate's new churn model improved AUC from 0.71 to 0.93 after adding a feature called <code>account_closed_reason</code>. What's your first hypothesis?</summary>
+<summary>Q1. A teammate's new churn model improved AUC from 0.71 to 0.93 after adding a feature called <code>account_closed_reason</code>. What's your first hypothesis? <!-- id: c-1-1-1 --></summary>
 
 **Leakage.** A closure reason only exists *after* the customer churned, so it can't be known at prediction time. Ask: "At the moment we make this prediction in production, does this value exist, and does it have the same meaning?" Huge jumps from a single feature are suspicious until proven otherwise.
 </details>
 
 <details>
-<summary>Q2. Name the four common causes of training/serving skew.</summary>
+<summary>Q2. Name the four common causes of training/serving skew. <!-- id: c-1-1-2 --></summary>
 
 1. Two different code paths computing features. 2. Information that isn't available yet at serving time (leakage). 3. Different data sources or freshness between offline and online. 4. Different library versions or default behaviour.
 </details>
 
 <details>
-<summary>Q3. Why is a time-based train/test split more honest than a random split for fraud?</summary>
+<summary>Q3. Why is a time-based train/test split more honest than a random split for fraud? <!-- id: c-1-1-3 --></summary>
 
 In production you always predict the **future** using a model trained on the **past**. A random split lets the model train on transactions from after some test transactions, which leaks future patterns and makes metrics optimistic. A time-based split simulates deployment.
 </details>
 
 <details>
-<summary>Q4. Sam sends you <code>model.pkl</code>. List four questions you can't answer from that file alone.</summary>
+<summary>Q4. Sam sends you <code>model.pkl</code>. List four questions you can't answer from that file alone. <!-- id: c-1-1-4 --></summary>
 
 Any four of: which data (and version) trained it; which code/commit; which feature list and order it expects; which library versions are needed to load it; what its metrics were and on which test set; which random seed; whether the file is intact (checksum); who approved it; what threshold to use.
 </details>
 
 <details>
-<summary>Q5. Give one example of training/serving skew specific to LLM applications.</summary>
+<summary>Q5. Give one example of training/serving skew specific to LLM applications. <!-- id: c-1-1-5 --></summary>
 
 Examples: the evaluated prompt differs from the deployed one; evaluation used a different index version than production; different decoding parameters (temperature); the provider updated the model behind the same name; chunking or embedding model changed between eval and serving.
 </details>
 
 <details>
-<summary>Q6. Which stages of the lifecycle does "it just needs an API around it" ignore?</summary>
+<summary>Q6. Which stages of the lifecycle does "it just needs an API around it" ignore? <!-- id: c-1-1-6 --></summary>
 
 Mostly **packaging, serving reliability and monitoring** (stages 5–7), and usually the reproducibility of stages 1–4 as well. An API around an unversioned, unmonitored model with leaky features is still a prototype, just one that more people depend on.
 </details>
 
 ## 💬 Explain it back
+<!-- id: e-1-1 -->
 
 Explain **training/serving skew** to Omar, the risk analyst, in three sentences, without using the words "feature", "pipeline" or "distribution". If you can't, reread section 4.
 

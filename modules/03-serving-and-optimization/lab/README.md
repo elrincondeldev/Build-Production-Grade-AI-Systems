@@ -1,4 +1,5 @@
 # 🛠 Lab 3: Benchmark, cache, quantize and cost out
+<!-- id: lab-3 -->
 
 [Course home](../../../README.md) › [Module 3](../README.md) › Lab
 
@@ -61,6 +62,7 @@ flowchart LR
 ## 📋 Steps
 
 ### Step 0 · Install and run the tests
+<!-- id: lab-3-step-0 -->
 
 ```bash
 cd modules/03-serving-and-optimization/lab
@@ -79,6 +81,7 @@ The skipped test is the ONNX parity test; it runs once you install the optional 
 ---
 
 ### Step 1 · The "aha": why batching changes everything (📖 lessons 3.2 and 3.5)
+<!-- id: lab-3-step-1 -->
 
 ```bash
 uv run python scripts/simulate_batching.py
@@ -119,6 +122,7 @@ uv run python scripts/simulate_batching.py --rps 3 --decode-base-ms 10 # a GPU w
 ---
 
 ### Step 2 · Run the service and read its timings (📖 lesson 3.4)
+<!-- id: lab-3-step-2 -->
 
 In terminal 1:
 
@@ -153,6 +157,7 @@ curl -s -X POST localhost:8000/v1/answer \
 ---
 
 ### Step 3 · Baseline and saturation (📖 lesson 3.4)
+<!-- id: lab-3-step-3 -->
 
 With the server still running (default settings: the fake "GPU" serves 4 requests at a time and queues the rest):
 
@@ -176,6 +181,7 @@ cat results/loadtest.md
 ---
 
 ### Step 4 · Streaming and TTFT
+<!-- id: lab-3-step-4 -->
 
 ```bash
 uv run python scripts/loadtest.py --concurrency 4 --requests 120 --stream --label "streaming c=4"
@@ -186,6 +192,7 @@ uv run python scripts/loadtest.py --concurrency 4 --requests 120 --stream --labe
 ---
 
 ### Step 5 · Caching, and its failure mode (📖 lesson 3.5)
+<!-- id: lab-3-step-5 -->
 
 Stop the server (Ctrl-C) and restart it with the exact cache:
 
@@ -223,6 +230,7 @@ Restart with `KESTREL_CACHE_SEMANTIC_THRESHOLD=0.5` and run the same three `ask`
 ---
 
 ### Step 6 · Quantization by hand (📖 lesson 3.6)
+<!-- id: lab-3-step-6 -->
 
 ```bash
 uv run python scripts/quantize_demo.py
@@ -246,6 +254,7 @@ uv run python scripts/quantize_demo.py
 ---
 
 ### Step 7 · ONNX export and runtime comparison (📖 lesson 3.7)
+<!-- id: lab-3-step-7 -->
 
 ```bash
 uv sync --extra onnx
@@ -270,6 +279,7 @@ Single-row scoring, which is what an online fraud API does, is ~10× faster in O
 ---
 
 ### Step 8 · Cost it out (📖 lesson 3.3)
+<!-- id: lab-3-step-8 -->
 
 ```bash
 uv run python scripts/cost_calculator.py
@@ -289,6 +299,7 @@ uv run python scripts/cost_calculator.py --api-in 0.15 --api-out 0.60
 ---
 
 ### Step 9 · Point the same harness at a real model (optional)
+<!-- id: lab-3-step-9 -->
 
 Everything above works unchanged against a real model:
 

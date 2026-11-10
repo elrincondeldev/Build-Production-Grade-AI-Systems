@@ -1,4 +1,5 @@
 # Lesson 2.2: Lineage, versioning and leakage
+<!-- id: l-2-2 -->
 
 > ⏱ ~55 min · 🎚 Level: Core · 🧰 Needs: [Lesson 2.1](01-data-pipelines-and-validation.md)
 
@@ -22,9 +23,9 @@
 
 ## 🤔 Predict first
 
-1. Sam's PR-AUC jumped 7× after adding dispute data. Name one innocent and one suspicious explanation.
-2. You have two CSVs with different bytes. Can they contain the same data?
-3. Is a random 80/20 split safe for transaction data? Why or why not?
+1. Sam's PR-AUC jumped 7× after adding dispute data. Name one innocent and one suspicious explanation. <!-- id: p-2-2-1 -->
+2. You have two CSVs with different bytes. Can they contain the same data? <!-- id: p-2-2-2 -->
+3. Is a random 80/20 split safe for transaction data? Why or why not? <!-- id: p-2-2-3 -->
 
 ---
 
@@ -214,42 +215,43 @@ Leakage isn't only an industry problem. Kapoor and Narayanan's survey *Leakage a
 ## ✅ Check yourself
 
 <details>
-<summary>Q1. Name the five fields of a minimum lineage record.</summary>
+<summary>Q1. Name the five fields of a minimum lineage record. <!-- id: c-2-2-1 --></summary>
 
 Code version (commit + dirty flag), data digest, environment lock hash, parameters and seed, and a link to the produced artifact.
 </details>
 
 <details>
-<summary>Q2. Two CSVs have different SHA-256 hashes. Can they contain the same data?</summary>
+<summary>Q2. Two CSVs have different SHA-256 hashes. Can they contain the same data? <!-- id: c-2-2-2 --></summary>
 
 Yes. Byte-level differences (quoting, column order, float formatting) change the file hash without changing the content. That's why the lab also computes a content digest over the validated, column-sorted DataFrame.
 </details>
 
 <details>
-<summary>Q3. Training computes txn_count_24h over the calendar day; serving uses a rolling 24h window. What is this called, and how do you prevent it?</summary>
+<summary>Q3. Training computes txn_count_24h over the calendar day; serving uses a rolling 24h window. What is this called, and how do you prevent it? <!-- id: c-2-2-3 --></summary>
 
 Training/serving skew. Prevent it with a single shared feature definition (shared code or a feature store), by logging served features and training on them, and by comparing feature distributions between training and serving.
 </details>
 
 <details>
-<summary>Q4. Why is a random split dangerous for transaction data?</summary>
+<summary>Q4. Why is a random split dangerous for transaction data? <!-- id: c-2-2-4 --></summary>
 
 It mixes past and future, so the model can learn from future patterns (temporal leakage), and the same customers or fraud rings appear on both sides (group leakage). Offline scores get inflated. Split by time, and by group where relevant.
 </details>
 
 <details>
-<summary>Q5. A feature has single-feature ROC-AUC 0.95. Is it definitely leakage?</summary>
+<summary>Q5. A feature has single-feature ROC-AUC 0.95. Is it definitely leakage? <!-- id: c-2-2-5 --></summary>
 
 No, but it needs a human check. Ask when the value is written relative to the decision. Some legitimate features are very strong (for example a confirmed stolen-card list). The statistical check is a smoke alarm; the availability contract is the fire inspector.
 </details>
 
 <details>
-<summary>Q6. You fit a StandardScaler on the full dataset, then split. What's wrong?</summary>
+<summary>Q6. You fit a StandardScaler on the full dataset, then split. What's wrong? <!-- id: c-2-2-6 --></summary>
 
 Preprocessing leakage: the scaler's mean and variance include test data, so the test set is no longer truly unseen. Fit preprocessing on training data only, ideally inside a `Pipeline` so it's impossible to get wrong.
 </details>
 
 ## 💬 Explain it back
+<!-- id: e-2-2 -->
 
 Write the reply to Sam: explain, kindly and in under 100 words, why the 0.71 model can't ship and what "available at decision time" means.
 

@@ -1,4 +1,5 @@
 # Lesson 3.3: Topologies and unit economics
+<!-- id: l-3-3 -->
 
 > ⏱ ~50 min · 🎚 Level: Core · 🧰 Needs: Lessons 3.1–3.2
 
@@ -19,9 +20,9 @@
 
 ## 🤔 Predict first
 
-1. An API costs a fixed price per token; a GPU costs a fixed price per hour. Which one gets cheaper *per request* as traffic grows?
-2. If a small model can answer 70% of questions correctly and a large one 95%, is "small first, large if unsure" always cheaper?
-3. Name one reason to self-host that has nothing to do with cost.
+1. An API costs a fixed price per token; a GPU costs a fixed price per hour. Which one gets cheaper *per request* as traffic grows? <!-- id: p-3-3-1 -->
+2. If a small model can answer 70% of questions correctly and a large one 95%, is "small first, large if unsure" always cheaper? <!-- id: p-3-3-2 -->
+3. Name one reason to self-host that has nothing to do with cost. <!-- id: p-3-3-3 -->
 
 ---
 
@@ -233,32 +234,33 @@ A good cost recommendation has five parts:
 
 ## ✅ Check yourself
 
-<details><summary>Q1. Give one situation where a cascade costs MORE than always using the large model.</summary>
+<details><summary>Q1. Give one situation where a cascade costs MORE than always using the large model. <!-- id: c-3-3-1 --></summary>
 
 When the escalation rate is high: with a small model at 1/10 of the large model's cost, an escalation rate above 90% makes the cascade more expensive (you pay for both). It's also "more expensive" in latency for escalated requests at any rate.
 </details>
 
-<details><summary>Q2. Your provider returns 429 with <code>Retry-After: 20</code>. What should the client do, and what should the system do?</summary>
+<details><summary>Q2. Your provider returns 429 with <code>Retry-After: 20</code>. What should the client do, and what should the system do? <!-- id: c-3-3-2 --></summary>
 
 The client should not retry immediately. Honour Retry-After (or back off with jitter), and if the request is interactive, fail over to the backup model instead of making the user wait 20 s. The system should shape traffic below the limit (token bucket), prioritise interactive over batch traffic, and track how often limits are hit, so you can request a higher tier or add capacity.
 </details>
 
-<details><summary>Q3. Why does the self-hosted cost curve look like a staircase, not a line?</summary>
+<details><summary>Q3. Why does the self-hosted cost curve look like a staircase, not a line? <!-- id: c-3-3-3 --></summary>
 
 You pay for whole GPUs per hour regardless of load. Cost stays flat until the current GPUs can't serve the peak, then jumps by one GPU's cost. A minimum number of GPUs (for availability) plus ops cost sets a high floor.
 </details>
 
-<details><summary>Q4. The calculator says self-hosting is cheaper at your volume. Name three things you'd verify before recommending it.</summary>
+<details><summary>Q4. The calculator says self-hosting is cheaper at your volume. Name three things you'd verify before recommending it. <!-- id: c-3-3-4 --></summary>
 
 Any three: an open model reaches the required quality on the golden set; tokens/s was measured on your workload at the target latency SLO; realistic utilization and peak-to-average; ops cost and on-call capacity; residency and security requirements; GPU availability in your region; and the latest API prices, including cached-input discounts.
 </details>
 
-<details><summary>Q5. Why are input tokens a large share of a RAG application's API bill?</summary>
+<details><summary>Q5. Why are input tokens a large share of a RAG application's API bill? <!-- id: c-3-3-5 --></summary>
 
 Because RAG prompts include several retrieved chunks plus instructions, often 1,000–3,000 tokens, while answers are often 100–300 tokens. Even at a lower per-token price, input volume dominates. Better retrieval (fewer, more relevant chunks) cuts cost directly.
 </details>
 
 ## 💬 Explain it back
+<!-- id: e-3-3 -->
 
 Write the five-part one-pager for Maya using your own calculator run. Keep it under 200 words.
 

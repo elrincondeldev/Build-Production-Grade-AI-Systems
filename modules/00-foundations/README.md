@@ -1,4 +1,5 @@
 # Module 0: Foundations
+<!-- id: m-0 -->
 
 > ⏱ ~6 h (5 lessons × ~1 h + a 2 h lab) · 🎚 Beginner-friendly · 🧰 Needs: basic Python, a laptop
 

@@ -1,4 +1,5 @@
 # Lesson 3.7: Runtimes, kernels and decoding tricks
+<!-- id: l-3-7 -->
 
 > ⏱ ~60 min · 🎚 Level: Advanced · 🧰 Needs: Lessons 3.2 and 3.6
 
@@ -22,9 +23,9 @@
 
 ## 🤔 Predict first
 
-1. Converting a model to ONNX changes no weights. How could it make predictions 10× faster?
-2. FlashAttention computes *exactly* the same result as standard attention. Where can the speed come from?
-3. Speculative decoding uses a small model to "guess" tokens. Can it change the output of the big model?
+1. Converting a model to ONNX changes no weights. How could it make predictions 10× faster? <!-- id: p-3-7-1 -->
+2. FlashAttention computes *exactly* the same result as standard attention. Where can the speed come from? <!-- id: p-3-7-2 -->
+3. Speculative decoding uses a small model to "guess" tokens. Can it change the output of the big model? <!-- id: p-3-7-3 -->
 
 ---
 
@@ -270,32 +271,33 @@ For model servers, the **Open Inference Protocol** (also called the KServe v2 pr
 
 ## ✅ Check yourself
 
-<details><summary>Q1. Why can ONNX Runtime score one fraud transaction ~10× faster than scikit-learn with identical predictions?</summary>
+<details><summary>Q1. Why can ONNX Runtime score one fraud transaction ~10× faster than scikit-learn with identical predictions? <!-- id: c-3-7-1 --></summary>
 
 For a tiny model, most time per call is overhead: Python dispatch, input validation and object creation in scikit-learn. ONNX Runtime executes an optimised compiled graph with minimal per-call overhead. The math (and therefore the predictions) are the same, up to float32 rounding.
 </details>
 
-<details><summary>Q2. FlashAttention is exact. Where does its speed come from?</summary>
+<details><summary>Q2. FlashAttention is exact. Where does its speed come from? <!-- id: c-3-7-2 --></summary>
 
 From reducing memory traffic: it tiles the computation into on-chip SRAM and never writes the N × N attention matrix to HBM, using an online softmax to stay exact. Attention at long sequence lengths is memory-bound, so moving fewer bytes means faster execution.
 </details>
 
-<details><summary>Q3. Why doesn't speculative decoding change the target model's output distribution?</summary>
+<details><summary>Q3. Why doesn't speculative decoding change the target model's output distribution? <!-- id: c-3-7-3 --></summary>
 
 The target verifies every draft token and accepts or rejects it with a rule (a form of rejection sampling) designed so the accepted tokens are distributed exactly as if the target had sampled them itself. Rejected tokens are replaced by the target's own sample. With greedy decoding, accepted tokens are exactly the target's argmax tokens.
 </details>
 
-<details><summary>Q4. Why might speculative decoding help at batch size 1 but not at batch size 64?</summary>
+<details><summary>Q4. Why might speculative decoding help at batch size 1 but not at batch size 64? <!-- id: c-3-7-4 --></summary>
 
 At batch 1, decode is strongly memory-bound and the GPU has idle compute to verify several tokens at once almost for free. At batch 64, the GPU is closer to compute-bound and verification work competes with the other sequences' work, so the extra tokens per step cost real compute and the net gain shrinks or disappears.
 </details>
 
-<details><summary>Q5. Name three rules for evolving a protobuf contract without breaking clients.</summary>
+<details><summary>Q5. Name three rules for evolving a protobuf contract without breaking clients. <!-- id: c-3-7-5 --></summary>
 
 Never reuse or renumber field numbers (reserve removed ones); only add new fields with safe defaults; version the package and introduce a new version (v2) for breaking changes, running both during migration. Also: include the model version in responses for traceability.
 </details>
 
 ## 💬 Explain it back
+<!-- id: e-3-7 -->
 
 Answer Diego's question ("are these things we configure, or things we build?") for FlashAttention, PagedAttention, speculative decoding and ONNX export, one sentence each.
 

@@ -1,4 +1,5 @@
 # Lesson 1.4: Building production services
+<!-- id: l-1-4 -->
 
 > ⏱ ~60 min · 🎚 Level: Core · 🧰 Needs: [Lesson 1.3](03-reliability-primitives.md), [Lesson 0.2](../00-foundations/02-python-for-production.md)
 
@@ -24,9 +25,9 @@ This lesson walks through the inside of a production service: how the code is or
 
 ## 🤔 Predict first
 
-1. Your FastAPI endpoint is `async def` and calls `requests.get(...)` (a synchronous library) on a slow URL. What happens to *other* requests meanwhile?
-2. Should `/health` return 503 when the database is down?
-3. Where should the decision threshold (0.30) live: in code, in a config file baked into the image, or in an environment variable?
+1. Your FastAPI endpoint is `async def` and calls `requests.get(...)` (a synchronous library) on a slow URL. What happens to *other* requests meanwhile? <!-- id: p-1-4-1 -->
+2. Should `/health` return 503 when the database is down? <!-- id: p-1-4-2 -->
+3. Where should the decision threshold (0.30) live: in code, in a config file baked into the image, or in an environment variable? <!-- id: p-1-4-3 -->
 
 ---
 
@@ -337,42 +338,43 @@ In [Lab 1](lab/README.md):
 ## ✅ Check yourself
 
 <details>
-<summary>Q1. A teammate adds <code>import httpx</code> to <code>domain/scoring.py</code> to call a new risk API. What's wrong, and how would you restructure it?</summary>
+<summary>Q1. A teammate adds <code>import httpx</code> to <code>domain/scoring.py</code> to call a new risk API. What's wrong, and how would you restructure it? <!-- id: c-1-4-1 --></summary>
 
 It breaks the dependency rule: the domain now depends on transport details, becomes harder to test, and mixes business logic with I/O. Instead: define a protocol in the domain (e.g. `RiskSignalSource`), implement it in `adapters/` with httpx (timeouts, retries), and inject it in `main.py`.
 </details>
 
 <details>
-<summary>Q2. Name three places a secret must never end up, and one tool that helps catch mistakes.</summary>
+<summary>Q2. Name three places a secret must never end up, and one tool that helps catch mistakes. <!-- id: c-1-4-2 --></summary>
 
 Source code/Git history, container images (any layer), and logs/error messages (also: notebooks in shared drives, CI output). A secret scanner such as gitleaks or GitHub secret scanning catches commits that contain secrets.
 </details>
 
 <details>
-<summary>Q3. Your <code>async def ask()</code> endpoint calls a 1.5 s LLM API using the synchronous <code>requests</code> library. Under load, latency for <i>all</i> endpoints, even <code>/health</code>, jumps. Why?</summary>
+<summary>Q3. Your <code>async def ask()</code> endpoint calls a 1.5 s LLM API using the synchronous <code>requests</code> library. Under load, latency for <i>all</i> endpoints, even <code>/health</code>, jumps. Why? <!-- id: c-1-4-3 --></summary>
 
 `requests` blocks the event loop thread for 1.5 s per call, so the worker can't run any other coroutine, including `/health`. Use an async client (`httpx.AsyncClient`), or make the endpoint a plain `def` so FastAPI runs it in a thread pool.
 </details>
 
 <details>
-<summary>Q4. What's the difference between liveness and readiness, and what does Kubernetes do when each fails?</summary>
+<summary>Q4. What's the difference between liveness and readiness, and what does Kubernetes do when each fails? <!-- id: c-1-4-4 --></summary>
 
 Liveness: "is the process alive?" Failure → the container is restarted. Readiness: "should it receive traffic now?" Failure → it's removed from the Service's endpoints (no restart) until it's ready again.
 </details>
 
 <details>
-<summary>Q5. Why does the request-ID middleware validate the incoming header instead of copying it as-is?</summary>
+<summary>Q5. Why does the request-ID middleware validate the incoming header instead of copying it as-is? <!-- id: c-1-4-5 --></summary>
 
 Headers are untrusted input. A value with newlines or control characters could forge extra log lines (log injection) or break downstream systems; an extremely long value wastes storage. Validate the format and replace invalid values with a generated ID.
 </details>
 
 <details>
-<summary>Q6. Why is <code>{"event": "enrichment_retry", "attempt": 1, ...}</code> better than <code>"retry 1 after 503"</code>?</summary>
+<summary>Q6. Why is <code>{"event": "enrichment_retry", "attempt": 1, ...}</code> better than <code>"retry 1 after 503"</code>? <!-- id: c-1-4-6 --></summary>
 
 Structured fields can be filtered, aggregated and alerted on without fragile regex parsing (e.g. count `enrichment_retry` per minute, group by `error`, follow a `request_id`). Stable event names also survive wording changes.
 </details>
 
 ## 💬 Explain it back
+<!-- id: e-1-4 -->
 
 Priya and Diego each asked a question at the top. Write a short reply to each (3–4 sentences), referring to specific files in the Lab 1 service.
 

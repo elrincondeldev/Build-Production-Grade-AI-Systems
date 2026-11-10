@@ -1,4 +1,5 @@
 # Lesson 2.6: Experiment tracking and reproducibility
+<!-- id: l-2-6 -->
 
 > ⏱ ~50 min · 🎚 Level: Core · 🧰 Needs: [Lesson 2.2](02-lineage-versioning-and-leakage.md)
 
@@ -24,9 +25,9 @@
 
 ## 🤔 Predict first
 
-1. You run a hyperparameter search with 30 trials instead of 10, and the best *validation* score goes up. Will the *test* score go up too?
-2. Your serving code loads `models:/fraud-classifier/7`. What's the operational problem with pinning a version number in code?
-3. Name four things you'd need to retrain a model and get exactly the same result.
+1. You run a hyperparameter search with 30 trials instead of 10, and the best *validation* score goes up. Will the *test* score go up too? <!-- id: p-2-6-1 -->
+2. Your serving code loads `models:/fraud-classifier/7`. What's the operational problem with pinning a version number in code? <!-- id: p-2-6-2 -->
+3. Name four things you'd need to retrain a model and get exactly the same result. <!-- id: p-2-6-3 -->
 
 ---
 
@@ -234,42 +235,43 @@ Model-risk-management guidance in banking (for example the US Federal Reserve's 
 ## ✅ Check yourself
 
 <details>
-<summary>Q1. What's the difference between a hyperparameter and a parameter?</summary>
+<summary>Q1. What's the difference between a hyperparameter and a parameter? <!-- id: c-2-6-1 --></summary>
 
 Hyperparameters are chosen before training (learning rate, depth, regularisation); parameters are learned during training (tree splits, weights).
 </details>
 
 <details>
-<summary>Q2. Why load models by alias instead of version number?</summary>
+<summary>Q2. Why load models by alias instead of version number? <!-- id: c-2-6-2 --></summary>
 
 Promotion and rollback become registry operations (move the alias) with an audit trail, instead of code changes and redeploys.
 </details>
 
 <details>
-<summary>Q3. More tuning trials raised validation PR-AUC from 0.102 to 0.128 but lowered test PR-AUC from 0.099 to 0.082. Explain.</summary>
+<summary>Q3. More tuning trials raised validation PR-AUC from 0.102 to 0.128 but lowered test PR-AUC from 0.099 to 0.082. Explain. <!-- id: c-2-6-3 --></summary>
 
 Overfitting the validation set: many trials found settings that fit the noise of a small validation set. The untouched test set reveals it. Use a held-out test set, cross-validation, confidence intervals, and prefer simpler models when scores are within noise.
 </details>
 
 <details>
-<summary>Q4. List the items of the reproducibility checklist.</summary>
+<summary>Q4. List the items of the reproducibility checklist. <!-- id: c-2-6-4 --></summary>
 
 Code commit (+ dirty flag), data digest, data recipe/location, environment lock, seeds, configuration/command, artifact link, and hardware notes for GPU work.
 </details>
 
 <details>
-<summary>Q5. Model v2 was trained with --seed 7 and "beat" v1 (seed 42). Why is that comparison invalid?</summary>
+<summary>Q5. Model v2 was trained with --seed 7 and "beat" v1 (seed 42). Why is that comparison invalid? <!-- id: c-2-6-5 --></summary>
 
 In this lab the seed also generates the data, so the two models were evaluated on different test sets. Compare candidates on the same, fixed evaluation set.
 </details>
 
 <details>
-<summary>Q6. Why is loading a pickle file from an untrusted source dangerous?</summary>
+<summary>Q6. Why is loading a pickle file from an untrusted source dangerous? <!-- id: c-2-6-6 --></summary>
 
 Unpickling can execute arbitrary code. Use safer formats (skops for scikit-learn, safetensors for tensors), load only from your own registry, and verify digests.
 </details>
 
 ## 💬 Explain it back
+<!-- id: e-2-6 -->
 
 Draft the answer to the regulator's three questions for your `@champion` model, using only what you can find in MLflow (no notebooks).
 

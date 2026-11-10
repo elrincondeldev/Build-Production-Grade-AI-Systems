@@ -1,4 +1,5 @@
 # Lesson 5.7: Prompt and policy registry
+<!-- id: l-5-7 -->
 
 > ⏱ ~45 min · 🎚 Level: Core · 🧰 Needs: lesson 4.6 (progressive delivery), lessons 5.2–5.5
 
@@ -19,9 +20,9 @@
 
 ## 🤔 Predict first
 
-1. Should rolling back to a previous bundle re-run the offline checks? Why or why not?
-2. You raise the groundedness threshold from 0.6 to 0.75. How would you know whether that was an improvement?
-3. A prompt lives in a database and can be edited in an admin UI. List three things that can go wrong.
+1. Should rolling back to a previous bundle re-run the offline checks? Why or why not? <!-- id: p-5-7-1 -->
+2. You raise the groundedness threshold from 0.6 to 0.75. How would you know whether that was an improvement? <!-- id: p-5-7-2 -->
+3. A prompt lives in a database and can be edited in an admin UI. List three things that can go wrong. <!-- id: p-5-7-3 -->
 
 ---
 
@@ -230,36 +231,37 @@ The pattern "configuration changes deserve the same release discipline as code" 
 ## ✅ Check yourself
 
 <details>
-<summary>Q1. Why version the system prompt and the guardrail thresholds together rather than separately?</summary>
+<summary>Q1. Why version the system prompt and the guardrail thresholds together rather than separately? <!-- id: c-5-7-1 --></summary>
 
 They interact: the same prompt with a looser groundedness or injection threshold is a different risk profile. Testing and rolling back them as one unit guarantees the combination you evaluated is the combination you run.
 </details>
 
 <details>
-<summary>Q2. Why doesn't rollback re-run the offline checks?</summary>
+<summary>Q2. Why doesn't rollback re-run the offline checks? <!-- id: c-5-7-2 --></summary>
 
 The previous bundle already passed them when released, and a rollback happens during incidents, when it must be fast and reliable. A flaky or changed eval must not block it. (Record and review afterwards if today's checks would fail it.)
 </details>
 
 <details>
-<summary>Q3. Security metrics are gated at exactly 1.0, quality metrics at ≥ 0.7. Why the difference?</summary>
+<summary>Q3. Security metrics are gated at exactly 1.0, quality metrics at ≥ 0.7. Why the difference? <!-- id: c-5-7-3 --></summary>
 
 A single leak of HR data or a single successful injection is an incident, not a 3% quality dip. Quality varies naturally across model runs and question sets, so it gets a tolerance.
 </details>
 
 <details>
-<summary>Q4. Bundles 1.0.0 and 1.1.0 score identically on the golden set. What do you conclude, and what do you add?</summary>
+<summary>Q4. Bundles 1.0.0 and 1.1.0 score identically on the golden set. What do you conclude, and what do you add? <!-- id: c-5-7-4 --></summary>
 
 The eval can't detect the change (the fake model quotes verbatim, so groundedness is always 1.0). It's not evidence that 1.1.0 is better. Add cases that distinguish them: paraphrased answers and Lena's incorrect fee answer, evaluated with a real model.
 </details>
 
 <details>
-<summary>Q5. Your company wants a UI where Support can edit prompts. How do you keep the review process?</summary>
+<summary>Q5. Your company wants a UI where Support can edit prompts. How do you keep the review process? <!-- id: c-5-7-5 --></summary>
 
 The UI creates a draft bundle or opens a pull request. Activation only happens through the same checked, four-eyes, audited path. The UI is an authoring tool, never a bypass.
 </details>
 
 ## 💬 Explain it back
+<!-- id: e-5-7 -->
 
 Write the two-paragraph postmortem summary of Maya's Friday incident (what happened, impact, why it was possible) and the action items, each mapped to one feature of the lab's registry.
 

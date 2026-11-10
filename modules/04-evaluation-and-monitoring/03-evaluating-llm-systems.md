@@ -1,4 +1,5 @@
 # Lesson 4.3: Evaluating LLM systems
+<!-- id: l-4-3 -->
 
 > ⏱ ~70 min · 🎚 Level: Core → Advanced · 🧰 Needs: [lesson 4.1](01-offline-vs-online-and-classification-metrics.md), [lesson 2.5](../02-data-and-model-pipelines/05-vector-search-and-hybrid-retrieval.md)
 
@@ -20,9 +21,9 @@
 
 ## 🤔 Predict first
 
-1. Why can't you just compare the assistant's answer to the expected answer with `==`?
-2. An LLM judge agrees with humans on 90% of cases. Is that good?
-3. The assistant answers every question correctly but once called a tool that froze a customer's card without being asked. Should a release pass?
+1. Why can't you just compare the assistant's answer to the expected answer with `==`? <!-- id: p-4-3-1 -->
+2. An LLM judge agrees with humans on 90% of cases. Is that good? <!-- id: p-4-3-2 -->
+3. The assistant answers every question correctly but once called a tool that froze a customer's card without being asked. Should a release pass? <!-- id: p-4-3-3 -->
 
 ---
 
@@ -335,42 +336,43 @@ Teams that ship LLM products reliably converge on the same shape: a small, curat
 ## ✅ Check yourself
 
 <details>
-<summary>Q1. Name three failure modes a pure "answer correctness" score would miss.</summary>
+<summary>Q1. Name three failure modes a pure "answer correctness" score would miss. <!-- id: c-4-3-1 --></summary>
 
 Any three of: leaking a document the user may not see (while answering correctly); obeying an injected instruction on some inputs; missing citations; refusing answerable questions (if those aren't in the set); forgetting earlier turns; calling a dangerous tool.
 </details>
 
 <details>
-<summary>Q2. Your judge has 92% accuracy against humans, and 92% of human labels are "pass". What's kappa likely to be, and what does it mean?</summary>
+<summary>Q2. Your judge has 92% accuracy against humans, and 92% of human labels are "pass". What's kappa likely to be, and what does it mean? <!-- id: c-4-3-2 --></summary>
 
 Close to **0**, if the judge simply says "pass" to almost everything. Its accuracy equals the base rate, so it has no skill at spotting failures, the only thing you need it for.
 </details>
 
 <details>
-<summary>Q3. Why are safety thresholds absolute while quality thresholds have tolerance?</summary>
+<summary>Q3. Why are safety thresholds absolute while quality thresholds have tolerance? <!-- id: c-4-3-3 --></summary>
 
 Quality metrics are noisy, and a tiny dip can be random; blocking on noise trains people to ignore the gate. A single access violation or injection success is a real incident regardless of noise.
 </details>
 
 <details>
-<summary>Q4. retrieval_hit_rate is 1.0 but answer_pass_rate is 0.85. Where do you look first?</summary>
+<summary>Q4. retrieval_hit_rate is 1.0 but answer_pass_rate is 0.85. Where do you look first? <!-- id: c-4-3-4 --></summary>
 
 Generation: the prompt, the model, or the answer-extraction logic. The right document was retrieved every time but not used correctly. (Also check whether the metric itself is too strict, e.g. paraphrases.)
 </details>
 
 <details>
-<summary>Q5. Your agent's final message to the user was perfect, but it called <code>freeze_card</code> without being asked. Pass or fail?</summary>
+<summary>Q5. Your agent's final message to the user was perfect, but it called <code>freeze_card</code> without being asked. Pass or fail? <!-- id: c-4-3-5 --></summary>
 
 Fail. Agent evals grade the trajectory; a forbidden high-risk action is a safety failure whatever the text says (question 3).
 </details>
 
 <details>
-<summary>Q6. You switch the judge from model A to model B and judge_pass_rate jumps from 0.80 to 0.92. What do you do before celebrating?</summary>
+<summary>Q6. You switch the judge from model A to model B and judge_pass_rate jumps from 0.80 to 0.92. What do you do before celebrating? <!-- id: c-4-3-6 --></summary>
 
 Re-run judge calibration on the human-labelled set. The instrument changed; until B's agreement with humans is measured, you don't know whether the system improved or the ruler got more lenient.
 </details>
 
 ## 💬 Explain it back
+<!-- id: e-4-3 -->
 
 Lena asks: "Why can't we just have GPT grade every answer and be done?" Answer her in four sentences, using the word "ruler".
 

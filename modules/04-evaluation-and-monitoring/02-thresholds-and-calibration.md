@@ -1,4 +1,5 @@
 # Lesson 4.2: Thresholds and calibration
+<!-- id: l-4-2 -->
 
 > ⏱ ~55 min · 🎚 Level: Core · 🧰 Needs: [lesson 4.1](01-offline-vs-online-and-classification-metrics.md)
 
@@ -24,9 +25,9 @@
 
 ## 🤔 Predict first
 
-1. Reviewing an alert costs €5. A missed fraud costs its amount (~€78 on average). Should the threshold be above or below 0.5?
-2. A weather forecaster says "70% chance of rain" on 100 days. On how many days should it rain if the forecaster is good?
-3. Does calibrating a model change its ROC-AUC?
+1. Reviewing an alert costs €5. A missed fraud costs its amount (~€78 on average). Should the threshold be above or below 0.5? <!-- id: p-4-2-1 -->
+2. A weather forecaster says "70% chance of rain" on 100 days. On how many days should it rain if the forecaster is good? <!-- id: p-4-2-2 -->
+3. Does calibrating a model change its ROC-AUC? <!-- id: p-4-2-3 -->
 
 ---
 
@@ -239,42 +240,43 @@ Credit scoring is the oldest production home of these ideas. Lenders convert sco
 ## ✅ Check yourself
 
 <details>
-<summary>Q1. Review costs €10, friction €0, missed fraud costs €200. With calibrated p, above what probability should you flag?</summary>
+<summary>Q1. Review costs €10, friction €0, missed fraud costs €200. With calibrated p, above what probability should you flag? <!-- id: c-4-2-1 --></summary>
 
 Flag if p·200 > 10 → p > **0.05**.
 </details>
 
 <details>
-<summary>Q2. Among 1,000 transactions scored 0.20 by a model, 30 were fraud. Over- or underconfident in that bin?</summary>
+<summary>Q2. Among 1,000 transactions scored 0.20 by a model, 30 were fraud. Over- or underconfident in that bin? <!-- id: c-4-2-2 --></summary>
 
 Observed rate 3% < predicted 20% → **overconfident** (the point sits below the diagonal).
 </details>
 
 <details>
-<summary>Q3. Your base rate is 5%. Model A has Brier 0.040, model B 0.050. Is B useful?</summary>
+<summary>Q3. Your base rate is 5%. Model A has Brier 0.040, model B 0.050. Is B useful? <!-- id: c-4-2-3 --></summary>
 
 No-skill Brier = 0.05 × 0.95 = 0.0475. B (0.050) is **worse than predicting 5% for everyone**. A beats the baseline.
 </details>
 
 <details>
-<summary>Q4. Why does isotonic calibration need more data than Platt scaling?</summary>
+<summary>Q4. Why does isotonic calibration need more data than Platt scaling? <!-- id: c-4-2-4 --></summary>
 
 Isotonic fits a flexible step function (many parameters); with few positives it overfits noise. Platt fits two parameters and is stable with little data.
 </details>
 
 <details>
-<summary>Q5. A teammate says "we calibrated, so AUC improved from 0.74 to 0.90". What do you suspect?</summary>
+<summary>Q5. A teammate says "we calibrated, so AUC improved from 0.74 to 0.90". What do you suspect? <!-- id: c-4-2-5 --></summary>
 
 Calibration is monotone and preserves ranking, so a big AUC jump points to leakage, most likely calibrating or evaluating on overlapping data or the test set.
 </details>
 
 <details>
-<summary>Q6. Why did the sweep pick 0.85 when theory suggested ~0.10?</summary>
+<summary>Q6. Why did the sweep pick 0.85 when theory suggested ~0.10? <!-- id: c-4-2-6 --></summary>
 
 The sweep worked on uncalibrated scores, which are inflated (mean 0.30 vs 1.6% fraud). 0.85 on that scale corresponds to a much lower true probability. Re-running the sweep on isotonic-calibrated scores picks **≈ 0.06**, the same order of magnitude as the theoretical 0.10 (the exact value differs because fraud amounts vary around the €78 average).
 </details>
 
 ## 💬 Explain it back
+<!-- id: e-4-2 -->
 
 Explain to Omar, with the weather-forecaster analogy, why "the model says 30%" was meaningless before calibration and what it means now. Then tell him which single number you'd put in the CFO deck, and why.
 

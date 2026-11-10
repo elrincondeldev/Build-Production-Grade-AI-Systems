@@ -1,4 +1,5 @@
 # Lesson 6.2: Workflow orchestration
+<!-- id: l-6-2 -->
 
 > ⏱ ~50 min · 🎚 Level: Core · 🧰 Needs: lessons 2.1 (data pipelines) and 2.6 (experiment tracking)
 
@@ -22,9 +23,9 @@
 
 ## 🤔 Predict first
 
-1. Sam's cron job trained on half a week of data and "succeeded". Which feature of an orchestrator would have stopped that, and which would not have?
-2. A task writes `model.joblib` and then crashes before writing `metadata.json`. You retry it. What must be true about the task for the retry to be safe?
-3. Is Ray an orchestrator like Airflow?
+1. Sam's cron job trained on half a week of data and "succeeded". Which feature of an orchestrator would have stopped that, and which would not have? <!-- id: p-6-2-1 -->
+2. A task writes `model.joblib` and then crashes before writing `metadata.json`. You retry it. What must be true about the task for the retry to be safe? <!-- id: p-6-2-2 -->
+3. Is Ray an orchestrator like Airflow? <!-- id: p-6-2-3 -->
 
 ---
 
@@ -225,32 +226,33 @@ In most organisations the orchestrator choice was made before you arrived, usual
 
 ## ✅ Check yourself
 
-<details><summary>Q1. List three things an orchestrator gives you that cron does not.</summary>
+<details><summary>Q1. List three things an orchestrator gives you that cron does not. <!-- id: c-6-2-1 --></summary>
 
 Any three of: dependency ordering, retries with backoff, skipping downstream tasks on failure, run history and logs, backfills, data-aware triggers or sensors, alerting, distributed execution, caching.
 </details>
 
-<details><summary>Q2. What makes a task idempotent? Give an example of fixing a non-idempotent task.</summary>
+<details><summary>Q2. What makes a task idempotent? Give an example of fixing a non-idempotent task. <!-- id: c-6-2-2 --></summary>
 
 Running it more than once has the same effect as running it once. Example: replace "append today's rows" with "delete the partition for date X, then insert", or with a `MERGE` on a primary key. Or write models to a new versioned folder and flip a pointer, instead of overwriting `latest/`.
 </details>
 
-<details><summary>Q3. A teammate wants to replace Airflow with Ray "because it's faster". What's the misunderstanding?</summary>
+<details><summary>Q3. A teammate wants to replace Airflow with Ray "because it's faster". What's the misunderstanding? <!-- id: c-6-2-3 --></summary>
 
 Ray is a distributed compute engine, not a workflow scheduler. It speeds up the heavy step but doesn't provide scheduling, backfills, run history or failure handling across steps. The usual design is the orchestrator triggering Ray jobs.
 </details>
 
-<details><summary>Q4. Why does the lab's `register` task depend on both `train` and `evaluate`?</summary>
+<details><summary>Q4. Why does the lab's `register` task depend on both `train` and `evaluate`? <!-- id: c-6-2-4 --></summary>
 
 It needs the trained model (from `train`), and it must only run if the quality gate in `evaluate` passed. Depending on `evaluate` means a failed gate skips registration automatically.
 </details>
 
-<details><summary>Q5. Your team uses Dagster. Product asks for a daily retrain with automatic deployment to production. What do you push back on?</summary>
+<details><summary>Q5. Your team uses Dagster. Product asks for a daily retrain with automatic deployment to production. What do you push back on? <!-- id: c-6-2-5 --></summary>
 
 Automatic *registration* is fine; automatic *promotion* to production should go through the same release process as code: an eval gate, then a canary with auto-rollback (lesson 6.4), with a human able to stop it. Also check that labels for the newest data actually exist, since fraud labels are delayed.
 </details>
 
 ## 💬 Explain it back
+<!-- id: e-6-2 -->
 
 Explain to Sam, using their two cron incidents, which *specific* orchestrator features and which *specific* tasks would have prevented each one. (Hint: one is about a validation task, the other about idempotent, atomic registration.)
 

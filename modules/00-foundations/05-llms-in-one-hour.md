@@ -1,4 +1,5 @@
 # Lesson 0.5: LLMs in one hour
+<!-- id: l-0-5 -->
 
 > ⏱ ~60 min · 🎚 Level: Core · 🧰 Needs: [Lesson 0.3](03-http-and-apis.md)
 
@@ -20,9 +21,9 @@
 
 ## 🤔 Predict first
 
-1. Does an LLM "look up" facts in a database when it answers?
-2. If you set temperature to 0, is the output guaranteed to be correct?
-3. Which costs more in a typical RAG call: the user's question, the retrieved documents, or the answer?
+1. Does an LLM "look up" facts in a database when it answers? <!-- id: p-0-5-1 -->
+2. If you set temperature to 0, is the output guaranteed to be correct? <!-- id: p-0-5-2 -->
+3. Which costs more in a typical RAG call: the user's question, the retrieved documents, or the answer? <!-- id: p-0-5-3 -->
 
 ---
 
@@ -298,43 +299,44 @@ Production LLM applications are rarely "just a prompt". They combine retrieval (
 
 ## ✅ Check yourself
 
-<details><summary>Q1. Why do LLMs hallucinate?</summary>
+<details><summary>Q1. Why do LLMs hallucinate? <!-- id: c-0-5-1 --></summary>
 
 They are trained to produce **likely** continuations, not **verified** facts, and they have no lookup step. When the needed information isn't in their parameters or prompt (private data, post-cutoff events, rare facts), the most plausible-sounding continuation can be false, and it's delivered with the same fluency as a correct one.
 
 </details>
 
-<details><summary>Q2. In one sentence each: what do temperature and top-p do?</summary>
+<details><summary>Q2. In one sentence each: what do temperature and top-p do? <!-- id: c-0-5-2 --></summary>
 
 **Temperature** reshapes the next-token distribution (low = sharper, more predictable; high = flatter, more varied). **Top-p** restricts sampling to the smallest set of tokens whose cumulative probability reaches *p*, cutting off the unlikely tail.
 
 </details>
 
-<details><summary>Q3. Hash embeddings score "refund a fee" vs "get my money back for a charge" at 0.000; MiniLM gives 0.719. Explain.</summary>
+<details><summary>Q3. Hash embeddings score "refund a fee" vs "get my money back for a charge" at 0.000; MiniLM gives 0.719. Explain. <!-- id: c-0-5-3 --></summary>
 
 Hash embeddings only capture **shared words** (and random collisions); the two phrases share no content words. MiniLM was trained so that **paraphrases** map to nearby vectors, so it captures that both are about getting money back.
 
 </details>
 
-<details><summary>Q4. A RAG call has 2,000 input tokens and 300 output tokens. Which part probably costs more, and what's one way to reduce it?</summary>
+<details><summary>Q4. A RAG call has 2,000 input tokens and 300 output tokens. Which part probably costs more, and what's one way to reduce it? <!-- id: c-0-5-4 --></summary>
 
 With typical prices (output ~4× input per token), input costs ~2,000 units and output ~1,200, so **input** usually dominates. Retrieve fewer, more relevant chunks; shorten the system prompt; cache repeated questions; or use a cheaper model for easy questions.
 
 </details>
 
-<details><summary>Q5. Does RAG eliminate hallucinations?</summary>
+<details><summary>Q5. Does RAG eliminate hallucinations? <!-- id: c-0-5-5 --></summary>
 
 No. It grounds the model in retrieved text, but wrong or missing retrieval, contradictory documents, or a model ignoring the context can still produce unsupported answers. You measure **faithfulness** and **answer correctness** (Lesson 4.3) and add groundedness checks (Lesson 5.5).
 
 </details>
 
-<details><summary>Q6. Why is streaming useful if the total generation time doesn't change?</summary>
+<details><summary>Q6. Why is streaming useful if the total generation time doesn't change? <!-- id: c-0-5-6 --></summary>
 
 It improves **perceived latency**: the user starts reading after the **time to first token** instead of waiting for the whole answer. It also lets clients cancel early, saving tokens.
 
 </details>
 
 ## 💬 Explain it back
+<!-- id: e-0-5 -->
 
 Answer Lena in five sentences: why the public chatbot invented a 90-day window, what RAG changes, and one thing RAG still can't guarantee.
 

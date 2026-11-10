@@ -7,7 +7,7 @@
 
 ---
 
-**1.** Your teammate's `pyproject.toml` says `scikit-learn>=1.5` and there is no lock file. CI passed last month and fails today with no code changes. What's the most likely cause, and the fix?
+**1.** Your teammate's `pyproject.toml` says `scikit-learn>=1.5` and there is no lock file. CI passed last month and fails today with no code changes. What's the most likely cause, and the fix? <!-- id: q-0-1 -->
 
 <details><summary>Answer</summary>
 
@@ -15,7 +15,7 @@ A newer version of a dependency (direct or transitive) was resolved today and ch
 
 </details>
 
-**2.** Which of these should be validated with Pydantic, and which can be plain dataclasses? (a) the JSON body of `POST /score`, (b) a `Metrics` object your own evaluation function returns, (c) environment variables, (d) the JSON an LLM returns when asked for structured output.
+**2.** Which of these should be validated with Pydantic, and which can be plain dataclasses? (a) the JSON body of `POST /score`, (b) a `Metrics` object your own evaluation function returns, (c) environment variables, (d) the JSON an LLM returns when asked for structured output. <!-- id: q-0-2 -->
 
 <details><summary>Answer</summary>
 
@@ -23,7 +23,7 @@ A newer version of a dependency (direct or transitive) was resolved today and ch
 
 </details>
 
-**3.** An `async def` endpoint calls `time.sleep(2)` to "wait for a lock". Under load, latency for *all* endpoints jumps. Why?
+**3.** An `async def` endpoint calls `time.sleep(2)` to "wait for a lock". Under load, latency for *all* endpoints jumps. Why? <!-- id: q-0-3 -->
 
 <details><summary>Answer</summary>
 
@@ -31,7 +31,7 @@ A newer version of a dependency (direct or transitive) was resolved today and ch
 
 </details>
 
-**4.** Match each status code to the right action: `422`, `429`, `503`, `403`.
+**4.** Match each status code to the right action: `422`, `429`, `503`, `403`. <!-- id: q-0-4 -->
 
 <details><summary>Answer</summary>
 
@@ -44,7 +44,7 @@ A newer version of a dependency (direct or transitive) was resolved today and ch
 
 </details>
 
-**5.** Why is it dangerous to automatically retry `POST /payments` after a timeout, and what's the standard fix?
+**5.** Why is it dangerous to automatically retry `POST /payments` after a timeout, and what's the standard fix? <!-- id: q-0-5 -->
 
 <details><summary>Answer</summary>
 
@@ -52,7 +52,7 @@ The first request may have **succeeded** with only the response lost, so a retry
 
 </details>
 
-**6.** Kestrel's test set has 10,000 transactions with 141 frauds. A model flags 30 transactions, 20 of which are fraud. Compute precision, recall and accuracy.
+**6.** Kestrel's test set has 10,000 transactions with 141 frauds. A model flags 30 transactions, 20 of which are fraud. Compute precision, recall and accuracy. <!-- id: q-0-6 -->
 
 <details><summary>Answer</summary>
 
@@ -61,7 +61,7 @@ TP = 20, FP = 10, FN = 141 − 20 = 121, TN = 10,000 − 141 − 10 = 9,849.
 
 </details>
 
-**7.** Omar says "missing a fraud costs us far more than a false alarm." Should the threshold go up or down from 0.5? What will happen to precision and recall?
+**7.** Omar says "missing a fraud costs us far more than a false alarm." Should the threshold go up or down from 0.5? What will happen to precision and recall? <!-- id: q-0-7 -->
 
 <details><summary>Answer</summary>
 
@@ -69,7 +69,7 @@ TP = 20, FP = 10, FN = 141 − 20 = 121, TN = 10,000 − 141 − 10 = 9,849.
 
 </details>
 
-**8.** A model gets 100% recall on training data and 7% on test data. Name the problem and one fix that does *not* involve collecting more data.
+**8.** A model gets 100% recall on training data and 7% on test data. Name the problem and one fix that does *not* involve collecting more data. <!-- id: q-0-8 -->
 
 <details><summary>Answer</summary>
 
@@ -77,7 +77,7 @@ TP = 20, FP = 10, FN = 141 − 20 = 121, TN = 10,000 − 141 − 10 = 9,849.
 
 </details>
 
-**9.** For each candidate feature of a real-time fraud model, say *use* or *leak*: (a) `txn_count_24h` computed from transactions *before* this one, (b) `chargeback_filed`, (c) `analyst_review_outcome`, (d) `device_is_new`.
+**9.** For each candidate feature of a real-time fraud model, say *use* or *leak*: (a) `txn_count_24h` computed from transactions *before* this one, (b) `chargeback_filed`, (c) `analyst_review_outcome`, (d) `device_is_new`. <!-- id: q-0-9 -->
 
 <details><summary>Answer</summary>
 
@@ -85,7 +85,7 @@ TP = 20, FP = 10, FN = 141 − 20 = 121, TN = 10,000 − 141 − 10 = 9,849.
 
 </details>
 
-**10.** True or false, and why: "Setting temperature to 0 prevents hallucinations."
+**10.** True or false, and why: "Setting temperature to 0 prevents hallucinations." <!-- id: q-0-10 -->
 
 <details><summary>Answer</summary>
 
@@ -93,7 +93,7 @@ TP = 20, FP = 10, FN = 141 − 20 = 121, TN = 10,000 − 141 − 10 = 9,849.
 
 </details>
 
-**11.** Hash embeddings rank "How do partners get support?" first for the query "Can I get my money back for a fee?". Explain why, and name the kind of retrieval that combines the strengths of both approaches.
+**11.** Hash embeddings rank "How do partners get support?" first for the query "Can I get my money back for a fee?". Explain why, and name the kind of retrieval that combines the strengths of both approaches. <!-- id: q-0-11 -->
 
 <details><summary>Answer</summary>
 
@@ -101,7 +101,7 @@ Hash embeddings capture **shared words** (here, "get") rather than meaning, plus
 
 </details>
 
-**12.** A RAG answer uses 2,000 input tokens and 300 output tokens. With illustrative prices of $2.50 per 1M input tokens and $10.00 per 1M output tokens, what does one call cost, and what do 1M calls cost? Name two ways to cut it.
+**12.** A RAG answer uses 2,000 input tokens and 300 output tokens. With illustrative prices of $2.50 per 1M input tokens and $10.00 per 1M output tokens, what does one call cost, and what do 1M calls cost? Name two ways to cut it. <!-- id: q-0-12 -->
 
 <details><summary>Answer</summary>
 

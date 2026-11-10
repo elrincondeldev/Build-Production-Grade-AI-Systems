@@ -1,4 +1,5 @@
 # Module 3: Serving, Inference and Optimization
+<!-- id: m-3 -->
 
 > ⏱ ~12 hours (7 lessons × 45–60 min + a 3–4 h lab) · 🎚 Core → Advanced · 🧰 Needs: Modules 0–2 (Module 2 is helpful, not required for the lab)
 

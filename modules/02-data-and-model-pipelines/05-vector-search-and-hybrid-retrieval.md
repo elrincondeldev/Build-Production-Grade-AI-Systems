@@ -1,4 +1,5 @@
 # Lesson 2.5: Vector search and hybrid retrieval
+<!-- id: l-2-5 -->
 
 > ⏱ ~60 min · 🎚 Level: Core → Advanced · 🧰 Needs: [Lesson 2.4](04-document-parsing-and-chunking.md)
 
@@ -25,9 +26,9 @@
 
 ## 🤔 Predict first
 
-1. Which finds "T+2" better: keyword search or embeddings? Which finds "money back" when the doc says "refund"?
-2. You retrieve the top 5 chunks, *then* remove those the user may not see. What can go wrong?
-3. BM25 gives a chunk a score of 14.2; vector search gives it 0.81. How would you combine them?
+1. Which finds "T+2" better: keyword search or embeddings? Which finds "money back" when the doc says "refund"? <!-- id: p-2-5-1 -->
+2. You retrieve the top 5 chunks, *then* remove those the user may not see. What can go wrong? <!-- id: p-2-5-2 -->
+3. BM25 gives a chunk a score of 14.2; vector search gives it 0.81. How would you combine them? <!-- id: p-2-5-3 -->
 
 ---
 
@@ -312,42 +313,43 @@ Hybrid search with reranking is the common production default for enterprise RAG
 ## ✅ Check yourself
 
 <details>
-<summary>Q1. Compute RRF (k = 60) for a chunk ranked 2nd by BM25 and 2nd by dense, and compare it with one ranked 1st by BM25 only.</summary>
+<summary>Q1. Compute RRF (k = 60) for a chunk ranked 2nd by BM25 and 2nd by dense, and compare it with one ranked 1st by BM25 only. <!-- id: c-2-5-1 --></summary>
 
 2/62 ≈ 0.03226 vs 1/61 ≈ 0.01639. The chunk both retrievers agree on wins by a wide margin.
 </details>
 
 <details>
-<summary>Q2. Why is post-filtering by permission dangerous?</summary>
+<summary>Q2. Why is post-filtering by permission dangerous? <!-- id: c-2-5-2 --></summary>
 
 You can end up with zero results when the top-k were all forbidden, and forbidden content has already left the database (into logs, caches or prompts). Filter inside the search, on every retrieval path.
 </details>
 
 <details>
-<summary>Q3. Your nightly re-index doubles the collection size every night. What's the bug?</summary>
+<summary>Q3. Your nightly re-index doubles the collection size every night. What's the bug? <!-- id: c-2-5-3 --></summary>
 
 Point IDs aren't deterministic (for example random UUIDs), so upserts insert instead of overwriting. Derive IDs from stable chunk IDs (for example `uuid5(namespace, chunk_id)`).
 </details>
 
 <details>
-<summary>Q4. Three questions: first correct document at rank 1, at rank 3, and not found. MRR?</summary>
+<summary>Q4. Three questions: first correct document at rank 1, at rank 3, and not found. MRR? <!-- id: c-2-5-4 --></summary>
 
 (1 + 1/3 + 0) / 3 ≈ 0.444.
 </details>
 
 <details>
-<summary>Q5. Adding a reranker lowered recall@1 from 0.96 to 0.93. What do you do?</summary>
+<summary>Q5. Adding a reranker lowered recall@1 from 0.96 to 0.93. What do you do? <!-- id: c-2-5-5 --></summary>
 
 Believe the measurement. Check whether it's noise (one question on a tiny set), then try a stronger reranker (a cross-encoder), check the candidate list size, or drop the reranker. Never keep a component because it "should" help.
 </details>
 
 <details>
-<summary>Q6. When would you choose GraphRAG over hybrid RAG?</summary>
+<summary>Q6. When would you choose GraphRAG over hybrid RAG? <!-- id: c-2-5-6 --></summary>
 
 When important questions are global or multi-hop (themes across the corpus, relationships spanning documents) and the evaluation set shows hybrid retrieval failing on them, and you can afford LLM extraction at indexing time plus recomputation when documents change.
 </details>
 
 ## 💬 Explain it back
+<!-- id: e-2-5 -->
 
 Priya asks: "Why isn't it enough to tell the LLM 'don't reveal HR information'?" Answer in three sentences using the words *filter*, *prompt* and *log*.
 

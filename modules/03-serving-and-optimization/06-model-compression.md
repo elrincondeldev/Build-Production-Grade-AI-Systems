@@ -1,4 +1,5 @@
 # Lesson 3.6: Model compression
+<!-- id: l-3-6 -->
 
 > ⏱ ~60 min · 🎚 Level: Core → Advanced · 🧰 Needs: Lesson 3.2
 
@@ -20,9 +21,9 @@
 
 ## 🤔 Predict first
 
-1. An 8B model in BF16 is ~16 GB. Roughly how big is it in INT4?
-2. Quantizing to INT4 makes the model 4× smaller. Does that make **prefill** 4× faster, **decode** 4× faster, both, or neither?
-3. Removing 50% of a model's weights (setting them to zero) — does it halve the latency?
+1. An 8B model in BF16 is ~16 GB. Roughly how big is it in INT4? <!-- id: p-3-6-1 -->
+2. Quantizing to INT4 makes the model 4× smaller. Does that make **prefill** 4× faster, **decode** 4× faster, both, or neither? <!-- id: p-3-6-2 -->
+3. Removing 50% of a model's weights (setting them to zero) — does it halve the latency? <!-- id: p-3-6-3 -->
 
 ---
 
@@ -211,32 +212,33 @@ And do the cheap things first: shorter prompts, sensible `max_tokens`, caching a
 
 ## ✅ Check yourself
 
-<details><summary>Q1. Why did BF16 replace FP16 as the default for training large models?</summary>
+<details><summary>Q1. Why did BF16 replace FP16 as the default for training large models? <!-- id: c-3-6-1 --></summary>
 
 BF16 has the same 8-bit exponent (dynamic range) as FP32, so values don't overflow above 65,504 as in FP16, and loss scaling is generally not needed. It gives up mantissa precision, which networks tolerate well.
 </details>
 
-<details><summary>Q2. A weight row is [0.01, −0.02, 0.015, 1.5]. Why does per-tensor INT8 quantization hurt the small values, and what helps?</summary>
+<details><summary>Q2. A weight row is [0.01, −0.02, 0.015, 1.5]. Why does per-tensor INT8 quantization hurt the small values, and what helps? <!-- id: c-3-6-2 --></summary>
 
 The scale is set by max|w| = 1.5, so each step is 1.5/127 ≈ 0.0118, and values like 0.01 and 0.015 round to 1 step (0.0118) or 0, losing most of their information. Per-channel or group-wise scales, keeping outliers in higher precision, or methods like AWQ/SmoothQuant help.
 </details>
 
-<details><summary>Q3. Weight-only INT4 quantization makes decode faster but barely helps prefill. Why?</summary>
+<details><summary>Q3. Weight-only INT4 quantization makes decode faster but barely helps prefill. Why? <!-- id: c-3-6-3 --></summary>
 
 Decode is memory-bound: reading 4× fewer bytes per step speeds it up. Prefill is compute-bound and the math still runs in 16-bit after on-the-fly dequantization, so its FLOPs don't shrink.
 </details>
 
-<details><summary>Q4. You pruned 60% of weights to zero (unstructured) and latency didn't change. What happened?</summary>
+<details><summary>Q4. You pruned 60% of weights to zero (unstructured) and latency didn't change. What happened? <!-- id: c-3-6-4 --></summary>
 
 Dense matrix multiplication kernels do the same work regardless of zeros. Unstructured sparsity only speeds things up with sparse kernels or hardware support (e.g. 2:4 semi-structured sparsity on supporting GPUs). Structured pruning (removing whole heads or channels) yields real speed-ups.
 </details>
 
-<details><summary>Q5. What do soft targets give a student that hard labels don't?</summary>
+<details><summary>Q5. What do soft targets give a student that hard labels don't? <!-- id: c-3-6-5 --></summary>
 
 The teacher's relative probabilities across all classes (or tokens): which wrong answers are "almost right" and how confident the teacher is. This is richer information per example, so the student learns more from the same data.
 </details>
 
 ## 💬 Explain it back
+<!-- id: e-3-6 -->
 
 Reply to Sam's forum claim ("just use 4-bit, it's basically free") in 4 sentences: what 4-bit buys, what it costs, and how you'd decide.
 

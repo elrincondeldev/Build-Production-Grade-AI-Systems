@@ -1,4 +1,5 @@
 # Lesson 4.4: Observability: tracing and metrics
+<!-- id: l-4-4 -->
 
 > ⏱ ~60 min · 🎚 Level: Core · 🧰 Needs: [lesson 1.4](../01-prototype-to-production/04-production-services.md) (structured logging, request IDs)
 
@@ -20,9 +21,9 @@
 
 ## 🤔 Predict first
 
-1. You have the p95 latency of each of 10 servers. Can you average them to get the fleet's p95?
-2. Why is `user_id` a terrible label for a Prometheus metric?
-3. A user says "the answer about refunds was wrong". Which signal (metrics, logs or traces) helps you most, and why?
+1. You have the p95 latency of each of 10 servers. Can you average them to get the fleet's p95? <!-- id: p-4-4-1 -->
+2. Why is `user_id` a terrible label for a Prometheus metric? <!-- id: p-4-4-2 -->
+3. A user says "the answer about refunds was wrong". Which signal (metrics, logs or traces) helps you most, and why? <!-- id: p-4-4-3 -->
 
 ---
 
@@ -230,36 +231,37 @@ The four golden signals come from Google's SRE book, written from operating very
 ## ✅ Check yourself
 
 <details>
-<summary>Q1. Which metric type for: (a) total tokens used, (b) current number of in-flight requests, (c) retrieval latency?</summary>
+<summary>Q1. Which metric type for: (a) total tokens used, (b) current number of in-flight requests, (c) retrieval latency? <!-- id: c-4-4-1 --></summary>
 
 (a) Counter. (b) Gauge. (c) Histogram.
 </details>
 
 <details>
-<summary>Q2. Why does the lab label latency with <code>route.path</code> instead of <code>request.url.path</code>?</summary>
+<summary>Q2. Why does the lab label latency with <code>route.path</code> instead of <code>request.url.path</code>? <!-- id: c-4-4-2 --></summary>
 
 `route.path` is the template (`/ask`, `/users/{id}`), a bounded set. Raw paths can contain IDs and create unbounded label values, a cardinality explosion.
 </details>
 
 <details>
-<summary>Q3. Write the PromQL for the share of answers that were refusals over 15 minutes.</summary>
+<summary>Q3. Write the PromQL for the share of answers that were refusals over 15 minutes. <!-- id: c-4-4-3 --></summary>
 
 `sum(rate(kestrel_refusals_total[15m])) / sum(rate(kestrel_answers_total[15m]))`
 </details>
 
 <details>
-<summary>Q4. What is tail sampling, and why is it attractive for LLM apps?</summary>
+<summary>Q4. What is tail sampling, and why is it attractive for LLM apps? <!-- id: c-4-4-4 --></summary>
 
 Deciding which traces to keep *after* they finish, so you can keep every error and every slow or expensive request while sampling the boring ones. LLM latency and cost have long tails, which are exactly the requests you want to inspect.
 </details>
 
 <details>
-<summary>Q5. The dashboard shows healthy latency and zero errors, yet Lena's team is unhappy. Which panels would you look at?</summary>
+<summary>Q5. The dashboard shows healthy latency and zero errors, yet Lena's team is unhappy. Which panels would you look at? <!-- id: c-4-4-5 --></summary>
 
 The AI-specific ones: thumbs-down rate, refusal rate by reason, retrieval top score, answers by prompt version (did a release coincide?). Golden signals can't see "up but wrong".
 </details>
 
 ## 💬 Explain it back
+<!-- id: e-4-4 -->
 
 Explain to Diego, in under a minute, how he'd go from "p95 alert fired at 03:10" to "this prompt version packs too many chunks into context", naming the signal used at each step.
 

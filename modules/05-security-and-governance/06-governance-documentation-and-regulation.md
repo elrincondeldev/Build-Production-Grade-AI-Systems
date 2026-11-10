@@ -1,4 +1,5 @@
 # Lesson 5.6: Governance, documentation and regulation
+<!-- id: l-5-6 -->
 
 > ⏱ ~60 min · 🎚 Level: Core · 🧰 Needs: lesson 4.1 (classification metrics), lesson 4.2 (thresholds)
 
@@ -24,9 +25,9 @@
 
 ## 🤔 Predict first
 
-1. Legitimate customers paying abroad are flagged as fraud more often than those paying at home. Is that automatically unfair? What would you need to know?
-2. Can a model have equal false-positive rates across groups **and** be equally well calibrated for each group, if the groups' fraud rates differ?
-3. Under the EU AI Act, is a fraud-detection model a "high-risk" AI system?
+1. Legitimate customers paying abroad are flagged as fraud more often than those paying at home. Is that automatically unfair? What would you need to know? <!-- id: p-5-6-1 -->
+2. Can a model have equal false-positive rates across groups **and** be equally well calibrated for each group, if the groups' fraud rates differ? <!-- id: p-5-6-2 -->
+3. Under the EU AI Act, is a fraud-detection model a "high-risk" AI system? <!-- id: p-5-6-3 -->
 
 ---
 
@@ -204,36 +205,37 @@ Model cards spread quickly after the 2019 paper: Hugging Face shows one on every
 ## ✅ Check yourself
 
 <details>
-<summary>Q1. Why audit <code>country_mismatch</code> when it isn't a protected attribute?</summary>
+<summary>Q1. Why audit <code>country_mismatch</code> when it isn't a protected attribute? <!-- id: c-5-6-1 --></summary>
 
 It's a proxy: it correlates with nationality and migrant status. Excluding protected attributes doesn't prevent disparate outcomes when proxies remain, so you audit the outcomes by the proxy.
 </details>
 
 <details>
-<summary>Q2. The abroad group's fraud rate is 6.7× higher, but its FPR is 98× higher. What does that tell you, and what would you try?</summary>
+<summary>Q2. The abroad group's fraud rate is 6.7× higher, but its FPR is 98× higher. What does that tell you, and what would you try? <!-- id: c-5-6-2 --></summary>
 
 The gap in errors on legitimate customers is far larger than the base-rate difference explains; the single global threshold amplifies it. Try better features and models (so the score relies less on the proxy), different actions (step-up authentication instead of declines), threshold analysis per segment *with legal review*, and human review for affected cases. Document the decision either way.
 </details>
 
 <details>
-<summary>Q3. State the fairness impossibility result in one sentence.</summary>
+<summary>Q3. State the fairness impossibility result in one sentence. <!-- id: c-5-6-3 --></summary>
 
 When base rates differ between groups, a (non-perfect) classifier can't simultaneously be calibrated within each group and have equal false-positive and false-negative rates across groups. You have to choose and justify which property matters.
 </details>
 
 <details>
-<summary>Q4. Under the EU AI Act, why is the fraud model likely not high-risk while a credit-limit model likely is?</summary>
+<summary>Q4. Under the EU AI Act, why is the fraud model likely not high-risk while a credit-limit model likely is? <!-- id: c-5-6-4 --></summary>
 
 Annex III lists creditworthiness evaluation and credit scoring of natural persons as high-risk, and explicitly excludes AI systems used to detect financial fraud. Classification follows the use, so reusing the fraud score for credit limits would move it into the high-risk category. (Confirm with Legal; GDPR and other laws apply regardless.)
 </details>
 
 <details>
-<summary>Q5. Map each to a NIST AI RMF function: (a) the registry's four-eyes rule, (b) the fairness audit, (c) rollback, (d) the out-of-scope section.</summary>
+<summary>Q5. Map each to a NIST AI RMF function: (a) the registry's four-eyes rule, (b) the fairness audit, (c) rollback, (d) the out-of-scope section. <!-- id: c-5-6-5 --></summary>
 
 (a) Govern, (b) Measure, (c) Manage, (d) Map.
 </details>
 
 ## 💬 Explain it back
+<!-- id: e-5-6 -->
 
 Write the three-sentence answer Omar will read to the board for "Does the fraud model treat some customers unfairly?". Include one number, one decision and one follow-up.
 

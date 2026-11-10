@@ -1,4 +1,5 @@
 # 🛠 Lab 5: Lock down the assistant
+<!-- id: lab-5 -->
 
 > ⏱ 3–4 hours · Track B (`docs-assistant`, port 8000) · Runs offline, no API keys
 
@@ -55,6 +56,7 @@ flowchart LR
 ## 📋 Steps
 
 ### Step 1 · Install and run the tests
+<!-- id: lab-5-step-1 -->
 
 ```bash
 cd modules/05-security-and-governance/lab
@@ -72,6 +74,7 @@ Expected output:
 Read [`tests/test_injection.py`](tests/test_injection.py) first. It is the clearest description of what this lab defends against.
 
 ### Step 2 · Ask questions without a server
+<!-- id: lab-5-step-2 -->
 
 `scripts/ask.py` runs the full pipeline (minus HTTP and auth) from the command line.
 
@@ -102,6 +105,7 @@ uv run python scripts/ask.py --role customer --show-prompt "How long do partner 
 ✅ Check that the `partner-faq` document is wrapped as `<document id="partner-faq" … trust="untrusted">` and that the hidden `SYSTEM NOTE` comment is **gone**: ingest removed it.
 
 ### Step 3 · Prove role-based retrieval
+<!-- id: lab-5-step-3 -->
 
 ```bash
 uv run python scripts/ask.py --role customer "What is the salary band for a Staff Engineer?"
@@ -113,6 +117,7 @@ Expected: the customer gets `"refused": true` with `"I can't find that in the do
 🤔 Notice the customer's message doesn't say "access denied". Why is "I can't find that" the safer answer? (Hint: lesson 5.3, *existence disclosure*.)
 
 ### Step 4 · Start the API and authenticate
+<!-- id: lab-5-step-4 -->
 
 ```bash
 uv run uvicorn kestrel_docs_assistant.main:create_app --factory --port 8000
@@ -139,6 +144,7 @@ Expected:
 Paste `$TOKEN` into [jwt.io](https://jwt.io) (it's a dev token signed with a dev secret) and read the claims: `sub`, `role`, `iss`, `aud`, `iat`, `exp`.
 
 ### Step 5 · Direct prompt injection
+<!-- id: lab-5-step-5 -->
 
 ```bash
 curl -s -X POST localhost:8000/v1/ask -H "Authorization: Bearer $TOKEN" \
@@ -149,6 +155,7 @@ curl -s -X POST localhost:8000/v1/ask -H "Authorization: Bearer $TOKEN" \
 Expected: `"refused":true,"reason":"input_blocked:prompt_injection"`. The request never reached the model, so it cost nothing.
 
 ### Step 6 · Read the logs and the audit trail
+<!-- id: lab-5-step-6 -->
 
 The server terminal shows JSON logs. Startup includes:
 
@@ -172,6 +179,7 @@ OK: 3 records, hash chain intact (…/artifacts/audit.jsonl)
 ```
 
 ### Step 7 · Tamper with the audit log
+<!-- id: lab-5-step-7 -->
 
 Open `artifacts/audit.jsonl`, change `"actor": "alice"` to `"actor": "bob"` on the first line, save, and run the verifier again:
 
@@ -183,6 +191,7 @@ TAMPERING DETECTED at seq 1: seq 1: content was modified (hash mismatch)
 Delete the file afterwards (`rm artifacts/audit.jsonl`) so the service starts a fresh chain.
 
 ### Step 8 · Release a prompt/policy change, safely
+<!-- id: lab-5-step-8 -->
 
 ```bash
 uv run python scripts/registry_cli.py list
@@ -222,6 +231,7 @@ RESULT: all checks passed
 Both actions now appear in the audit log (`policy_activated`, `policy_rolled_back`).
 
 ### Step 9 · Governance artefacts
+<!-- id: lab-5-step-9 -->
 
 Read [`docs/model-card-fraud-service.md`](docs/model-card-fraud-service.md) and [`docs/datasheet-handbook.md`](docs/datasheet-handbook.md), then reproduce the fairness numbers:
 
@@ -241,6 +251,7 @@ FPR ratio abroad/domestic: 98.4x
 ```
 
 ### Step 10 · Try a real model (optional)
+<!-- id: lab-5-step-10 -->
 
 ```bash
 ollama pull qwen2.5:1.5b-instruct
