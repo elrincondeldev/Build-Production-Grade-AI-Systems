@@ -204,31 +204,31 @@ Model cards spread quickly after the 2019 paper: Hugging Face shows one on every
 ## ✅ Check yourself
 
 <details>
-<summary>1. Why audit <code>country_mismatch</code> when it isn't a protected attribute?</summary>
+<summary>Q1. Why audit <code>country_mismatch</code> when it isn't a protected attribute?</summary>
 
 It's a proxy: it correlates with nationality and migrant status. Excluding protected attributes doesn't prevent disparate outcomes when proxies remain, so you audit the outcomes by the proxy.
 </details>
 
 <details>
-<summary>2. The abroad group's fraud rate is 6.7× higher, but its FPR is 98× higher. What does that tell you, and what would you try?</summary>
+<summary>Q2. The abroad group's fraud rate is 6.7× higher, but its FPR is 98× higher. What does that tell you, and what would you try?</summary>
 
 The gap in errors on legitimate customers is far larger than the base-rate difference explains; the single global threshold amplifies it. Try better features and models (so the score relies less on the proxy), different actions (step-up authentication instead of declines), threshold analysis per segment *with legal review*, and human review for affected cases. Document the decision either way.
 </details>
 
 <details>
-<summary>3. State the fairness impossibility result in one sentence.</summary>
+<summary>Q3. State the fairness impossibility result in one sentence.</summary>
 
 When base rates differ between groups, a (non-perfect) classifier can't simultaneously be calibrated within each group and have equal false-positive and false-negative rates across groups. You have to choose and justify which property matters.
 </details>
 
 <details>
-<summary>4. Under the EU AI Act, why is the fraud model likely not high-risk while a credit-limit model likely is?</summary>
+<summary>Q4. Under the EU AI Act, why is the fraud model likely not high-risk while a credit-limit model likely is?</summary>
 
 Annex III lists creditworthiness evaluation and credit scoring of natural persons as high-risk, and explicitly excludes AI systems used to detect financial fraud. Classification follows the use, so reusing the fraud score for credit limits would move it into the high-risk category. (Confirm with Legal; GDPR and other laws apply regardless.)
 </details>
 
 <details>
-<summary>5. Map each to a NIST AI RMF function: (a) the registry's four-eyes rule, (b) the fairness audit, (c) rollback, (d) the out-of-scope section.</summary>
+<summary>Q5. Map each to a NIST AI RMF function: (a) the registry's four-eyes rule, (b) the fairness audit, (c) rollback, (d) the out-of-scope section.</summary>
 
 (a) Govern, (b) Measure, (c) Manage, (d) Map.
 </details>

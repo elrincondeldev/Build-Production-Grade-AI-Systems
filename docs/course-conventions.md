@@ -87,7 +87,11 @@ Concrete hands-on steps against the module lab, with expected output.
 A short real-world framing or case (no invented quotes of real companies).
 
 ## ✅ Check yourself
-<details><summary>Q1. ...</summary>Answer + why.</details>
+<details>
+<summary>Q1. ...</summary>
+
+Answer + why.
+</details>
 
 ## 💬 Explain it back
 One prompt that asks the learner to explain the idea to someone else.

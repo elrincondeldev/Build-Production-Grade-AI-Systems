@@ -248,31 +248,31 @@ Enterprise search and RAG products typically sync **access control lists (ACLs)*
 ## ✅ Check yourself
 
 <details>
-<summary>1. A teammate decodes a JWT with <code>jwt.decode(token, options={"verify_signature": False})</code> "just to read the role". What's wrong?</summary>
+<summary>Q1. A teammate decodes a JWT with <code>jwt.decode(token, options={"verify_signature": False})</code> "just to read the role". What's wrong?</summary>
 
 The role is then attacker-controlled: anyone can create a token claiming `role: hr`. Claims are only trustworthy after signature, `exp`, `iss` and `aud` validation. Never authorize on unverified claims.
 </details>
 
 <details>
-<summary>2. Explain the RS256 → HS256 key-confusion attack and the one-line fix.</summary>
+<summary>Q2. Explain the RS256 → HS256 key-confusion attack and the one-line fix.</summary>
 
 The attacker signs a token with HS256 using the server's *public* RSA key as the HMAC secret. A library that takes the algorithm from the token header verifies it with that same public key, and it matches. Fix: pin the algorithm (`algorithms=["RS256"]`) so the header can't choose.
 </details>
 
 <details>
-<summary>3. Give two concrete ways post-filtering leaks information even if the final filter is correct.</summary>
+<summary>Q3. Give two concrete ways post-filtering leaks information even if the final filter is correct.</summary>
 
 (a) Result counts and quality change depending on how many forbidden chunks ranked highly. (b) Latency differences. (c) Any code path that forgets the filter (cache, debug endpoint) leaks directly. (d) Corpus statistics like IDF reflect forbidden documents.
 </details>
 
 <details>
-<summary>4. Why does the lab return "I can't find that" rather than "access denied" for a customer's salary question?</summary>
+<summary>Q4. Why does the lab return "I can't find that" rather than "access denied" for a customer's salary question?</summary>
 
 "Access denied" confirms the information exists and is restricted, which is itself a disclosure. For data access, "not found" is the safer default.
 </details>
 
 <details>
-<summary>5. You add a semantic cache in front of the assistant. Which field must be part of the cache key, and why?</summary>
+<summary>Q5. You add a semantic cache in front of the assistant. Which field must be part of the cache key, and why?</summary>
 
 The user's permission set (or role/tenant). Otherwise an HR user's cached answer about salary bands can be served to a customer whose similar question is a cache "hit", bypassing retrieval-time authorization entirely.
 </details>
