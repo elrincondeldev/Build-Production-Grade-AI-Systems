@@ -1,0 +1,12 @@
+# The English commit each translated file was translated from (or last checked against).
+# When a file's English original changes after that commit, the platform marks the changed
+# sections stale until the translation is updated and this commit with it.
+modules/00-foundations/01-setup-your-workbench.md: 87d6db72d3874c94bad1f7269d59c2dc148ef710
+modules/00-foundations/02-python-for-production.md: 87d6db72d3874c94bad1f7269d59c2dc148ef710
+modules/00-foundations/03-http-and-apis.md: 87d6db72d3874c94bad1f7269d59c2dc148ef710
+modules/00-foundations/04-ml-in-one-hour.md: 87d6db72d3874c94bad1f7269d59c2dc148ef710
+modules/00-foundations/05-llms-in-one-hour.md: 87d6db72d3874c94bad1f7269d59c2dc148ef710
+modules/00-foundations/README.md: 87d6db72d3874c94bad1f7269d59c2dc148ef710
+modules/00-foundations/cheatsheet.md: 87d6db72d3874c94bad1f7269d59c2dc148ef710
+modules/00-foundations/lab/README.md: 87d6db72d3874c94bad1f7269d59c2dc148ef710
+modules/00-foundations/quiz.md: 87d6db72d3874c94bad1f7269d59c2dc148ef710

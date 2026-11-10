@@ -12,6 +12,10 @@ issued, so a removed ID stays retired.
 The check fails when an item has no ID or one of the wrong kind, an ID is malformed,
 duplicated or unregistered, an issued ID disappears without being marked retired, or an
 item is written in a format this check (and the platform) can't read.
+
+Translations under `i18n/<locale>/` mirror the English files; each translated file must
+carry exactly its original's IDs, in the same order, and nothing else. The platform checks
+the translated format itself (see `i18n/<locale>/README.md`).
 """
 
 from __future__ import annotations
@@ -157,6 +161,38 @@ class Checker:
             self.problem("tools/issued-ids.txt", f"'{ident}' no longer appears; mark it '{ident} retired'")
 
 
+def annotated_ids(path: Path) -> list[str]:
+    """The IDs annotated in a file, in order, skipping examples inside code blocks."""
+    rows = numbered_lines(path.read_text(encoding="utf-8"))
+    return [ident for _, line, code in rows if not code for ident in ID.findall(line)]
+
+
+def check_translations(checker: Checker) -> int:
+    """Every translated Markdown file has an English original with exactly its IDs."""
+    translated = sorted(
+        path for path in (REPO_ROOT / "i18n").glob("*/modules/**/*.md") if path.is_file()
+    )
+    for path in translated:
+        relative = path.relative_to(REPO_ROOT)
+        original = REPO_ROOT.joinpath(*relative.parts[2:])
+        if not original.exists():
+            checker.problem(str(relative), f"has no English original ({original.relative_to(REPO_ROOT)})")
+            continue
+        expected, actual = annotated_ids(original), annotated_ids(path)
+        if actual != expected:
+            missing = [i for i in expected if i not in actual]
+            extra = [i for i in actual if i not in expected]
+            detail = []
+            if missing:
+                detail.append(f"missing {', '.join(missing)}")
+            if extra:
+                detail.append(f"extra {', '.join(extra)}")
+            if not detail:
+                detail.append("same IDs in a different order")
+            checker.problem(str(relative), f"IDs differ from the English original: {'; '.join(detail)}")
+    return len(translated)
+
+
 def main() -> int:
     checker = Checker()
     files = sorted(REPO_ROOT.glob("modules/*/*.md")) + sorted(REPO_ROOT.glob("modules/*/lab/README.md"))
@@ -164,9 +200,13 @@ def main() -> int:
         if path.name != "cheatsheet.md":
             checker.file(path)
     checker.ledger()
+    translations = check_translations(checker)
     for problem in checker.problems:
         print(problem)
-    print(f"\nChecked {len(files)} files: {len(checker.found)} IDs, {len(checker.problems)} problem(s).")
+    print(
+        f"\nChecked {len(files)} files and {translations} translated: "
+        f"{len(checker.found)} IDs, {len(checker.problems)} problem(s)."
+    )
     return 1 if checker.problems else 0
 
 
