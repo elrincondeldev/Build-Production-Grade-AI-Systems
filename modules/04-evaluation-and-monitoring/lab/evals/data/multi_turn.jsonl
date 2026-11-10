@@ -1,0 +1,4 @@
+{"id": "mt01", "role": "customer", "turns": [{"question": "How many goodwill refunds can a customer get per year?", "expect_keywords": ["3"]}, {"question": "Who decides on them?", "expect_keywords": ["team lead"]}]}
+{"id": "mt02", "role": "customer", "turns": [{"question": "What is the deadline to open a dispute after the transaction date?", "expect_keywords": ["120"]}, {"question": "And how long can the investigation take?", "expect_keywords": ["45"]}]}
+{"id": "mt03", "role": "employee", "turns": [{"question": "What is the hotel limit per night?", "expect_keywords": ["180"]}, {"question": "Does that change for London?", "expect_keywords": ["250"]}]}
+{"id": "mt04", "role": "engineer", "turns": [{"question": "How often does the communications lead post updates during a SEV1?", "expect_keywords": ["30 minutes"]}, {"question": "And for a SEV2?", "expect_keywords": ["60 minutes"]}]}

@@ -1,0 +1,34 @@
+# HorizontalPodAutoscaler: adds pods when average CPU passes 70% of the *request*.
+# For GPU/LLM servers, CPU is the wrong signal: scale on queue depth or
+# in-flight requests via custom metrics instead (lesson 6.3).
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: kestrel-platform
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: kestrel-platform
+  minReplicas: 2
+  maxReplicas: 10
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 70
+  behavior:
+    scaleUp:
+      stabilizationWindowSeconds: 0      # react fast to spikes
+      policies:
+        - type: Percent
+          value: 100
+          periodSeconds: 60
+    scaleDown:
+      stabilizationWindowSeconds: 300    # scale down slowly to avoid flapping
+      policies:
+        - type: Pods
+          value: 1
+          periodSeconds: 60

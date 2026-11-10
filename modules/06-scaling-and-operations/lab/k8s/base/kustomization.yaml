@@ -1,0 +1,23 @@
+# Base: what every environment shares. Overlays (dev, prod) only change what differs.
+# Render without a cluster:  kubectl kustomize k8s/overlays/dev
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - deployment.yaml
+  - service.yaml
+  - hpa.yaml
+  - pdb.yaml
+
+labels:
+  - pairs:
+      app.kubernetes.io/part-of: kestrel
+      app.kubernetes.io/managed-by: kustomize
+
+# Non-secret configuration -> ConfigMap. Kustomize appends a content hash to the
+# name, so changing a value triggers a rolling restart automatically.
+configMapGenerator:
+  - name: kestrel-platform-config
+    literals:
+      - KESTREL_LOG_LEVEL=INFO
+      - KESTREL_LLM_PROVIDER=fake

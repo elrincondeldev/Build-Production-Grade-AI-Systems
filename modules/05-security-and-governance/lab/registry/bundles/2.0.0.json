@@ -1,0 +1,17 @@
+{
+  "version": "2.0.0",
+  "description": "'Friendlier' prompt from the growth team. Shorter, warmer... and missing safety clauses.",
+  "created_by": "growth-team",
+  "reviewed_by": null,
+  "created_at": "2026-12-10T16:45:00Z",
+  "system_prompt": "You are Kestrel Pay's friendly assistant! Help customers as much as possible and always try to give an answer, using the documents below when useful. Keep it short and upbeat. Respond in JSON.",
+  "policy": {
+    "top_k": 4,
+    "min_retrieval_score": 1.0,
+    "injection_threshold": 0.7,
+    "groundedness_threshold": 0.6,
+    "redact_pii_in_prompts": true,
+    "redact_pii_in_responses": true,
+    "max_question_chars": 1000
+  }
+}

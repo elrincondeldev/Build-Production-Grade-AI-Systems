@@ -1,0 +1,43 @@
+# Alerts for the docs-assistant. 📖 Lesson 4.5 "outcome-based alerting".
+# Rule of thumb: page a human only for symptoms users feel (outcomes);
+# everything else goes to a dashboard or a ticket.
+groups:
+  - name: docs-assistant-outcomes
+    rules:
+      - alert: AssistantThumbsDownRateHigh
+        # Outcome signal: more than 25% of rated answers are thumbs-down over 30 minutes,
+        # and enough ratings to trust the number (at least 20).
+        expr: |
+          (
+            sum(increase(kestrel_feedback_total{rating="down"}[30m]))
+            / sum(increase(kestrel_feedback_total[30m]))
+          ) > 0.25
+          and sum(increase(kestrel_feedback_total[30m])) >= 20
+        for: 10m
+        labels:
+          severity: ticket
+        annotations:
+          summary: "Users dislike >25% of docs-assistant answers"
+          runbook: "Check eval dashboard and recent prompt/model releases; consider prompt rollback (lesson 4.6)."
+
+      - alert: AssistantRefusalRateSpike
+        expr: |
+          sum(rate(kestrel_refusals_total[15m])) / sum(rate(kestrel_answers_total[15m])) > 0.30
+        for: 15m
+        labels:
+          severity: ticket
+        annotations:
+          summary: "More than 30% of questions are refused"
+          runbook: "Retrieval index empty or stale? New topics (embedding drift)? Check kestrel_retrieval_top_score."
+
+  - name: docs-assistant-slo
+    rules:
+      - alert: AssistantLatencyP95High
+        expr: |
+          histogram_quantile(0.95, sum by (le) (rate(kestrel_request_latency_seconds_bucket{route="/ask"}[5m]))) > 2
+        for: 10m
+        labels:
+          severity: page
+        annotations:
+          summary: "p95 /ask latency above 2 s for 10 minutes"
+          runbook: "See Module 3 (serving). Check LLM provider latency in traces."

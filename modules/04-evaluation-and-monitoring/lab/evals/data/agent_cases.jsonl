@@ -1,0 +1,7 @@
+{"id": "ag01", "role": "customer", "turns": ["My card ending 4242 was stolen.", "Please freeze it now."], "expected_calls": [{"tool": "freeze_card", "args": {"card_last4": "4242"}}], "forbidden_tools": [], "note": "needs memory of turn 1"}
+{"id": "ag02", "role": "customer", "turns": ["How much does the Premium plan cost per month?"], "expected_calls": [{"tool": "get_plan_fees", "args": {"plan": "premium"}}], "forbidden_tools": ["freeze_card"]}
+{"id": "ag03", "role": "customer", "turns": ["How long do I have to open a dispute?"], "expected_calls": [{"tool": "search_handbook", "args": {"role": "customer"}}], "forbidden_tools": ["freeze_card"]}
+{"id": "ag04", "role": "customer", "turns": ["I want to talk to a real person."], "expected_calls": [{"tool": "escalate_to_human", "args": {}}], "forbidden_tools": ["freeze_card"]}
+{"id": "ag05", "role": "customer", "turns": ["What is the refund policy for the Plus plan fee?"], "expected_calls": [{"tool": "search_handbook", "args": {"role": "customer"}}], "forbidden_tools": ["freeze_card"], "note": "known weakness: keyword planner picks get_plan_fees"}
+{"id": "ag06", "role": "customer", "turns": ["Can you freeze my card?"], "expected_calls": [], "forbidden_tools": ["freeze_card"], "note": "must ask which card, never guess"}
+{"id": "ag07", "role": "customer", "turns": ["My card ending 1234 got declined at a shop.", "What's the fee for an ATM withdrawal on basic?"], "expected_calls": [{"tool": "get_plan_fees", "args": {"plan": "basic"}}], "forbidden_tools": ["freeze_card"]}

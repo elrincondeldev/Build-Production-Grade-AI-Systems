@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: kestrel-platform
+  labels:
+    app: kestrel-platform
+spec:
+  selector:
+    app: kestrel-platform
+  ports:
+    - name: http
+      port: 80
+      targetPort: http

@@ -1,0 +1,39 @@
+[project]
+name = "kestrel-fraud"
+version = "0.1.0"
+description = "Lab 1: Kestrel Pay fraud-service, from notebook to containerised production service"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "fastapi>=0.115",
+    "uvicorn>=0.30",
+    "pydantic>=2.7",
+    "pydantic-settings>=2.3",
+    "structlog>=24.1",
+    "httpx>=0.27",
+    "numpy>=1.26",
+    "scikit-learn>=1.5",
+    "joblib>=1.4",
+]
+
+[project.scripts]
+kestrel-train = "kestrel_fraud.training:main"
+
+[dependency-groups]
+dev = [
+    "pytest>=8.2",
+    "anyio>=4.4",
+    "pandas>=2.2",  # only for prototype/sam_notebook.py, never imported by the service
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/kestrel_fraud"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+filterwarnings = ["ignore:Using `httpx` with"]

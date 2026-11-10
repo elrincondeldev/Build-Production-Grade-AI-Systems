@@ -1,0 +1,42 @@
+[project]
+name = "kestrel-foundations"
+version = "0.1.0"
+description = "Lab 0 of Build Production-Grade AI Systems: your first model, your first LLM call, your first API."
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "fastapi>=0.115",
+    "uvicorn>=0.30",
+    "httpx>=0.27",
+    "pydantic>=2.7",
+    "pydantic-settings>=2.3",
+    "numpy>=1.26",
+    "pandas>=2.2",
+    "scikit-learn>=1.5",
+]
+
+[project.optional-dependencies]
+# Real semantic embeddings. Downloads ~90 MB of model weights plus PyTorch.
+# Never needed by the tests: `uv sync --extra semantic` to try it.
+semantic = ["sentence-transformers>=3.0"]
+
+[project.scripts]
+train-first-model = "kestrel_foundations.train_first_model:main"
+first-llm-call = "kestrel_foundations.first_llm_call:main"
+embeddings-playground = "kestrel_foundations.embeddings_playground:main"
+hello-client = "kestrel_foundations.hello_client:main"
+
+[dependency-groups]
+dev = ["pytest>=8.2"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/kestrel_foundations"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+filterwarnings = ["ignore:Using `httpx` with `starlette.testclient` is deprecated"]

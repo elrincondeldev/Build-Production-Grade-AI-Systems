@@ -1,0 +1,15 @@
+# A stable virtual IP + DNS name (fraud-service.<namespace>.svc) in front of the ready pods.
+apiVersion: v1
+kind: Service
+metadata:
+  name: fraud-service
+  labels:
+    app.kubernetes.io/name: fraud-service
+spec:
+  type: ClusterIP
+  selector:
+    app.kubernetes.io/name: fraud-service
+  ports:
+    - name: http
+      port: 80
+      targetPort: http

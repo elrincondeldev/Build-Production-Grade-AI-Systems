@@ -1,0 +1,18 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kestrel-platform
+spec:
+  replicas: 3
+  template:
+    spec:
+      nodeSelector:
+        kestrel.example.com/pool: cpu-general      # dedicated node pool for CPU services
+      containers:
+        - name: app
+          resources:
+            requests:
+              cpu: 500m
+              memory: 512Mi
+            limits:
+              memory: 1Gi
