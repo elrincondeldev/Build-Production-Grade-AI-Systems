@@ -49,11 +49,14 @@ Each lesson opens with a short message from one of them (`📨 The situation`).
 
 ## 3. Lesson template
 
+Titles use ':' as the separator: `# Lesson N.L: Title`, `# Module N: Title`,
+`# 🛠 Lab N: Title`, `# Module N quiz: Title`.
+
 Every lesson file is `modules/NN-name/LL-lesson-slug.md` and uses this skeleton
 (sections may be omitted only if truly not applicable):
 
 ```markdown
-# Lesson N.L — Title
+# Lesson N.L: Title
 
 > ⏱ ~45 min · 🎚 Level: Core | Advanced · 🧰 Needs: lesson N.(L-1)
 

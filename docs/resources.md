@@ -21,7 +21,7 @@ These run in parallel with the whole course. If you only bookmark five links, bo
 | 📘 | [Full Stack Deep Learning](https://fullstackdeeplearning.com) | Course + LLM Bootcamp videos |
 | 📘 | [The Missing Semester of Your CS Education (MIT)](https://missing.csail.mit.edu) | Shell, Git, editors, debugging |
 
-## Module 0 · Foundations
+## Module 0: Foundations
 | | Resource |
 |---|---|
 | 🛠 | [uv documentation](https://docs.astral.sh/uv/) |
@@ -30,7 +30,7 @@ These run in parallel with the whole course. If you only bookmark five links, bo
 | ⭐📘 | [Google Machine Learning Crash Course](https://developers.google.com/machine-learning/crash-course) |
 | 📘 | [Hugging Face LLM Course](https://huggingface.co/learn/llm-course) |
 
-## Module 1 · From Prototype to Production
+## Module 1: From Prototype to Production
 | | Resource |
 |---|---|
 | ⭐✍️ | [Rules of Machine Learning (Martin Zinkevich, Google)](https://developers.google.com/machine-learning/guides/rules-of-ml) |
@@ -44,7 +44,7 @@ These run in parallel with the whole course. If you only bookmark five links, bo
 | 🛠 | [Kubernetes Basics tutorial](https://kubernetes.io/docs/tutorials/kubernetes-basics/) |
 | 🛠 | [gRPC introduction](https://grpc.io/docs/what-is-grpc/introduction/) |
 
-## Module 2 · Data and Model Pipelines
+## Module 2: Data and Model Pipelines
 | | Resource |
 |---|---|
 | ⭐📘 | [Data Engineering Zoomcamp (DataTalks.Club)](https://github.com/DataTalksClub/data-engineering-zoomcamp) |
@@ -59,7 +59,7 @@ These run in parallel with the whole course. If you only bookmark five links, bo
 | 📄 | [LoRA: Low-Rank Adaptation of Large Language Models](https://arxiv.org/abs/2106.09685) |
 | 📘 | [The Ultra-Scale Playbook (Hugging Face)](https://huggingface.co/spaces/nanotron/ultrascale-playbook) |
 
-## Module 3 · Serving, Inference and Optimization
+## Module 3: Serving, Inference and Optimization
 | | Resource |
 |---|---|
 | ⭐✍️ | [Making Deep Learning Go Brrrr From First Principles (Horace He)](https://horace.io/brrr_intro.html) |
@@ -74,7 +74,7 @@ These run in parallel with the whole course. If you only bookmark five links, bo
 | 🛠 | [ONNX Runtime](https://onnxruntime.ai) |
 | 🛠 | [Artificial Analysis](https://artificialanalysis.ai): model price and speed comparisons |
 
-## Module 4 · Evaluation and Monitoring
+## Module 4: Evaluation and Monitoring
 | | Resource |
 |---|---|
 | ⭐🛠 | [scikit-learn: Probability calibration](https://scikit-learn.org/stable/modules/calibration.html) |
@@ -86,7 +86,7 @@ These run in parallel with the whole course. If you only bookmark five links, bo
 | 🛠 | [OpenTelemetry](https://opentelemetry.io/docs/) · [Prometheus](https://prometheus.io/docs/introduction/overview/) · [Grafana tutorials](https://grafana.com/tutorials/) |
 | 🛠 | [Evidently AI](https://www.evidentlyai.com): open-source drift reports and a free ML observability course |
 
-## Module 5 · Security and Governance
+## Module 5: Security and Governance
 | | Resource |
 |---|---|
 | ⭐🛠 | [OWASP Top 10 for LLM Applications](https://genai.owasp.org/llm-top-10/) |
@@ -98,7 +98,7 @@ These run in parallel with the whole course. If you only bookmark five links, bo
 | 🛠 | [NIST AI Risk Management Framework](https://www.nist.gov/itl/ai-risk-management-framework) |
 | 🛠 | [EU AI Act explorer](https://artificialintelligenceact.eu) |
 
-## Module 6 · Scaling and Operations
+## Module 6: Scaling and Operations
 | | Resource |
 |---|---|
 | 🛠 | [Kubernetes documentation](https://kubernetes.io/docs/home/) · [Kubernetes the Hard Way](https://github.com/kelseyhightower/kubernetes-the-hard-way) |

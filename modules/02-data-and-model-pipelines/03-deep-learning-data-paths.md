@@ -1,4 +1,4 @@
-# Lesson 2.3 · Deep-learning data paths
+# Lesson 2.3: Deep-learning data paths
 
 > ⏱ ~45 min · 🎚 Level: Core (conceptual, with one runnable demo) · 🧰 Needs: [Lesson 2.2](02-lineage-versioning-and-leakage.md)
 
@@ -282,4 +282,4 @@ Diego asks: "Will doubling the GPUs fix 31% utilisation?" Answer in three senten
 | 🔍 | [Hugging Face Datasets documentation](https://huggingface.co/docs/datasets) | Arrow-backed caching, streaming large datasets, sharding | 40 min |
 
 ---
-⬅️ [Lesson 2.2 · Lineage, versioning and leakage](02-lineage-versioning-and-leakage.md) · ➡️ [Lesson 2.4 · Document parsing and chunking](04-document-parsing-and-chunking.md)
+⬅️ [Lesson 2.2: Lineage, versioning and leakage](02-lineage-versioning-and-leakage.md) · ➡️ [Lesson 2.4: Document parsing and chunking](04-document-parsing-and-chunking.md)

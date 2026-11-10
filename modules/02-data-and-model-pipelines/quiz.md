@@ -1,4 +1,4 @@
-# Module 2 quiz · Data and Model Pipelines
+# Module 2 quiz: Data and Model Pipelines
 
 > 15 questions · ~25 min · Answer before opening each one. Questions 13–15 are **spaced review** from earlier modules.
 

@@ -1,4 +1,4 @@
-# Module 2 cheat sheet · Data and Model Pipelines
+# Module 2 cheat sheet: Data and Model Pipelines
 
 [Course home](../../README.md) › [Module 2](README.md) › Cheat sheet
 
@@ -83,4 +83,4 @@ uv run python scripts/eval_retrieval.py
 uv run uvicorn kestrel_docs.main:create_app --factory --port 8000
 ```
 
-⬅️ [Quiz](quiz.md) · ➡️ [Module 3 · Serving and Optimization](../03-serving-and-optimization/README.md)
+⬅️ [Quiz](quiz.md) · ➡️ [Module 3: Serving and Optimization](../03-serving-and-optimization/README.md)

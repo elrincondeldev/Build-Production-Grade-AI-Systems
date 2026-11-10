@@ -1,4 +1,4 @@
-# Lesson 2.5 · Vector search and hybrid retrieval
+# Lesson 2.5: Vector search and hybrid retrieval
 
 > ⏱ ~60 min · 🎚 Level: Core → Advanced · 🧰 Needs: [Lesson 2.4](04-document-parsing-and-chunking.md)
 
@@ -375,4 +375,4 @@ Priya asks: "Why isn't it enough to tell the LLM 'don't reveal HR information'?"
 | 🔍 | [pgvector](https://github.com/pgvector/pgvector) | Vector search inside Postgres | 20 min |
 
 ---
-⬅️ [Lesson 2.4 · Document parsing and chunking](04-document-parsing-and-chunking.md) · ➡️ [Lesson 2.6 · Experiment tracking and reproducibility](06-experiment-tracking-and-reproducibility.md)
+⬅️ [Lesson 2.4: Document parsing and chunking](04-document-parsing-and-chunking.md) · ➡️ [Lesson 2.6: Experiment tracking and reproducibility](06-experiment-tracking-and-reproducibility.md)

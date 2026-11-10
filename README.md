@@ -102,7 +102,7 @@ flowchart TB
 
 Legend: ⏱ estimated time · 🛠 hands-on lab · ✅ quiz · 📄 cheat sheet
 
-### Module 0 · [Foundations](modules/00-foundations/README.md) · ⏱ ~6 h
+### Module 0: [Foundations](modules/00-foundations/README.md) · ⏱ ~6 h
 *Get your workbench ready and learn the minimum ML, LLM and API background the rest of the course builds on.*
 
 | # | Lesson | You'll learn |
@@ -115,7 +115,7 @@ Legend: ⏱ estimated time · 🛠 hands-on lab · ✅ quiz · 📄 cheat sheet
 | 🛠 | [Lab 0: your first model and your first LLM call](modules/00-foundations/lab/README.md) | |
 | ✅ 📄 | [Quiz](modules/00-foundations/quiz.md) · [Cheat sheet](modules/00-foundations/cheatsheet.md) | |
 
-### Module 1 · [From Prototype to Production](modules/01-prototype-to-production/README.md) · ⏱ ~10 h
+### Module 1: [From Prototype to Production](modules/01-prototype-to-production/README.md) · ⏱ ~10 h
 *Sam's notebook becomes a layered, versioned, containerised service with retries, health checks and structured logs.*
 
 | # | Lesson | You'll learn |
@@ -128,7 +128,7 @@ Legend: ⏱ estimated time · 🛠 hands-on lab · ✅ quiz · 📄 cheat sheet
 | 🛠 | [Lab 1: ship the fraud model as a containerised service](modules/01-prototype-to-production/lab/README.md) | |
 | ✅ 📄 | [Quiz](modules/01-prototype-to-production/quiz.md) · [Cheat sheet](modules/01-prototype-to-production/cheatsheet.md) | |
 
-### Module 2 · [Data and Model Pipelines](modules/02-data-and-model-pipelines/README.md) · ⏱ ~14 h
+### Module 2: [Data and Model Pipelines](modules/02-data-and-model-pipelines/README.md) · ⏱ ~14 h
 *Bad data stops at the gate, retrieval finds the right document, and every model can be rebuilt from scratch.*
 
 | # | Lesson | You'll learn |
@@ -143,7 +143,7 @@ Legend: ⏱ estimated time · 🛠 hands-on lab · ✅ quiz · 📄 cheat sheet
 | 🛠 | [Lab 2: an enterprise RAG pipeline with citations + a reproducible training run](modules/02-data-and-model-pipelines/lab/README.md) | |
 | ✅ 📄 | [Quiz](modules/02-data-and-model-pipelines/quiz.md) · [Cheat sheet](modules/02-data-and-model-pipelines/cheatsheet.md) | |
 
-### Module 3 · [Serving, Inference and Optimization](modules/03-serving-and-optimization/README.md) · ⏱ ~12 h
+### Module 3: [Serving, Inference and Optimization](modules/03-serving-and-optimization/README.md) · ⏱ ~12 h
 *Make the assistant faster and cheaper, and prove it with benchmarks.*
 
 | # | Lesson | You'll learn |
@@ -158,7 +158,7 @@ Legend: ⏱ estimated time · 🛠 hands-on lab · ✅ quiz · 📄 cheat sheet
 | 🛠 | [Lab 3: benchmark, cache, quantize and cost out](modules/03-serving-and-optimization/lab/README.md) | |
 | ✅ 📄 | [Quiz](modules/03-serving-and-optimization/quiz.md) · [Cheat sheet](modules/03-serving-and-optimization/cheatsheet.md) | |
 
-### Module 4 · [Evaluation and Monitoring](modules/04-evaluation-and-monitoring/README.md) · ⏱ ~12 h
+### Module 4: [Evaluation and Monitoring](modules/04-evaluation-and-monitoring/README.md) · ⏱ ~12 h
 *Gate releases on automated quality checks and spot quality slipping before users complain.*
 
 | # | Lesson | You'll learn |
@@ -172,7 +172,7 @@ Legend: ⏱ estimated time · 🛠 hands-on lab · ✅ quiz · 📄 cheat sheet
 | 🛠 | [Lab 4: eval gate in CI, dashboards and drift detection](modules/04-evaluation-and-monitoring/lab/README.md) | |
 | ✅ 📄 | [Quiz](modules/04-evaluation-and-monitoring/quiz.md) · [Cheat sheet](modules/04-evaluation-and-monitoring/cheatsheet.md) | |
 
-### Module 5 · [Security and Governance](modules/05-security-and-governance/README.md) · ⏱ ~12 h
+### Module 5: [Security and Governance](modules/05-security-and-governance/README.md) · ⏱ ~12 h
 *The assistant only answers from documents each user may see, and blocks prompt injection with layered defences.*
 
 | # | Lesson | You'll learn |
@@ -187,7 +187,7 @@ Legend: ⏱ estimated time · 🛠 hands-on lab · ✅ quiz · 📄 cheat sheet
 | 🛠 | [Lab 5: lock down the assistant](modules/05-security-and-governance/lab/README.md) | |
 | ✅ 📄 | [Quiz](modules/05-security-and-governance/quiz.md) · [Cheat sheet](modules/05-security-and-governance/cheatsheet.md) | |
 
-### Module 6 · [Scaling and Operations](modules/06-scaling-and-operations/README.md) · ⏱ ~12 h
+### Module 6: [Scaling and Operations](modules/06-scaling-and-operations/README.md) · ⏱ ~12 h
 *Release to a slice of traffic, roll back automatically, keep humans in the loop, and cost it all out.*
 
 | # | Lesson | You'll learn |

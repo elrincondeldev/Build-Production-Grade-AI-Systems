@@ -1,4 +1,4 @@
-# Lesson 2.4 · Document parsing and chunking
+# Lesson 2.4: Document parsing and chunking
 
 > ⏱ ~55 min · 🎚 Level: Core · 🧰 Needs: [Lesson 2.1](01-data-pipelines-and-validation.md), [Lesson 0.5](../00-foundations/05-llms-in-one-hour.md)
 
@@ -347,4 +347,4 @@ Explain to Lena, without using the word "embedding", why the assistant answered 
 | 🔍 | [Beautiful Soup documentation](https://www.crummy.com/software/BeautifulSoup/bs4/doc/) | The HTML parsing library the lab uses | 30 min |
 
 ---
-⬅️ [Lesson 2.3 · Deep-learning data paths](03-deep-learning-data-paths.md) · ➡️ [Lesson 2.5 · Vector search and hybrid retrieval](05-vector-search-and-hybrid-retrieval.md)
+⬅️ [Lesson 2.3: Deep-learning data paths](03-deep-learning-data-paths.md) · ➡️ [Lesson 2.5: Vector search and hybrid retrieval](05-vector-search-and-hybrid-retrieval.md)

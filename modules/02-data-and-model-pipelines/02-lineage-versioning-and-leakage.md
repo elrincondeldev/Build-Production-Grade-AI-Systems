@@ -1,4 +1,4 @@
-# Lesson 2.2 · Lineage, versioning and leakage
+# Lesson 2.2: Lineage, versioning and leakage
 
 > ⏱ ~55 min · 🎚 Level: Core · 🧰 Needs: [Lesson 2.1](01-data-pipelines-and-validation.md)
 
@@ -273,4 +273,4 @@ Write the reply to Sam: explain, kindly and in under 100 words, why the 0.71 mod
 | 🔍 | [OpenLineage](https://openlineage.io/) | An open standard for collecting lineage across tools | 20 min |
 
 ---
-⬅️ [Lesson 2.1 · Data pipelines and validation gates](01-data-pipelines-and-validation.md) · ➡️ [Lesson 2.3 · Deep-learning data paths](03-deep-learning-data-paths.md)
+⬅️ [Lesson 2.1: Data pipelines and validation gates](01-data-pipelines-and-validation.md) · ➡️ [Lesson 2.3: Deep-learning data paths](03-deep-learning-data-paths.md)

@@ -1,4 +1,4 @@
-# Module 2 · Data and Model Pipelines
+# Module 2: Data and Model Pipelines
 
 > ⏱ ~14 h (7 lessons × 45–60 min + a 4–5 h lab) · 🎚 Core · 🧰 Needs: [Module 1](../01-prototype-to-production/README.md) (or comfort with FastAPI and Python packaging)
 
@@ -104,4 +104,4 @@ These come up in ML and AI system design interviews. Try answering out loud in 3
 - [Cheat sheet](cheatsheet.md) (one page to revisit before interviews)
 
 ---
-⬅️ [Module 1 · From Prototype to Production](../01-prototype-to-production/README.md) · ➡️ [Lesson 2.1 · Data pipelines and validation gates](01-data-pipelines-and-validation.md)
+⬅️ [Module 1: From Prototype to Production](../01-prototype-to-production/README.md) · ➡️ [Lesson 2.1: Data pipelines and validation gates](01-data-pipelines-and-validation.md)
