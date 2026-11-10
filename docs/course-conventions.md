@@ -175,7 +175,7 @@ M, L and N are numbers without leading zeros. Rules:
   nobody's history points at a question they never saw.
 - An item that moves to another lesson or module is a new item there: new ID, old one retired.
 
-`python3 tools/check_ids.py` checks all of this (and that items use the formats above); CI
+`python3 tools/check_ids.py` checks all of this (and that items use the formats above, and that each translation keeps its original's IDs, see [Translations](#7-translations)); CI
 runs it.
 
 ## 5. Code conventions (labs)
@@ -231,3 +231,20 @@ lab/
   well-known practitioner blogs). Mark the one to read first with ⭐.
 - Links: use the canonical URL. If unsure of an exact URL, link the project's
   home page rather than guessing a deep link.
+
+## 7. Translations
+
+Translated editions live under `i18n/<locale>/`, mirroring the repo's own paths file for file
+(`i18n/es/modules/00-foundations/01-setup-your-workbench.md` translates
+`modules/00-foundations/01-setup-your-workbench.md`). A translated file keeps everything that
+isn't words: the ID comments, emoji, section numbers, `<details>` and code, comments included.
+Only the structure words change, as each edition's README lists (Spanish:
+[`i18n/es/README.md`](../i18n/es/README.md)).
+
+- Each edition's `translated-from.yaml` names the English commit each file was translated
+  from, so the platform can tell when a section goes stale.
+- A first draft may be machine-assisted, but every translation is reviewed by a person in its
+  PR before it is merged.
+- An English edit that changes structure (adds a question, a step or a numbered section) needs
+  the same change in each translation, or the translated module stops being published until
+  it's updated. `tools/check_ids.py` checks each translated file has exactly its original's IDs.
