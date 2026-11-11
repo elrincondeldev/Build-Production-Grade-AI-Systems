@@ -1,0 +1,33 @@
+# The checks `realenv check lab-1` runs (the Real Env CLI). Each one runs from this folder
+# as an argument list, never through a shell, and passes when it exits with `exit`
+# (default 0) within `timeout` seconds (default 60) and its output contains `output`.
+# A step is verified when all of its checks pass. Steps not listed are done on trust.
+lab: lab-1
+checks:
+  - step: lab-1-step-3
+    run:
+      - uv
+      - run
+      - python
+      - -c
+      - |
+        import json, pathlib
+        root = pathlib.Path("artifacts/fraud-model")
+        version = (root / "LATEST").read_text().strip()
+        json.loads((root / version / "metadata.json").read_text())
+        assert (root / version / "model.joblib").is_file()
+        print("artifact ok", version)
+    output: artifact ok
+  - step: lab-1-step-4
+    run: [uv, run, pytest]
+    output: 32 passed
+    timeout: 300
+  - step: lab-1-step-5
+    run: [curl, -sf, http://localhost:8001/ready]
+    output: '"status":"ready"'
+  - step: lab-1-step-9
+    run: [docker, inspect, --format, "{{.State.Health.Status}}", fraud]
+    output: healthy
+  - step: lab-1-step-9
+    run: [docker, exec, fraud, whoami]
+    output: app
