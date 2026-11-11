@@ -19,7 +19,7 @@ checks:
         print("artifact ok", version)
     output: artifact ok
   - step: lab-1-step-4
-    run: [uv, run, pytest, -q]
+    run: [uv, run, pytest]
     output: 32 passed
     timeout: 300
   - step: lab-1-step-5

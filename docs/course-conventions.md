@@ -165,7 +165,7 @@ argument list (never a shell string):
 lab: lab-1
 checks:
   - step: lab-1-step-4
-    run: [uv, run, pytest, -q]
+    run: [uv, run, pytest]
     output: 32 passed        # text the output must contain
     timeout: 300             # seconds; default 60
     # exit: 0                # expected exit code; the default
