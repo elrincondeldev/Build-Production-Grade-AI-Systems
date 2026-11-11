@@ -10,3 +10,12 @@ modules/00-foundations/README.md: 87d6db72d3874c94bad1f7269d59c2dc148ef710
 modules/00-foundations/cheatsheet.md: 87d6db72d3874c94bad1f7269d59c2dc148ef710
 modules/00-foundations/lab/README.md: 87d6db72d3874c94bad1f7269d59c2dc148ef710
 modules/00-foundations/quiz.md: 9de5c1cbc7ebfaa35dcf5ca22ae9c621cfb8b3e3
+modules/01-prototype-to-production/01-prototype-vs-production.md: 253036e52c73a847d1088b25a439d35c30d332fa
+modules/01-prototype-to-production/02-architecture-patterns.md: 253036e52c73a847d1088b25a439d35c30d332fa
+modules/01-prototype-to-production/03-reliability-primitives.md: 253036e52c73a847d1088b25a439d35c30d332fa
+modules/01-prototype-to-production/04-production-services.md: 253036e52c73a847d1088b25a439d35c30d332fa
+modules/01-prototype-to-production/05-artifacts-and-containers.md: 253036e52c73a847d1088b25a439d35c30d332fa
+modules/01-prototype-to-production/README.md: 253036e52c73a847d1088b25a439d35c30d332fa
+modules/01-prototype-to-production/cheatsheet.md: 253036e52c73a847d1088b25a439d35c30d332fa
+modules/01-prototype-to-production/lab/README.md: 253036e52c73a847d1088b25a439d35c30d332fa
+modules/01-prototype-to-production/quiz.md: 253036e52c73a847d1088b25a439d35c30d332fa
