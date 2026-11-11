@@ -137,6 +137,14 @@ The answer, with a link to the lesson.
 </details>
 ```
 
+Each quiz states its pass mark once, in words, and annotates that line with the number of
+points needed to move on, as an HTML comment GitHub doesn't show. The Real Env platform reads
+it as the performance review's pass mark:
+
+```markdown
+**Scoring:** 13–15 → move on · 10–12 → re-read the lessons… <!-- pass: 13 -->
+```
+
 Module `README.md` must include:
 1. 🧭 a "where you are" course map (mermaid, current module highlighted)
 2. 📨 the module story

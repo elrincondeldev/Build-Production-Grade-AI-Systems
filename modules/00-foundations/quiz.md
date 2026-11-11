@@ -1,7 +1,7 @@
 # Module 0 quiz
 
 > ⏱ ~20 min · Answer each question **before** opening the answer. Score 1 point per question you got substantially right.
-> **10+ / 12:** start Module 1. **7–9:** re-read the lessons linked in the answers you missed. **Below 7:** redo the lab steps for those topics, then retake the quiz in a couple of days (the gap helps you remember).
+> **10+ / 12:** start Module 1. **7–9:** re-read the lessons linked in the answers you missed. **Below 7:** redo the lab steps for those topics, then retake the quiz in a couple of days (the gap helps you remember). <!-- pass: 10 -->
 
 [Course home](../../README.md) › [Module 0](README.md) › Quiz
 

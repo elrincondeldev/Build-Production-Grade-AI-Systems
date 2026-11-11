@@ -146,7 +146,7 @@ Higher TTFT (more prefill), more KV memory per request (fewer concurrent sequenc
 
 ---
 
-**Score yourself:** 12–14 → move on to Module 4. 9–11 → reread the lessons for the questions you missed. ≤ 8 → redo lab steps 1, 3 and 5, then retake the quiz in two days.
+**Score yourself:** 12–14 → move on to Module 4. 9–11 → reread the lessons for the questions you missed. ≤ 8 → redo lab steps 1, 3 and 5, then retake the quiz in two days. <!-- pass: 12 -->
 
 ⬅️ [Module 3 overview](README.md) · 📄 [Cheat sheet](cheatsheet.md)
 

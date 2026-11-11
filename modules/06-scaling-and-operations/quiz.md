@@ -4,7 +4,7 @@
 
 Answer each question **before** opening the answer. Write your answers down; retrieval only works if you actually try. Questions marked 🔁 are spaced review from earlier modules.
 
-Scoring: 12–14 correct → move on to the capstone. 9–11 → re-read the takeaways of the lessons you missed. Below 9 → redo the lab steps for those lessons.
+Scoring: 12–14 correct → move on to the capstone. 9–11 → re-read the takeaways of the lessons you missed. Below 9 → redo the lab steps for those lessons. <!-- pass: 12 -->
 
 ---
 

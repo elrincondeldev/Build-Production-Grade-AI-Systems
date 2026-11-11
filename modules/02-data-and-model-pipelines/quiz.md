@@ -132,7 +132,7 @@ With ~1.3% fraud, predicting "never fraud" scores ~98.7% accuracy and catches no
 
 ---
 
-**Scoring:** 13–15 → move on · 10–12 → re-read the lessons for the ones you missed · <10 → redo the lab's "Break it" section and retake in two days (spacing helps).
+**Scoring:** 13–15 → move on · 10–12 → re-read the lessons for the ones you missed · <10 → redo the lab's "Break it" section and retake in two days (spacing helps). <!-- pass: 13 -->
 
 ⬅️ [Module 2 overview](README.md) · ➡️ [Cheat sheet](cheatsheet.md)
 
