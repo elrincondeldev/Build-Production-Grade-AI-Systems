@@ -154,6 +154,26 @@ Module `README.md` must include:
 6. 📊 a self-assessment rubric (1 = never heard of it … 4 = could teach it)
 7. 🎤 "Interview corner": 3–5 system-design questions this module prepares you for
 
+### Lab checks
+
+A lab may have a `lab.yaml` next to its README listing commands that verify steps, for the
+Real Env CLI (`realenv check lab-N`). Only steps a command can verify are listed; the rest
+are done on trust. Each check names its step by ID and runs from the lab folder as an
+argument list (never a shell string):
+
+```yaml
+lab: lab-1
+checks:
+  - step: lab-1-step-4
+    run: [uv, run, pytest, -q]
+    output: 32 passed        # text the output must contain
+    timeout: 300             # seconds; default 60
+    # exit: 0                # expected exit code; the default
+```
+
+A step with several checks is verified when all of them pass. When a lab's expected output
+changes (say, a new test), update its check in the same change.
+
 ### Stable IDs
 
 Every module, lesson, lab, lab step, predict-first question, check-yourself question,
