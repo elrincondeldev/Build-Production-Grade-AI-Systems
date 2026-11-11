@@ -4,7 +4,7 @@
 
 Answer each question **before** opening the answer. Write your answers down: retrieval practice only works if you actually retrieve. Questions marked 🔁 review earlier modules.
 
-Scoring: 12–14 correct, move on. 9–11, re-read the lessons for the ones you missed. Fewer than 9, redo the lab's Break-it section first.
+Scoring: 12–14 correct, move on. 9–11, re-read the lessons for the ones you missed. Fewer than 9, redo the lab's Break-it section first. <!-- pass: 12 -->
 
 ---
 

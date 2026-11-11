@@ -125,7 +125,7 @@ LLMs generate output **one token at a time**, so more output tokens means more s
 
 ---
 
-**Score:** ___ / 14 · Under 11? Revisit the lessons named in the answers you missed, then retake the quiz in two days (spacing works).
+**Score:** ___ / 14 · Under 11? Revisit the lessons named in the answers you missed, then retake the quiz in two days (spacing works). <!-- pass: 11 -->
 
 ⬅️ [Module 1 overview](README.md) · 📄 [Cheat sheet](cheatsheet.md)
 

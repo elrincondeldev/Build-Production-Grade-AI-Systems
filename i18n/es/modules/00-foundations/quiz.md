@@ -1,7 +1,7 @@
 # Cuestionario del módulo 0
 
 > ⏱ ~20 min · Responde cada pregunta **antes** de abrir la respuesta. Suma 1 punto por cada pregunta que hayas acertado en lo esencial.
-> **10+ / 12:** empieza el Módulo 1. **7–9:** relee las lecciones enlazadas en las respuestas que fallaste. **Menos de 7:** repite los pasos del lab de esos temas y vuelve a hacer el cuestionario en un par de días (el tiempo entre medias te ayuda a recordar).
+> **10+ / 12:** empieza el Módulo 1. **7–9:** relee las lecciones enlazadas en las respuestas que fallaste. **Menos de 7:** repite los pasos del lab de esos temas y vuelve a hacer el cuestionario en un par de días (el tiempo entre medias te ayuda a recordar). <!-- pass: 10 -->
 
 [Inicio del curso](../../README.md) › [Módulo 0](README.md) › Cuestionario
 

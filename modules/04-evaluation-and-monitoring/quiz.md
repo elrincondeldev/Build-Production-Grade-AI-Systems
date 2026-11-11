@@ -2,7 +2,7 @@
 
 [Course home](../../README.md) › [Module 4](README.md) › Quiz
 
-15 questions. Answer each one in writing **before** opening the answer. Score 1 point for a fully correct answer, ½ for partly correct. **12+ means you're ready for Module 5**; below that, revisit the lessons linked in the answers you missed. Questions 13–15 review earlier modules.
+15 questions. Answer each one in writing **before** opening the answer. Score 1 point for a fully correct answer, ½ for partly correct. **12+ means you're ready for Module 5**; below that, revisit the lessons linked in the answers you missed. Questions 13–15 review earlier modules. <!-- pass: 12 -->
 
 ---
 

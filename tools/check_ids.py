@@ -11,10 +11,12 @@ issued, so a removed ID stays retired.
 
 The check fails when an item has no ID or one of the wrong kind, an ID is malformed,
 duplicated or unregistered, an issued ID disappears without being marked retired, or an
-item is written in a format this check (and the platform) can't read.
+item is written in a format this check (and the platform) can't read. Each quiz also carries
+its pass mark, `<!-- pass: N -->`, on the line that states it.
 
 Translations under `i18n/<locale>/` mirror the English files; each translated file must
-carry exactly its original's IDs, in the same order, and nothing else. The platform checks
+carry exactly its original's IDs, in the same order, and nothing else, and a translated quiz
+its original's pass mark. The platform checks
 the translated format itself (see `i18n/<locale>/README.md`).
 """
 
@@ -27,6 +29,7 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parents[1]
 LEDGER = REPO_ROOT / "tools" / "issued-ids.txt"
 ID = re.compile(r"<!-- id: ([^ ]+) -->")
+PASS = re.compile(r"<!-- pass: (\d+) -->")
 N = r"(?:0|[1-9]\d*)"
 GRAMMAR = re.compile(
     rf"^(?:m-{N}|l-{N}-{N}|[pc]-{N}-{N}-{N}|e-{N}-{N}|q-{N}-{N}|lab-{N}(?:-step-{N})?)$"
@@ -121,6 +124,12 @@ class Checker:
                     self.problem(at(number), "quiz question must read '**N.** …'")
                 if re.match(r"^\*\*\d+\.\*\* ", line):
                     self.expect(at(number), line, rf"q-{module}-{N}", "quiz question")
+            questions = sum(1 for _, line, code in rows if not code and re.match(r"^\*\*\d+\.\*\* ", line))
+            marks = pass_marks(path)
+            if len(marks) != 1:
+                self.problem(str(relative), f"quiz must carry one pass mark '<!-- pass: N -->', found {len(marks)}")
+            elif not 1 <= marks[0] <= questions:
+                self.problem(str(relative), f"pass mark {marks[0]} must be between 1 and the {questions} questions")
         elif lesson:
             base = f"{module}-{int(lesson.group(1))}"
             self.expect(at(2), line_after(0), rf"l-{base}", "lesson title")
@@ -167,6 +176,12 @@ def annotated_ids(path: Path) -> list[str]:
     return [ident for _, line, code in rows if not code for ident in ID.findall(line)]
 
 
+def pass_marks(path: Path) -> list[int]:
+    """A quiz's pass-mark annotations ('<!-- pass: N -->'), skipping examples inside code blocks."""
+    rows = numbered_lines(path.read_text(encoding="utf-8"))
+    return [int(mark) for _, line, code in rows if not code for mark in PASS.findall(line)]
+
+
 def check_translations(checker: Checker) -> int:
     """Every translated Markdown file has an English original with exactly its IDs."""
     translated = sorted(
@@ -190,6 +205,8 @@ def check_translations(checker: Checker) -> int:
             if not detail:
                 detail.append("same IDs in a different order")
             checker.problem(str(relative), f"IDs differ from the English original: {'; '.join(detail)}")
+        if path.name == "quiz.md" and pass_marks(path) != pass_marks(original):
+            checker.problem(str(relative), "pass mark differs from the English original")
     return len(translated)
 
 
