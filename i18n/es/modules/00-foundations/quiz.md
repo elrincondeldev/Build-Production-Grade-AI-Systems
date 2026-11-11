@@ -116,4 +116,4 @@ Entrada: 2000 / 1 000 000 × 2,50 USD = 0,005 USD. Salida: 300 / 1 000 000 × 10
 Todavía no hay módulos anteriores. A partir del Módulo 1, cada cuestionario termina con preguntas de módulos anteriores. **Pon un recordatorio en tu calendario para repetir este cuestionario dentro de una semana**: recuperar las respuestas tras un tiempo es una de las formas más eficaces de fijarlas.
 
 ---
-⬅️ [Lab 0](lab/README.md) · ➡️ [Hoja de referencia](cheatsheet.md) · ⏭️ [Módulo 1](../../../../modules/01-prototype-to-production/README.md)
+⬅️ [Lab 0](lab/README.md) · ➡️ [Hoja de referencia](cheatsheet.md) · ⏭️ [Módulo 1](../01-prototype-to-production/README.md)

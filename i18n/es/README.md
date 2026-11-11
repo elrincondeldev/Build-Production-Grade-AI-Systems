@@ -5,7 +5,8 @@ Esta es la edición en español del curso. Sigue al original en inglés archivo 
 | Módulo | Estado |
 |---|---|
 | [0 · Fundamentos](modules/00-foundations/README.md) | Traducido |
-| 1–6 | Solo en inglés por ahora: [ir al curso en inglés](../../README.md) |
+| [1 · Del prototipo a producción](modules/01-prototype-to-production/README.md) | Traducido |
+| 2–6 | Solo en inglés por ahora: [ir al curso en inglés](../../README.md) |
 
 El resto del curso (datasets, handbook, plantillas, capstone y código de los labs) está en inglés; los enlaces de esta edición llevan allí cuando algo no está traducido.
 
@@ -56,7 +57,7 @@ La plataforma lee la estructura por estas palabras, así que deben escribirse ex
 | `[Course home] › [Module 0] › Lesson 0.1` | `[Inicio del curso] › [Módulo 0] › Lección 0.1` |
 | `⬅️ [Previous] · ➡️ [Next]` | `⬅️ [Anterior] · ➡️ [Siguiente]` |
 
-Los niveles se quedan como en el original (`Core`, `Advanced`), igual que los títulos de los módulos 1–6 cuando se mencionan.
+Los niveles se quedan como en el original (`Core`, `Advanced`), igual que los títulos de los módulos que aún no están traducidos cuando se mencionan.
 
 ### Estilo
 
@@ -87,6 +88,6 @@ Los términos de oficio se quedan en inglés cuando así se usan en la industria
 ### Enlaces
 
 - A un archivo que también está traducido: la misma ruta relativa que en el original (de la lección 0.1 a la 0.2, `02-python-for-production.md`).
-- A cualquier otra cosa (otros módulos, `docs/`, `datasets/`, código de los labs): la ruta al original en inglés, desde el archivo traducido. Desde `i18n/es/modules/00-foundations/` eso es `../../../../` más la ruta desde la raíz del repo (`../../../../modules/01-prototype-to-production/README.md`).
+- A cualquier otra cosa (otros módulos, `docs/`, `datasets/`, código de los labs): la ruta al original en inglés, desde el archivo traducido. Desde `i18n/es/modules/00-foundations/` eso es `../../../../` más la ruta desde la raíz del repo (`../../../../modules/02-data-and-model-pipelines/README.md`).
 - «Inicio del curso» (`../../README.md` desde un módulo) lleva a esta página.
 - Los anclas (`#…`) cambian con el encabezado traducido: apunta al ancla del encabezado en español.
