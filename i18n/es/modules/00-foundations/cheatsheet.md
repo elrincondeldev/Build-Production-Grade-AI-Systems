@@ -83,4 +83,4 @@ METHOD /path?query  + headers + body   →   STATUS + headers + body
 | «refund a fee» frente a «get my money back…» | hash 0,000 · MiniLM 0,719 |
 
 ---
-⬅️ [Cuestionario](quiz.md) · ➡️ [Módulo 1: From Prototype to Production](../../../../modules/01-prototype-to-production/README.md)
+⬅️ [Cuestionario](quiz.md) · ➡️ [Módulo 1: Del prototipo a producción](../01-prototype-to-production/README.md)
